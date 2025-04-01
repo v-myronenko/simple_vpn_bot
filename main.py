@@ -108,7 +108,7 @@ async def cmd_renew(message: Message):
     )
 
 async def cmd_support(message: Message):
-    await message.answer("Підтримка:@SimpleVpnSupport або напишіть сюди для допомоги")
+    await message.answer("Support: contact telegram @SimpleVpnSupport")
 
 async def cmd_terms(message: Message):
     await message.answer("Terms of service: Ви отримуєте доступ до сервісу як є. Адміністрація не гарантує 100% аптайм і не несе відповідальності за ваш трафік.")
