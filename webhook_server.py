@@ -7,7 +7,7 @@ from main import bot
 async def handle_cryptobot_webhook(request):
     try:
         data = await request.json()
-        print("[Webhook] Отримано дані:", data)
+        print("[Webhook] Data received:", data)
 
         if data.get("status") == "paid":
             payload = data.get("payload")
