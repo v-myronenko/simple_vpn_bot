@@ -73,7 +73,7 @@ def create_vmess_link(uuid):
         "v": "2",
         "ps": "svpn-server",
         "add": "68.183.70.136",
-        "port": "443",
+        "port": "8443",
         "id": uuid,
         "aid": "0",
         "net": "tcp",
