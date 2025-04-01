@@ -29,4 +29,4 @@ jobs:
             fi
             cd vpn-bot
             pkill -f bot.py || true
-            nohup python3 bot.py &> bot.log &
+            nohup python3 main.py &> bot.log &
