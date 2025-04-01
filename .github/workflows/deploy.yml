@@ -25,6 +25,7 @@ jobs:
             cd vpn-bot
             git pull origin master
             pkill -f main.py || true
-            nohup python3 main.py &> bot.log &
-            sleep 2
+            setsid python3 main.py &> bot.log < /dev/null &
+            sleep 3
             echo "✅ Бот оновлено і запущено!"
+            exit 0
