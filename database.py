@@ -3,7 +3,7 @@ import sqlite3
 from datetime import timedelta, datetime
 from uuid import uuid4
 
-DB_FILE = "vpn_users.db"
+DB_FILE = "/opt/vpn_data/vpn_users.db"
 
 def init_db():
     with sqlite3.connect(DB_FILE) as conn:
