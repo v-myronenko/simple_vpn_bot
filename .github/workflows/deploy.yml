@@ -24,8 +24,6 @@ jobs:
             fi
             cd vpn-bot
             git pull origin master
-            pkill -f main.py || true
-            setsid python3 main.py &> bot.log < /dev/null &
-            sleep 3
-            echo "✅ Бот оновлено і запущено!"
-            exit 0
+            pip3 install -r requirements.txt
+            systemctl restart vpn-bot
+            echo "✅ Бот оновлено і перезапущено!"
