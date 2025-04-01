@@ -1,0 +1,25 @@
+name: Deploy Bot to Server
+
+on:
+  push:
+    branches: [ main ]  # або твоя гілка
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/YOUR_FOLDER/bot_folder  # шлях до папки бота
+            git pull origin main
+            pkill -f bot.py  # або зупинка systemd, якщо є
+            nohup python3 bot.py &> bot.log &
