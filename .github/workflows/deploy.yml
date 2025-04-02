@@ -26,4 +26,4 @@ jobs:
             git pull origin master
             pip3 install -r requirements.txt
             systemctl restart vpn-bot
-            echo "✅ Бот оновлено і перезапущено!"
+            echo "✅ Bot is run and active!"
