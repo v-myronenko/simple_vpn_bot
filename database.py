@@ -37,7 +37,7 @@ def add_user(telegram_id, uuid, start_date, end_date):
         conn.commit()
 
 def extend_subscription(user_id: int, new_end_date: str):
-    conn = sqlite3.connect("vpn_users.db")
+    conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute("UPDATE users SET end_date = ?, active = 1 WHERE telegram_id = ?", (new_end_date, user_id))
     conn.commit()
