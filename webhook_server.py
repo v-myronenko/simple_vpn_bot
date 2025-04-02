@@ -1,4 +1,6 @@
 # webhook_server.py
+import traceback
+
 from aiohttp import web
 from datetime import datetime, timedelta
 import config
@@ -42,6 +44,8 @@ async def handle_cryptobot_webhook(request):
 
         return web.Response(text="OK", status=200)
 
+
     except Exception as e:
         print("[Webhook] Помилка:", e)
+        traceback.print_exc()  # покаже повний стек трейс
         return web.Response(text="Server error", status=500)
