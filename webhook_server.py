@@ -40,3 +40,12 @@ async def handle_cryptobot_webhook(request):
     except Exception as e:
         print("Webhook error:", e)
         return web.Response(text="Error", status=500)
+
+
+
+app = web.Application()
+app.router.add_post("/webhook", handle_cryptobot_webhook)
+
+if __name__ == "__main__":
+    web.run_app(app, host="0.0.0.0", port=8000)
+
