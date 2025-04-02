@@ -1,4 +1,3 @@
-# database.py
 import sqlite3
 from datetime import timedelta, datetime
 from uuid import uuid4

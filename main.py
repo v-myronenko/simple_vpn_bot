@@ -22,12 +22,12 @@ async def cmd_start(message: Message):
     kb = ReplyKeyboardMarkup(
         keyboard=[
             [
-                KeyboardButton(text="🔐 Отримати VPN"),
-                KeyboardButton(text="📦 Мій доступ"),
-                KeyboardButton(text="🔁 Продовжити доступ")
+                KeyboardButton(text="🔐 Get VPN"),
+                KeyboardButton(text="📦 My VPN"),
+                KeyboardButton(text="🔁 Renew access")
             ],
             [
-                KeyboardButton(text="📘 Інструкція"),
+                KeyboardButton(text="📘 Instructions"),
                 KeyboardButton(text="📋 Terms"),
                 KeyboardButton(text="⚙️ Support"),
                 KeyboardButton(text="💸 Pay support")
@@ -38,23 +38,25 @@ async def cmd_start(message: Message):
     )
 
     await message.answer(
-        "Привіт! Це SVPN Bot. Обери опцію нижче:",
+        "Hello! This is SVPN Bot. You can get VPN (server in Germany) here. First 3 days free. Choose option below:",
         reply_markup=kb
     )
 
 async def cmd_help(message: Message):
-    await message.answer(f"""Повна інструкція: {config.HELP_URL}
+    await message.answer(f"""All instructions: {config.HELP_URL}
 
-Коротка інструкція:
-1. Завантаж Qv2ray
-2. Запусти
-3. Натисни Import > From Link > встав Vmess
-4. Підключись 😎""")
+Download Fair VPN
+👉 https://apps.apple.com/app/fair-vpn/id1533873488
+In the app:
+1. Go to “VPN” tab 
+2. Tap “Add VPN by Link..
+3. Paste vmess link from bot
+4. Save and set Status to “Connected”""")
 
 async def cmd_getvpn(message: Message):
     user = database.get_user_by_telegram_id(message.from_user.id)
     if user and user["active"] == 1:
-        await message.answer("У тебе вже є активний доступ. Перевір /myvpn")
+        await message.answer("You already have active access. Check it /myvpn")
         return
 
     now = datetime.now()
@@ -70,12 +72,12 @@ async def cmd_getvpn(message: Message):
 
     success = add_user_to_xui(uuid, config.INBOUND_ID)
     if not success:
-        await message.answer("⚠️ Не вдалося додати доступ на сервер. Зверніться в підтримку.")
+        await message.answer("⚠️ We could't get access to server. Try later, or contact support, please.")
         return
 
     vmess_link = database.create_vmess_link(uuid)
     await message.answer(
-        f"Тримай свій VPN на {config.FREE_DAYS} дні!\n\n"
+        f"Here is your VPN for {config.FREE_DAYS} days!\n\n"
         f"UUID: <code>{uuid}</code>\n"
         f"Vmess: <code>{vmess_link}</code>"
     )
@@ -83,14 +85,14 @@ async def cmd_getvpn(message: Message):
 async def cmd_myvpn(message: Message):
     user = database.get_user_by_telegram_id(message.from_user.id)
     if not user or user["active"] == 0:
-        await message.answer("У тебе немає активного доступу. Спробуй /getvpn")
+        await message.answer("You don't have actice access. Try /getvpn")
         return
 
     uuid = user["uuid"]
     end_date = user["end_date"]
     vmess_link = database.create_vmess_link(uuid)
     await message.answer(
-        f"Твій доступ дійсний до <b>{end_date}</b>\n\n"
+        f"Your access active until <b>{end_date}</b>\n\n"
         f"UUID: <code>{uuid}</code>\n"
         f"Vmess: <code>{vmess_link}</code>"
     )
@@ -98,12 +100,12 @@ async def cmd_myvpn(message: Message):
 async def cmd_renew(message: Message):
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="Оплатити TON", callback_data="pay_ton"),
-            InlineKeyboardButton(text="Оплатити USDT", callback_data="pay_usdt")
+            InlineKeyboardButton(text="Pay in TON", callback_data="pay_ton"),
+            InlineKeyboardButton(text="Pay in usdt USDT", callback_data="pay_usdt")
         ]
     ])
     await message.answer(
-        f"Оберіть валюту для оплати. Після успішної транзакції ваш доступ буде продовжено на {config.PAID_DAYS} днів",
+        f"Choose currency to pay. After success payment your access will be continued for {config.PAID_DAYS} days",
         reply_markup=kb
     )
 
@@ -111,31 +113,31 @@ async def cmd_support(message: Message):
     await message.answer("Support: contact telegram @SimpleVpnSupport")
 
 async def cmd_terms(message: Message):
-    await message.answer("Terms of service: Ви отримуєте доступ до сервісу як є. Адміністрація не гарантує 100% аптайм і не несе відповідальності за ваш трафік.")
+    await message.answer("Terms of service: You get access to the service as is. The administration does not guarantee 100% uptime and is not responsible for your traffic.")
 
 async def cmd_paysupport(message: Message):
     await message.answer("For billing or donation-related questions, contact @SimpleVpnSupport")
 
 async def cmd_confirm_payment(message: Message, command: CommandObject):
     if message.from_user.id not in config.ADMINS:
-        await message.answer("⛔ У вас немає доступу до цієї команди.")
+        await message.answer("⛔ You do not have access to this command.")
         return
 
     if not command.args:
-        await message.answer("Використання: /confirm_payment user_id")
+        await message.answer("Usage: /confirm_payment user_id")
         return
 
     user_id: int = int(command.args.strip())
     user = database.get_user_by_telegram_id(user_id)
     if not user:
-        await message.answer("Користувача не знайдено.")
+        await message.answer("User not found.")
         return
 
     new_end = datetime.now() + timedelta(days=config.PAID_DAYS)
     database.extend_subscription(user_id, new_end.strftime("%Y-%m-%d %H:%M:%S"))
-    await message.answer(f"✅ Доступ користувачу {user_id} продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}")
+    await message.answer(f"✅ User access {user_id} continued until {new_end.strftime('%Y-%m-%d %H:%M:%S')}")
     try:
-        await bot.send_message(user_id, f"✅ Ваш доступ продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
+        await bot.send_message(user_id, f"✅ Your access has been extended to {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
     except:
         pass
 
@@ -146,14 +148,14 @@ async def cb_pay(call: CallbackQuery):
     payload = str(call.from_user.id)
     invoice_id, pay_url = payments.create_invoice(currency, amount, payload)
     if not invoice_id:
-        await call.message.answer("Помилка при створенні інвойсу")
+        await call.message.answer("Error creating invoice")
         return
 
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="Перейти до оплати", url=pay_url)]
+        [InlineKeyboardButton(text="Go to payment", url=pay_url)]
     ])
     await call.message.answer(
-        f"Сума: {amount} {currency}\nНатисни кнопку:",
+        f"Sum: {amount} {currency}\nPress the button:",
         reply_markup=kb
     )
     await call.answer()
@@ -162,10 +164,10 @@ async def cb_pay(call: CallbackQuery):
 
 async def handle_buttons(message: Message):
     match message.text:
-        case "🔐 Отримати VPN": await cmd_getvpn(message)
-        case "📦 Мій доступ": await cmd_myvpn(message)
-        case "🔁 Продовжити доступ": await cmd_renew(message)
-        case "📘 Інструкція": await cmd_help(message)
+        case "🔐 Get VPN": await cmd_getvpn(message)
+        case "📦 My VPN": await cmd_myvpn(message)
+        case "🔁 Renew access": await cmd_renew(message)
+        case "📘 Instructions": await cmd_help(message)
         case "📋 Terms": await cmd_terms(message)
         case "⚙️ Support": await cmd_support(message)
         case "💸 Pay support": await cmd_paysupport(message)
@@ -182,7 +184,7 @@ async def check_subscriptions():
             if now > end_date:
                 database.deactivate_user(u["id"])
                 try:
-                    await bot.send_message(u["telegram_id"], "Термін дії доступу скінчився. /renew для продовження.")
+                    await bot.send_message(u["telegram_id"], "Access has expired. /renew to continue.")
                 except:
                     pass
         await asyncio.sleep(3600)
@@ -205,10 +207,10 @@ async def main():
     dp.message.register(cmd_confirm_payment, Command("confirm_payment"))
 
     dp.message.register(handle_buttons, F.text.in_({
-        "🔐 Отримати VPN",
-        "📦 Мій доступ",
-        "🔁 Продовжити доступ",
-        "📘 Інструкція",
+        "🔐 Get VPN",
+        "📦 My VPN",
+        "🔁 Renew access",
+        "📘 Instructions",
         "📋 Terms",
         "⚙️ Support",
         "💸 Pay support"
