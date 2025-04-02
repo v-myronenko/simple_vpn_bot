@@ -14,8 +14,7 @@ def init_db():
                 uuid TEXT NOT NULL,
                 start_date TEXT NOT NULL,
                 end_date TEXT NOT NULL,
-                active INTEGER DEFAULT 1,
-                language TEXT DEFAULT 'en'
+                active INTEGER DEFAULT 1
             )
         """)
         c.execute("""
@@ -28,17 +27,17 @@ def init_db():
         """)
         conn.commit()
 
-def add_user(telegram_id, uuid, start_date, end_date, language='en'):
+def add_user(telegram_id, uuid, start_date, end_date):
     with sqlite3.connect(DB_FILE) as conn:
         c = conn.cursor()
         c.execute("""
-            INSERT INTO users (telegram_id, uuid, start_date, end_date, active, language)
-            VALUES (?, ?, ?, ?, 1, ?)
-        """, (telegram_id, uuid, start_date, end_date, language))
+            INSERT INTO users (telegram_id, uuid, start_date, end_date, active)
+            VALUES (?, ?, ?, ?, 1)
+        """, (telegram_id, uuid, start_date, end_date))
         conn.commit()
 
 def extend_subscription(user_id: int, new_end_date: str):
-    conn = sqlite3.connect(DB_FILE)
+    conn = sqlite3.connect("vpn_users.db")
     c = conn.cursor()
     c.execute("UPDATE users SET end_date = ?, active = 1 WHERE telegram_id = ?", (new_end_date, user_id))
     conn.commit()
@@ -108,22 +107,3 @@ def confirm_payment(telegram_id):
         c.execute("UPDATE payments SET confirmed=1 WHERE telegram_id=?", (telegram_id,))
         conn.commit()
     return uuid
-
-def set_language(telegram_id, language):
-    with sqlite3.connect(DB_FILE) as conn:
-        c = conn.cursor()
-        c.execute("UPDATE users SET language=? WHERE telegram_id=? AND active=1", (language, telegram_id))
-        conn.commit()
-
-def get_language(telegram_id):
-    with sqlite3.connect(DB_FILE) as conn:
-        c = conn.cursor()
-        c.execute("SELECT language FROM users WHERE telegram_id=? AND active=1 ORDER BY id DESC LIMIT 1", (telegram_id,))
-        row = c.fetchone()
-        return row[0] if row else 'en'
-
-def set_user_language(user_id, lang):
-    with sqlite3.connect(DB_FILE) as conn:
-        c = conn.cursor()
-        c.execute("UPDATE users SET language = ? WHERE telegram_id = ?", (lang, user_id))
-        conn.commit()
