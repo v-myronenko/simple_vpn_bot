@@ -1,35 +1,28 @@
-from datetime import datetime, timedelta
-
 from aiohttp import web
-
+from datetime import datetime, timedelta
 import config
 import database
+import traceback
 from main import bot
-
 
 async def handle_cryptobot_webhook(request):
     try:
         data = await request.json()
         print("[Webhook] Data received:", data)
 
-        # Перевірка, чи є статус 'paid' в даних
-        if data.get("status") == "paid":
-            payload = data.get("payload")  # Отримуємо payload з даних
+        if data.get("payload.status") == "paid":
+            payload = data.get("payload")
             if not payload:
                 return web.Response(text="No payload", status=400)
 
-            # Перетворюємо отриманий payload (який є рядком) на ціле число
-            user_id = int(payload)  # Тепер payload є рядком, і ми безпосередньо перетворюємо його
-
+            user_id = int(payload.get("payload"))
             user = database.get_user_by_telegram_id(user_id)
             if not user:
                 return web.Response(text="User not found", status=404)
 
-            # Подовжуємо термін дії підписки
             new_end = datetime.now() + timedelta(days=config.PAID_DAYS)
             database.extend_subscription(user_id, new_end.strftime("%Y-%m-%d %H:%M:%S"))
 
-            # Надсилаємо повідомлення користувачу
             try:
                 await bot.send_message(user_id, f"✅ Ваш доступ продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
             except Exception as e:
@@ -37,10 +30,12 @@ async def handle_cryptobot_webhook(request):
 
         return web.Response(text="OK")
 
+
+
     except Exception as e:
         print("Webhook error:", e)
+        traceback.print_exc()
         return web.Response(text="Error", status=500)
-
 
 
 app = web.Application()
