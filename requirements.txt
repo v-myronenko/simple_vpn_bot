@@ -2,3 +2,4 @@ aiogram==3.6.0
 requests==2.31.0
 
 aiohttp~=3.9.5
+dp~=1.0
