@@ -26,4 +26,7 @@ jobs:
             git pull origin master
             pip3 install -r requirements.txt
             systemctl restart vpn-bot
+            # Додаємо перезапуск вебхука
+            pkill -f webhook_server.py
+            python3 /root/vpn-bot/webhook_server.py &  # Запуск вебхука в фоні
             echo "✅ Bot is run and active!"
