@@ -2,6 +2,7 @@ from aiohttp import web
 from datetime import datetime, timedelta
 import config
 import database
+import traceback
 from main import bot
 
 async def handle_cryptobot_webhook(request):
@@ -29,8 +30,11 @@ async def handle_cryptobot_webhook(request):
 
         return web.Response(text="OK")
 
+
+
     except Exception as e:
         print("Webhook error:", e)
+        traceback.print_exc()
         return web.Response(text="Error", status=500)
 
 
