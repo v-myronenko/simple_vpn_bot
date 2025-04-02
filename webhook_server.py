@@ -11,11 +11,12 @@ async def handle_cryptobot_webhook(request):
         print("[Webhook] Data received:", data)
 
         if data.get("status") == "paid":
-            payload = data.get("payload")
+            payload = data.get("payload")  # Отримуємо payload з даних
             if not payload:
                 return web.Response(text="No payload", status=400)
 
-            user_id = int(payload)
+            user_id = int(payload.get("payload"))
+
             user = database.get_user_by_telegram_id(user_id)
             if not user:
                 return web.Response(text="User not found", status=404)
