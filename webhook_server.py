@@ -1,51 +1,44 @@
-# webhook_server.py
-import traceback
-
 from aiohttp import web
 from datetime import datetime, timedelta
 import config
 import database
+import traceback
 from main import bot
 
 async def handle_cryptobot_webhook(request):
     try:
         data = await request.json()
-        print("[Webhook] Отримано дані:", data)
+        print("[Webhook] Data received:", data)
 
-        # Перевіряємо, чи це подія успішної оплати
-        if data.get("update_type") != "invoice_paid":
-            return web.Response(text="Not invoice_paid", status=200)
+        if data.get("payload.status") == "paid":
+            payload = data.get("payload")
+            if not payload:
+                return web.Response(text="No payload", status=400)
 
-        payload_data = data.get("payload", {})
-        user_id_str = payload_data.get("payload")
+            user_id = int(payload.get("payload"))
+            user = database.get_user_by_telegram_id(user_id)
+            if not user:
+                return web.Response(text="User not found", status=404)
 
-        if not user_id_str:
-            return web.Response(text="No payload inside", status=400)
+            new_end = datetime.now() + timedelta(days=config.PAID_DAYS)
+            database.extend_subscription(user_id, new_end.strftime("%Y-%m-%d %H:%M:%S"))
 
-        try:
-            user_id = int(user_id_str)
-        except ValueError:
-            return web.Response(text="Invalid payload format", status=400)
+            try:
+                await bot.send_message(user_id, f"✅ Ваш доступ продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
+            except Exception as e:
+                print("Помилка надсилання повідомлення:", e)
 
-        # Знаходимо користувача
-        user = database.get_user_by_telegram_id(user_id)
-        if not user:
-            return web.Response(text="User not found", status=404)
-
-        # Продовжуємо підписку
-        new_end = datetime.now() + timedelta(days=config.PAID_DAYS)
-        database.extend_subscription(user_id, new_end.strftime("%Y-%m-%d %H:%M:%S"))
-
-        # Повідомляємо користувача
-        try:
-            await bot.send_message(user_id, f"✅ Ваш доступ продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
-        except Exception as e:
-            print(f"[Webhook] Помилка надсилання повідомлення: {e}")
-
-        return web.Response(text="OK", status=200)
-
+        return web.Response(text="OK")
 
     except Exception as e:
         print("[Webhook] Помилка:", e)
         traceback.print_exc()  # покаже повний стек трейс
         return web.Response(text="Server error", status=500)
+
+
+app = web.Application()
+app.router.add_post("/webhook", handle_cryptobot_webhook)
+
+if __name__ == "__main__":
+    web.run_app(app, host="0.0.0.0", port=8000)
+
