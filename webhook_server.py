@@ -12,28 +12,37 @@ async def handle_cryptobot_webhook(request):
         data = await request.json()
         print("[Webhook] Received data:", data)
 
-        if data.get("update_type") == "invoice_paid":
-            payload_data = data.get("payload", {})
-            user_id = int(payload_data.get("payload"))  # <- витягуємо внутрішній payload
+        if data.get("update_type") != "invoice_paid":
+            print("[Webhook] Неоплачений інвойс або інший тип події")
+            return web.Response(status=200)
 
-            if not user_id:
-                return web.Response(text="No user_id", status=400)
+        payload = data.get("payload", {})
+        user_id_str = payload.get("payload")
+        print("[Webhook] Payload із user_id:", user_id_str)
 
-            # далі стандартна логіка:
-            user = database.get_user_by_telegram_id(user_id)
-            if not user:
-                return web.Response(text="User not found", status=404)
+        if not user_id_str:
+            print("[Webhook] Немає user_id у payload")
+            return web.Response(status=200)
 
-            new_end = datetime.now() + timedelta(days=config.PAID_DAYS)
-            database.extend_subscription(user_id, new_end.strftime("%Y-%m-%d %H:%M:%S"))
+        user_id = int(user_id_str)
+        user = database.get_user_by_telegram_id(user_id)
+        print("[Webhook] Користувач з бази:", user)
 
-            try:
-                await bot.send_message(
-                    user_id,
-                    f"✅ Your VPN access extendet to {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Thank you!"
-                )
-            except Exception as e:
-                print(f"[Webhook] Помилка надсилання повідомлення: {e}")
+        if not user:
+            print("[Webhook] Користувач не знайдений")
+            return web.Response(status=200)
+
+        new_end = datetime.now() + timedelta(days=config.PAID_DAYS)
+        print("[Webhook] Новий термін доступу до:", new_end)
+
+        database.extend_subscription(user_id, new_end.strftime("%Y-%m-%d %H:%M:%S"))
+
+        try:
+            await bot.send_message(user_id,
+                                   f"✅ Ваш доступ продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
+            print("[Webhook] Повідомлення користувачу надіслано")
+        except Exception as e:
+            print("[Webhook] Помилка надсилання повідомлення:", e)
 
             return web.Response(text="OK", status=200)
 
