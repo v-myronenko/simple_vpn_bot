@@ -54,6 +54,6 @@ async def handle_cryptobot_webhook(request):
 if __name__ == "__main__":
     app = web.Application()
     app.router.add_post("/webhook", handle_cryptobot_webhook)
-    web.run_app(app, port=8443)
+    web.run_app(app, port=443)
 
 
