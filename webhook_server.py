@@ -12,33 +12,28 @@ async def handle_cryptobot_webhook(request):
         data = await request.json()
         print("[Webhook] Отримано дані:", data)
 
-        # Перевіряємо, чи це подія успішної оплати
+        # Перевіряємо тип події
         if data.get("update_type") != "invoice_paid":
-            return web.Response(text="Not invoice_paid", status=200)
+            return web.Response(text="Not an invoice_paid update", status=200)
 
-        payload_data = data.get("payload", {})
-        user_id_str = payload_data.get("payload")
+        # Беремо payload
+        invoice = data.get("payload")
+        if not invoice:
+            return web.Response(text="No payload", status=400)
 
-        if not user_id_str:
-            return web.Response(text="No payload inside", status=400)
+        # Отримуємо user_id з payload
+        user_id = invoice.get("payload")  # Це має бути telegram ID
+        if not user_id:
+            return web.Response(text="No user ID", status=400)
 
-        try:
-            user_id = int(user_id_str)
-        except ValueError:
-            return web.Response(text="Invalid payload format", status=400)
-
-        # Знаходимо користувача
-        user = database.get_user_by_telegram_id(user_id)
-        if not user:
-            return web.Response(text="User not found", status=404)
-
-        # Продовжуємо підписку
+        # Продовжуємо доступ
         new_end = datetime.now() + timedelta(days=config.PAID_DAYS)
-        database.extend_subscription(user_id, new_end.strftime("%Y-%m-%d %H:%M:%S"))
+        database.extend_subscription(int(user_id), new_end.strftime("%Y-%m-%d %H:%M:%S"))
 
-        # Повідомляємо користувача
+        # Відправляємо повідомлення
         try:
-            await bot.send_message(user_id, f"✅ Ваш доступ продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
+            await bot.send_message(user_id,
+                                   f"✅ Ваш доступ продовжено до {new_end.strftime('%Y-%m-%d %H:%M:%S')}. Дякуємо за оплату!")
         except Exception as e:
             print(f"[Webhook] Помилка надсилання повідомлення: {e}")
 
