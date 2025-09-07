@@ -1,1 +1,6 @@
-vpn_users.db
+.env
+vpn.db
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+*.pyc
