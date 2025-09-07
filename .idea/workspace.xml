@@ -1,0 +1,1269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/VPNBot.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles-23.2.1.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles-23.2.1.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles-23.2.1.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles-23.2.1.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles-23.2.1.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles-23.2.1.dist-info/licenses/NOTICE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/os.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/ospath.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/tempfile/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/tempfile/temptypes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/threadpool/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/threadpool/binary.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/threadpool/text.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiofiles/threadpool/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram-3.6.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram-3.6.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram-3.6.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram-3.6.0.dist-info/REQUESTED" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram-3.6.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram-3.6.0.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/__meta__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/bot.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/context_controller.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/default.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/session/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/session/aiohttp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/session/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/session/middlewares/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/session/middlewares/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/session/middlewares/manager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/session/middlewares/request_logging.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/client/telegram.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/dispatcher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/event/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/event/bases.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/event/event.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/event/handler.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/event/telegram.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/flags.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/middlewares/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/middlewares/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/middlewares/error.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/middlewares/manager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/middlewares/user_context.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/dispatcher/router.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/bot_command_scope_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/chat_action.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/chat_boost_source_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/chat_member_status.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/chat_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/content_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/currency.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/dice_emoji.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/encrypted_passport_element.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/inline_query_result_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/input_media_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/keyboard_button_poll_type_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/mask_position_point.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/menu_button_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/message_entity_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/message_origin_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/parse_mode.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/passport_element_error_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/poll_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/reaction_type_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/sticker_format.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/sticker_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/topic_icon_color.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/enums/update_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/callback_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/chat_member_updated.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/command.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/exception.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/logic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/magic_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/filters/state.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/context.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/middleware.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/scene.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/state.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/storage/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/storage/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/storage/memory.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/storage/redis.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/fsm/strategy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/callback_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/chosen_inline_result.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/error.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/inline_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/poll.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/pre_checkout_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/handlers/shipping_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/loggers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/add_sticker_to_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/answer_callback_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/answer_inline_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/answer_pre_checkout_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/answer_shipping_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/answer_web_app_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/approve_chat_join_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/ban_chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/ban_chat_sender_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/close.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/close_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/close_general_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/copy_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/copy_messages.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/create_chat_invite_link.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/create_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/create_invoice_link.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/create_new_sticker_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/decline_chat_join_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_chat_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_chat_sticker_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_messages.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_my_commands.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_sticker_from_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_sticker_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/delete_webhook.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_chat_invite_link.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_general_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_message_caption.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_message_live_location.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_message_media.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_message_reply_markup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/edit_message_text.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/export_chat_invite_link.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/forward_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/forward_messages.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_business_connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_chat_administrators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_chat_member_count.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_chat_menu_button.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_custom_emoji_stickers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_forum_topic_icon_stickers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_game_high_scores.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_me.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_my_commands.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_my_default_administrator_rights.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_my_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_my_name.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_my_short_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_sticker_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_updates.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_user_chat_boosts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_user_profile_photos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/get_webhook_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/hide_general_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/leave_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/log_out.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/pin_chat_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/promote_chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/reopen_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/reopen_general_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/replace_sticker_in_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/restrict_chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/revoke_chat_invite_link.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_animation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_audio.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_chat_action.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_contact.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_dice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_document.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_game.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_invoice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_location.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_media_group.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_poll.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_sticker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_venue.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_video.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_video_note.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/send_voice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_chat_administrator_custom_title.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_chat_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_chat_menu_button.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_chat_permissions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_chat_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_chat_sticker_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_chat_title.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_custom_emoji_sticker_set_thumbnail.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_game_score.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_message_reaction.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_my_commands.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_my_default_administrator_rights.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_my_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_my_name.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_my_short_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_passport_data_errors.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_sticker_emoji_list.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_sticker_keywords.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_sticker_mask_position.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_sticker_position_in_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_sticker_set_thumbnail.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_sticker_set_title.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/set_webhook.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/stop_message_live_location.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/stop_poll.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/unban_chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/unban_chat_sender_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/unhide_general_forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/unpin_all_chat_messages.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/unpin_all_forum_topic_messages.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/unpin_all_general_forum_topic_messages.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/unpin_chat_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/methods/upload_sticker_file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/animation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/audio.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_fill.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_fill_freeform_gradient.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_fill_gradient.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_fill_solid.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_type_chat_theme.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_type_fill.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_type_pattern.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/background_type_wallpaper.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/birthdate.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope_all_chat_administrators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope_all_group_chats.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope_all_private_chats.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope_chat_administrators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope_chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_command_scope_default.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_name.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/bot_short_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/business_connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/business_intro.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/business_location.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/business_messages_deleted.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/business_opening_hours.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/business_opening_hours_interval.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/callback_game.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/callback_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_administrator_rights.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_background.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost_added.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost_removed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost_source.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost_source_gift_code.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost_source_giveaway.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost_source_premium.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_boost_updated.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_full_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_invite_link.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_join_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_location.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member_administrator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member_banned.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member_left.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member_member.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member_owner.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member_restricted.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_member_updated.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_permissions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chat_shared.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/chosen_inline_result.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/contact.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/custom.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/dice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/document.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/downloadable.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/encrypted_credentials.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/encrypted_passport_element.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/error_event.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/external_reply_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/force_reply.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/forum_topic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/forum_topic_closed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/forum_topic_created.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/forum_topic_edited.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/forum_topic_reopened.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/game.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/game_high_score.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/general_forum_topic_hidden.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/general_forum_topic_unhidden.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/giveaway.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/giveaway_completed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/giveaway_created.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/giveaway_winners.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inaccessible_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_keyboard_button.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_keyboard_markup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_article.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_audio.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_audio.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_document.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_gif.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_mpeg4_gif.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_sticker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_video.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_cached_voice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_contact.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_document.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_game.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_gif.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_location.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_mpeg4_gif.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_venue.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_video.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_result_voice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/inline_query_results_button.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_contact_message_content.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_invoice_message_content.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_location_message_content.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_media.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_media_animation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_media_audio.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_media_document.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_media_photo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_media_video.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_message_content.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_poll_option.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_sticker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_text_message_content.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/input_venue_message_content.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/invoice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/keyboard_button.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/keyboard_button_poll_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/keyboard_button_request_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/keyboard_button_request_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/keyboard_button_request_users.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/labeled_price.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/link_preview_options.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/location.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/login_url.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/mask_position.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/maybe_inaccessible_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/menu_button.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/menu_button_commands.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/menu_button_default.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/menu_button_web_app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_auto_delete_timer_changed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_entity.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_id.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_origin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_origin_channel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_origin_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_origin_hidden_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_origin_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_reaction_count_updated.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/message_reaction_updated.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/order_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_data_field.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_files.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_front_side.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_reverse_side.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_selfie.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_translation_file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_translation_files.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_element_error_unspecified.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/passport_file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/photo_size.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/poll.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/poll_answer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/poll_option.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/pre_checkout_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/proximity_alert_triggered.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/reaction_count.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/reaction_type.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/reaction_type_custom_emoji.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/reaction_type_emoji.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/reply_keyboard_markup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/reply_keyboard_remove.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/reply_parameters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/response_parameters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/sent_web_app_message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/shared_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/shipping_address.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/shipping_option.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/shipping_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/sticker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/sticker_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/story.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/successful_payment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/switch_inline_query_chosen_chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/text_quote.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/update.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/user_chat_boosts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/user_profile_photos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/user_shared.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/users_shared.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/venue.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/video.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/video_chat_ended.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/video_chat_participants_invited.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/video_chat_scheduled.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/video_chat_started.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/video_note.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/voice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/web_app_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/web_app_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/webhook_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/types/write_access_allowed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/auth_widget.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/backoff.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/callback_answer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/chat_action.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/deep_linking.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/formatting.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/i18n/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/i18n/context.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/i18n/core.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/i18n/lazy_proxy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/i18n/middleware.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/keyboard.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/link.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/magic_filter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/markdown.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/media_group.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/mixins.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/mypy_hacks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/payload.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/text_decorations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/token.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/warnings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/utils/web_app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/webhook/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/webhook/aiohttp_server.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiogram/webhook/security.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs-2.6.1.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs-2.6.1.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs-2.6.1.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs-2.6.1.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs-2.6.1.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs/_staggered.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs/impl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs/types.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohappyeyeballs/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp-3.9.5.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp-3.9.5.dist-info/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp-3.9.5.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp-3.9.5.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp-3.9.5.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp-3.9.5.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/_cparser.pxd.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/_find_header.pxd.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/_helpers.pyi.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/_helpers.pyx.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/_http_parser.pyx.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/_http_writer.pyx.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/_websocket.pyx.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/.hash/hdrs.py.hash" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_cparser.pxd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_find_header.pxd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_headers.pxi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_helpers.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_helpers.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_helpers.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_http_parser.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_http_parser.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_http_writer.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_http_writer.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_websocket.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/_websocket.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/abc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/base_protocol.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/client.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/client_exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/client_proto.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/client_reqrep.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/client_ws.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/compression_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/connector.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/cookiejar.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/formdata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/hdrs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/helpers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/http.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/http_exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/http_parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/http_websocket.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/http_writer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/locks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/log.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/multipart.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/payload.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/payload_streamer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/pytest_plugin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/resolver.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/streams.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/tcp_helpers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/test_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/tracing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/typedefs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_fileresponse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_log.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_middlewares.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_protocol.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_response.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_routedef.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_runner.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_server.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_urldispatcher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/web_ws.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiohttp/worker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal-1.3.2.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal-1.3.2.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal-1.3.2.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal-1.3.2.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal-1.3.2.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal-1.3.2.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal/__init__.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/aiosignal/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types-0.7.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types-0.7.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types-0.7.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types-0.7.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types-0.7.0.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/annotated_types/test_cases.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/__init__.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_cmp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_cmp.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_compat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_funcs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_make.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_next_gen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_typing_compat.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_version_info.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/_version_info.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/converters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/converters.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/exceptions.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/filters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/filters.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/setters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/setters.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attr/validators.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs-25.3.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs-25.3.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs-25.3.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs-25.3.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs-25.3.0.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/__init__.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/converters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/filters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/setters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/attrs/validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi-2025.1.31.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi-2025.1.31.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi-2025.1.31.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi-2025.1.31.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi-2025.1.31.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi-2025.1.31.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi/__main__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi/cacert.pem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi/core.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/certifi/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer-3.4.1.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer-3.4.1.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer-3.4.1.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer-3.4.1.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer-3.4.1.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer-3.4.1.dist-info/entry_points.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer-3.4.1.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/__main__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/api.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/cd.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/cli/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/cli/__main__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/constant.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/legacy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/md.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/md.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/md__mypyc.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/charset_normalizer/version.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/dp-1.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/dp-1.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/dp-1.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/dp-1.0.dist-info/REQUESTED" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/dp-1.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/dp-1.0.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/dp/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist-1.5.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist-1.5.0.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist-1.5.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist-1.5.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist-1.5.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist-1.5.0.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist/__init__.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist/_frozenlist.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist/_frozenlist.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/frozenlist/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna-3.10.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna-3.10.dist-info/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna-3.10.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna-3.10.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna-3.10.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/codec.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/compat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/core.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/idnadata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/intranges.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/package_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/idna/uts46data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter-1.0.12.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter-1.0.12.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter-1.0.12.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter-1.0.12.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter-1.0.12.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/attrdict.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/helper.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/magic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/call.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/cast.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/combination.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/comparator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/extract.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/function.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/getattr.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/getitem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/operations/selector.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/magic_filter/util.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict-6.2.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict-6.2.0.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict-6.2.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict-6.2.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict-6.2.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict-6.2.0.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict/_abc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict/_compat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict/_multidict.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict/_multidict_base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict/_multidict_py.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/multidict/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/AUTHORS.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/REQUESTED" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/entry_points.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip-25.0.1.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/build_env.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/build_env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/base_command.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/base_command.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/cmdoptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/cmdoptions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/index_command.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/index_command.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/progress_bars.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/cli/progress_bars.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/commands/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/commands/cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/commands/install.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/commands/install.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/commands/show.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/commands/show.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/configuration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/index/package_finder.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/index/package_finder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/metadata/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/metadata/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/metadata/_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/metadata/_json.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/metadata/importlib/_dists.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/metadata/importlib/_dists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/models/link.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/models/link.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/network/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/network/cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/network/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/network/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/operations/build/metadata_editable.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/operations/build/metadata_editable.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/operations/freeze.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/operations/freeze.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/pyproject.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/pyproject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/req/req_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/req/req_file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/req/req_install.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/req/req_install.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/resolution/resolvelib/factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/resolution/resolvelib/factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/self_outdated_check.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/self_outdated_check.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/logging.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/logging.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/misc.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/misc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/packaging.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/packaging.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/unpacking.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_internal/utils/unpacking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/adapter.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/adapter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/caches/file_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/caches/file_cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/filewrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/filewrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/heuristics.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/cachecontrol/heuristics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/codec.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/codec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/compat.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/compat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/core.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/core.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/idnadata.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/idnadata.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/intranges.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/intranges.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/package_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/package_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/uts46data.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/idna/uts46data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/msgpack/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/msgpack/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/msgpack/ext.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/msgpack/ext.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/msgpack/fallback.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/msgpack/fallback.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/_elffile.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/_elffile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/_manylinux.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/_manylinux.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/licenses/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/licenses/_spdx.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/markers.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/markers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/metadata.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/metadata.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/specifiers.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/specifiers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/tags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/version.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/packaging/version.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/android.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/android.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/macos.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/macos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/unix.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/unix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/version.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/platformdirs/version.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/_impl.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/_impl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/_in_process/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/_in_process/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/pyproject_hooks/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/requests/certs.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/requests/certs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/_inspect.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/_inspect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/_null_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/_null_file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/_win32_console.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/_win32_console.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/align.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/align.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/ansi.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/ansi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/cells.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/cells.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/color.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/color.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/console.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/console.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/default_styles.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/default_styles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/filesize.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/filesize.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/highlighter.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/highlighter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/live.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/live.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/logging.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/logging.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/padding.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/padding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/panel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/pretty.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/pretty.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/progress.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/progress.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/progress_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/progress_bar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/prompt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/segment.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/segment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/spinner.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/spinner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/style.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/style.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/syntax.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/syntax.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/table.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/theme.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/theme.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/traceback.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/traceback.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/rich/tree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/tomli/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/tomli/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/tomli/_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/tomli/_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/tomli/_re.py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/tomli/_re.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/vendor.txt" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Lib/site-packages/pip/_vendor/vendor.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache-0.3.1.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache-0.3.1.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache-0.3.1.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache-0.3.1.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache-0.3.1.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache-0.3.1.dist-info/licenses/NOTICE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache-0.3.1.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache/_helpers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache/_helpers_c.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache/_helpers_c.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache/_helpers_py.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache/api.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/propcache/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic-2.7.4.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic-2.7.4.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic-2.7.4.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic-2.7.4.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic-2.7.4.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_core_metadata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_core_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_dataclasses.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_decorators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_decorators_v1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_discriminated_union.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_docs_extraction.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_fields.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_forward_ref.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_generate_schema.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_generics.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_git.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_internal_dataclass.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_known_annotated_metadata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_mock_val_ser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_model_construction.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_repr.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_schema_generation_shared.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_signature.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_std_types_schema.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_typing_extra.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_validate_call.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_internal/_validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/_migration.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/alias_generators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/aliases.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/annotated_handlers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/class_validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/color.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/dataclasses.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/datetime_parse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/decorator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/class_validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/copy_internals.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/decorator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/json.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/parse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/deprecated/tools.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/env_settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/error_wrappers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/errors.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/fields.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/functional_serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/functional_validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/generics.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/json.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/json_schema.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/mypy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/networks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/parse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/plugin/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/plugin/_loader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/plugin/_schema_validator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/root_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/schema.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/tools.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/type_adapter.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/types.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/typing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/_hypothesis_plugin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/annotated_types.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/class_validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/color.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/dataclasses.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/datetime_parse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/decorator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/env_settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/error_wrappers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/errors.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/fields.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/generics.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/json.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/mypy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/networks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/parse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/schema.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/tools.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/types.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/typing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/v1/version.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/validate_call_decorator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/validators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/version.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic/warnings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core-2.18.4.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core-2.18.4.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core-2.18.4.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core-2.18.4.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core-2.18.4.dist-info/license_files/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core/_pydantic_core.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core/_pydantic_core.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core/core_schema.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/pydantic_core/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests-2.31.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests-2.31.0.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests-2.31.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests-2.31.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests-2.31.0.dist-info/REQUESTED" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests-2.31.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests-2.31.0.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/__version__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/_internal_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/adapters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/api.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/auth.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/certs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/compat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/cookies.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/help.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/hooks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/packages.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/sessions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/status_codes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/structures.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/requests/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/typing_extensions-4.13.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/typing_extensions-4.13.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/typing_extensions-4.13.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/typing_extensions-4.13.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/typing_extensions-4.13.0.dist-info/licenses/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/typing_extensions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3-2.3.0.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3-2.3.0.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3-2.3.0.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3-2.3.0.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3-2.3.0.dist-info/licenses/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/_base_connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/_collections.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/_request_methods.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/_version.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/connectionpool.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/emscripten/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/emscripten/connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/emscripten/emscripten_fetch_worker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/emscripten/fetch.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/emscripten/request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/emscripten/response.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/pyopenssl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/contrib/socks.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/fields.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/filepost.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/http2/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/http2/connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/http2/probe.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/poolmanager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/response.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/proxy.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/response.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/retry.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/ssl_.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/ssl_match_hostname.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/ssltransport.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/timeout.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/url.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/util.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/urllib3/util/wait.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl-1.18.3.dist-info/INSTALLER" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl-1.18.3.dist-info/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl-1.18.3.dist-info/METADATA" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl-1.18.3.dist-info/NOTICE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl-1.18.3.dist-info/RECORD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl-1.18.3.dist-info/WHEEL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl-1.18.3.dist-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_parse.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_path.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_query.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_quoters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_quoting.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_quoting_c.cp312-win_amd64.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_quoting_c.pyi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_quoting_c.pyx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_quoting_py.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/_url.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Lib/site-packages/yarl/py.typed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Scripts/normalizer.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Scripts/pip.exe" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Scripts/pip.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Scripts/pip3.12.exe" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Scripts/pip3.12.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/Scripts/pip3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/Scripts/pip3.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.xui_session_cookie.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/payments.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyvenv.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/translations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vpn_users.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vpn_users_local.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webhook_server.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/xui_api.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;v-myronenko&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/v-myronenko/simple_vpn_bot&quot;,
+    &quot;accountId&quot;: &quot;6a8c07a5-94b0-4543-b05a-02ce25b40f51&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2uxE51pnHNuMtrMwHsPZQrN5rKP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.bot (1).executor": "Run",
+    "Python.bot.executor": "Run",
+    "Python.config.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.webhook_server.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/sqlite",
+    "last_opened_file_path": "C:/Users/Vova/PycharmProjects/VPNBot",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Vova\PycharmProjects\VPNBot" />
+      <recent name="C:\Users\Vova\PycharmProjects\VPNBot\venv" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="bot (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VPNBot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="config" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VPNBot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/config.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VPNBot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VPNBot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="webhook_server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VPNBot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/webhook_server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.webhook_server" />
+        <item itemvalue="Python.config" />
+        <item itemvalue="Python.bot (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-1b1018131e27-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.180" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="" />
+      <created>1743181637413</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1743181637413</updated>
+    </task>
+    <servers />
+  </component>
+</project>
