@@ -4,3 +4,11 @@ __pycache__/
 .mypy_cache/
 .pytest_cache/
 *.pyc
+
+.venv
+__pycache__/
+*.db
+*.png
+*.zip
+*.log
+
