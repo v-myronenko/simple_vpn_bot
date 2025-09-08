@@ -7,3 +7,5 @@ APScheduler==3.10.4
 loguru==0.7.2
 paramiko==3.4.0
 qrcode==7.4.2   # якщо будеш генерувати QR локально як fallback
+paramiko==3.4.0
+qrcode==7.4.2

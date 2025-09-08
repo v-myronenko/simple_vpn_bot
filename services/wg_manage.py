@@ -2,6 +2,13 @@
 import paramiko
 import io
 
+def _load_pkey(path: str):
+    # спробувати ED25519 → потім RSA
+    try:
+        return paramiko.Ed25519Key.from_private_key_file(path)
+    except Exception:
+        return paramiko.RSAKey.from_private_key_file(path)
+
 class WGManager:
     def __init__(self, host: str, user: str, key_path: str):
         self.host = host
@@ -10,6 +17,9 @@ class WGManager:
 
     def add_peer(self, name: str) -> tuple[str, bytes]:
         """Повертає (текст конфігу, PNG байти QR)"""
+        pkey = _load_pkey(self.key_path)
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         key = paramiko.RSAKey.from_private_key_file(self.key_path)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
