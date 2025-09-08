@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="" />
+    <list default="true" id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/wg_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/wg_manager.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,7 +56,7 @@
     "Python.webhook_server.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "chore/wg-focus",
     "last_opened_file_path": "C:/Users/Vova/PycharmProjects/VPNBot",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }

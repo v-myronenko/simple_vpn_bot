@@ -1,4 +1,4 @@
-import io
+п»їimport io
 from telegram import Update, InputFile
 from telegram.ext import ContextTypes
 from services.wg_manager import WGManager
@@ -19,14 +19,14 @@ async def get_config(update: Update, context: ContextTypes.DEFAULT_TYPE):
         wg = make_wg()
         conf_text, png = wg.add_peer(peer_name)
     except Exception as e:
-        return await update.message.reply_text(f"Помилка: {e}")
+        return await update.message.reply_text(f"РџРѕРјРёР»РєР°: {e}")
 
     await update.message.reply_document(
         document=InputFile(io.BytesIO(conf_text.encode()), filename=f"{peer_name}.conf"),
-        caption="Твій WireGuard конфіг. Імпортуй його у додаток WireGuard."
+        caption="РўРІС–Р№ WireGuard РєРѕРЅС„С–Рі. Р†РјРїРѕСЂС‚СѓР№ Р№РѕРіРѕ Сѓ РґРѕРґР°С‚РѕРє WireGuard."
     )
     if png:
         await update.message.reply_photo(
             photo=InputFile(io.BytesIO(png), filename=f"{peer_name}.png"),
-            caption="Скани цей QR у додатку WireGuard (Android/iOS)."
+            caption="РЎРєР°РЅРё С†РµР№ QR Сѓ РґРѕРґР°С‚РєСѓ WireGuard (Android/iOS)."
         )

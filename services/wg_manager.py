@@ -1,8 +1,8 @@
-import paramiko
+п»їimport paramiko
 import io
 
 def _load_pkey(path: str):
-    # Спробуємо спочатку Ed25519 (дефолт у нових ключів), потім RSA
+    # РЎРїСЂРѕР±СѓС”РјРѕ СЃРїРѕС‡Р°С‚РєСѓ Ed25519 (РґРµС„РѕР»С‚ Сѓ РЅРѕРІРёС… РєР»СЋС‡С–РІ), РїРѕС‚С–Рј RSA
     try:
         return paramiko.Ed25519Key.from_private_key_file(path)
     except Exception:
@@ -15,7 +15,7 @@ class WGManager:
         self.key_path = key_path
 
     def add_peer(self, name: str) -> tuple[str, bytes]:
-        \"\"\"Повертає (текст конфігу, PNG байти QR)\"\"\"
+        """РџРѕРІРµСЂС‚Р°С” (С‚РµРєСЃС‚ РєРѕРЅС„С–РіСѓ, PNG Р±Р°Р№С‚Рё QR)"""
         key = _load_pkey(self.key_path)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -29,7 +29,7 @@ class WGManager:
             ssh.close()
             raise RuntimeError(err)
 
-        # дістаємо шлях до створеного конфігу
+        # РґС–СЃС‚Р°С”РјРѕ С€Р»СЏС… РґРѕ СЃС‚РІРѕСЂРµРЅРѕРіРѕ РєРѕРЅС„С–РіСѓ
         conf_path = None
         for line in out.splitlines():
             if line.startswith("CONFIG_PATH="):
@@ -39,12 +39,12 @@ class WGManager:
             ssh.close()
             raise RuntimeError("No CONFIG_PATH returned")
 
-        # заберемо сам конфіг
+        # Р·Р°Р±РµСЂРµРјРѕ СЃР°Рј РєРѕРЅС„С–Рі
         sftp = ssh.open_sftp()
         with sftp.file(conf_path, "r") as f:
             conf_text = f.read().decode()
 
-        # PNG QR (може не бути, тоді повернемо порожні байти)
+        # PNG QR (РјРѕР¶Рµ РЅРµ Р±СѓС‚Рё, С‚РѕРґС– РїРѕРІРµСЂРЅРµРјРѕ РїРѕСЂРѕР¶РЅС– Р±Р°Р№С‚Рё)
         png_bytes = b""
         png_path = conf_path.replace(".conf", ".png")
         try:
