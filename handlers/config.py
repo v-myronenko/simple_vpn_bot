@@ -15,7 +15,7 @@ async def get_config(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         # НОВЕ: метод create_peer повертає (текст конфігу, PNG-байти QR)
-        conf_text, png = wg.create_peer(peer_name)
+        conf_text, png = wg.add_peer(peer_name)
     except Exception as e:
         await update.message.reply_text(f"Помилка: {e}")
         return
