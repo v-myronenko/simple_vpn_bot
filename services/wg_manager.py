@@ -71,3 +71,6 @@ PersistentKeepalive = 25
         # Тут — читаємо публічний IP із хоста
         ip = subprocess.check_output(["bash", "-lc", "curl -s ifconfig.me || curl -s ipinfo.io/ip"]).decode().strip()
         return f"{ip}:51820"
+
+    def add_peer(self, name: str):
+        return self.create_peer(name)
