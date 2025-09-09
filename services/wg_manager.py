@@ -1,87 +1,176 @@
 ﻿# services/wg_manager.py
+import io
+import ipaddress
 import subprocess
-import base64
-import qrcode
-from io import BytesIO
+from dataclasses import dataclass
+from typing import Tuple, Optional
 
+import qrcode
+from qrcode.image.pure import PyPNGImage
+
+
+def sh(*args: str, input_bytes: Optional[bytes] = None) -> str:
+    """
+    Run a command and return stdout (decoded utf-8, stripped).
+    Raises CalledProcessError on failure with readable stderr.
+    """
+    proc = subprocess.run(
+        args,
+        input=input_bytes,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=True,
+        text=True,          # decode to str
+    )
+    return proc.stdout.strip()
+
+
+def sh_bash(cmd: str) -> str:
+    """Run a whole command line via bash -lc '...' and return stdout."""
+    out = subprocess.run(
+        ["bash", "-lc", cmd],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=True,
+        text=True,
+    )
+    return out.stdout.strip()
+
+
+@dataclass
 class WGManager:
-    """Локальний менеджер WireGuard без SSH. Використовує sudo wg / wg-quick."""
-    def __init__(self, interface: str = "wg0", network_cidr: str = "10.8.0.0/24"):
-        self.interface = interface
-        self.network = network_cidr
+    """
+    WireGuard manager that works directly on the local server via sudo.
+    Requires:
+      - systemd service wg-quick@wg0 running
+      - user running the bot has sudoers rule:
+            bot ALL=(root) NOPASSWD: /usr/bin/wg
+    """
+    interface: str = "wg0"
+    network_cidr: str = "10.8.0.0/24"
+    endpoint_host: Optional[str] = None  # if None, will be auto-detected
+
+    # ----------------------- low-level helpers -----------------------
 
     def _sudo(self, *args: str) -> str:
-        res = subprocess.run(["sudo", "-n", *args], capture_output=True, text=True)
-        if res.returncode != 0:
-            raise RuntimeError(f"Command failed: {' '.join(args)}\n{res.stderr}")
-        return res.stdout.strip()
+        """Run command with sudo and return stdout."""
+        return sh("sudo", *args)
 
-    def next_ip(self) -> str:
-        """Повертає вільну IP з підмережі 10.8.0.0/24 (10.8.0.1 — сервер)."""
-        used = {"10.8.0.1"}  # IP сервера
+    # ----------------------- server info -----------------------------
+
+    def get_server_public_key(self) -> str:
+        """Public key of server interface."""
+        return self._sudo("wg", "show", self.interface, "public-key").strip()
+
+    def get_listen_port(self) -> int:
+        return int(self._sudo("wg", "show", self.interface, "listen-port"))
+
+    def get_endpoint_host(self) -> str:
+        """
+        If not set explicitly, detect a public IPv4 the box uses to reach the Internet.
+        Works well on typical VPS (DigitalOcean/Linode/etc).
+        """
+        if self.endpoint_host:
+            return self.endpoint_host
+        # src ip from default route to 1.1.1.1
+        ip = sh_bash("ip -4 route get 1.1.1.1 | awk '{print $7; exit}'")
+        return ip or "SERVER_IP"
+
+    # ----------------------- IP planning -----------------------------
+
+    def _used_ips(self) -> set[str]:
+        """
+        Parse `wg show <iface> allowed-ips` and collect used /32 IPv4 addresses.
+        """
+        used = set()
         try:
             out = self._sudo("wg", "show", self.interface, "allowed-ips")
-        except Exception:
-            out = ""
-
-        for line in out.splitlines():
-            line = line.strip()
-            if not line:
-                continue
-            parts = line.split()
-            if len(parts) < 2:
-                continue
-            # parts[0] = public key, parts[1] = "ip1/cidr,ip2/cidr,..."
-            for ip_cidr in parts[1].split(","):
-                ip = ip_cidr.split("/")[0].strip()
-                if ip:
+            # each line like:
+            # <peer_public_key> 10.8.0.2/32
+            for line in out.splitlines():
+                parts = line.split()
+                if len(parts) >= 2 and "/" in parts[-1]:
+                    ip = parts[-1].split("/")[0]
                     used.add(ip)
+        except subprocess.CalledProcessError:
+            pass
+        return used
 
-        # шукаємо першу вільну адресу
-        for last in range(2, 255):
-            candidate = f"10.8.0.{last}"
-            if candidate not in used:
-                return candidate
-        raise RuntimeError("No free IPs left in 10.8.0.0/24")
+    def _next_ip(self) -> str:
+        """
+        Return the next free /32 host IP inside network_cidr.
+        Reserves the first address (.1) for the server itself.
+        """
+        net = ipaddress.ip_network(self.network_cidr)
+        used = self._used_ips()
+        # Start from the second host (skip .1 which server uses)
+        for host in list(net.hosts())[1:]:
+            ip = str(host)
+            if ip not in used:
+                return ip
+        raise RuntimeError("No free IPs left in the VPN subnet")
 
-    def create_peer(self, name: str) -> tuple[str, bytes]:
-        # генеруємо ключі клієнта
-        priv = subprocess.check_output(["wg", "genkey"]).decode().strip()
-        pub = subprocess.check_output(["bash", "-lc", f"printf %s '{priv}' | wg pubkey"]).decode().strip()
-        ip = self.next_ip()
-        allowed_ip = f"{ip}/32"
+    # ----------------------- key generation --------------------------
 
-        # додаємо peer на сервер
-        self._sudo("wg", "set", self.interface, "peer", pub, "allowed-ips", allowed_ip)
-        self._sudo("wg-quick", "save", self.interface)
+    @staticmethod
+    def _gen_keypair() -> Tuple[str, str]:
+        """
+        Generate (private, public) key pair using `wg` tool.
+        """
+        priv = sh("wg", "genkey")
+        pub = sh("wg", "pubkey", input_bytes=(priv + "\n").encode("utf-8"))
+        return priv.strip(), pub.strip()
 
-        # читаємо серверні параметри
-        server_pub = self._sudo("wg", "show", self.interface, "public-key").strip()
-        endpoint = self._detect_endpoint()
-        config_text = f"""[Interface]
-PrivateKey = {priv}
-Address = {allowed_ip}
-DNS = 1.1.1.1
+    # ----------------------- main API --------------------------------
 
-[Peer]
-PublicKey = {server_pub}
-Endpoint = {endpoint}
-AllowedIPs = 0.0.0.0/0
-PersistentKeepalive = 25
-"""
+    def add_peer(self, peer_name: str) -> Tuple[str, Optional[bytes]]:
+        """
+        Create a new peer:
+          - generate keys
+          - pick next free 10.8.0.X
+          - `wg set <iface> peer <pub> allowed-ips <ip>/32`
+        Returns: (config_text, png_bytes)
+        """
+        client_priv, client_pub = self._gen_keypair()
+        client_ip = self._next_ip()
 
-        # QR як PNG
-        qr_buf = BytesIO()
-        qrcode.make(config_text).save(qr_buf, format="PNG")
-        png_bytes = qr_buf.getvalue()
+        # Attach peer to the running interface
+        self._sudo(
+            "wg",
+            "set",
+            self.interface,
+            "peer",
+            client_pub,
+            "allowed-ips",
+            f"{client_ip}/32",
+        )
 
-        return config_text, png_bytes
+        server_pub = self.get_server_public_key()
+        listen_port = self.get_listen_port()
+        endpoint = f"{self.get_endpoint_host()}:{listen_port}"
 
-    def _detect_endpoint(self) -> str:
-        # Зроби простіше: вкажи домен/айпі вручну у .env або підстав IP сервера
-        # Тут — читаємо публічний IP із хоста
-        ip = subprocess.check_output(["bash", "-lc", "curl -s ifconfig.me || curl -s ipinfo.io/ip"]).decode().strip()
-        return f"{ip}:51820"
+        conf_text = (
+            "[Interface]\n"
+            f"PrivateKey = {client_priv}\n"
+            f"Address = {client_ip}/32\n"
+            "DNS = 1.1.1.1, 9.9.9.9\n"
+            "\n"
+            "[Peer]\n"
+            f"PublicKey = {server_pub}\n"
+            f"Endpoint = {endpoint}\n"
+            "AllowedIPs = 0.0.0.0/0, ::/0\n"
+            "PersistentKeepalive = 25\n"
+        )
 
-    def add_peer(self, name: str):
-        return self.create_peer(name)
+        # Build QR from the full config text (WireGuard clients support it)
+        try:
+            img = qrcode.make(conf_text, image_factory=PyPNGImage)
+            buf = io.BytesIO()
+            img.save(buf)            # <- ВАЖЛИВО: без format="PNG"
+            buf.seek(0)
+            png_bytes = buf.getvalue()
+        except Exception:
+            # QR не критичний — повернемо лише конфіг
+            png_bytes = None
+
+        return conf_text, png_bytes
