@@ -5,6 +5,8 @@ from services.wg_manager import WGManager
 from db.crud import get_or_create_user
 from config import settings
 
+wg = WGManager(interface="wg0", network_cidr="10.8.0.0/24")
+
 def make_wg() -> WGManager:
     if not (settings.WG_HOST and settings.WG_SSH_USER and settings.WG_SSH_KEY):
         raise RuntimeError("Set WG_HOST, WG_SSH_USER, WG_SSH_KEY in .env")
