@@ -56,7 +56,7 @@ class WGManager:
         self._sudo("wg-quick", "save", self.interface)
 
         # читаємо серверні параметри
-        server_pub = subprocess.check_output(["bash", "-lc", "cat /etc/wireguard/server_public.key"]).decode().strip()
+        server_pub = self._sudo("wg", "show", self.interface, "public-key").strip()
         endpoint = self._detect_endpoint()
         config_text = f"""[Interface]
 PrivateKey = {priv}
