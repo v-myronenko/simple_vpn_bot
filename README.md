@@ -2,7 +2,7 @@
 
 Це мінімальний каркас із SQLite + SQLAlchemy, готовий до розширення (Stars/USDT/x-ui).
 
-## Швидкий старт
+## Швидкий старт 
 
 ```bash
 python -m venv .venv && source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
