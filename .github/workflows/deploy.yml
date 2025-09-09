@@ -1,0 +1,47 @@
+name: Deploy bot to VPS
+
+on:
+  push:
+    branches: ["master"]   # якщо у тебе main — заміни на "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          install -m 600 -D /dev/stdin ~/.ssh/id_ed25519 <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+          ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Rsync project to server
+        run: |
+          rsync -az --delete \
+            --exclude ".git/" \
+            --exclude ".github/" \
+            --exclude ".venv/" \
+            --exclude "vpn.db" \
+            --exclude "__pycache__/" \
+            --exclude "*.log" \
+            --exclude ".env" \
+            ./ "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/"
+
+      - name: Install deps & restart service
+        run: |
+          ssh "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" bash -lc '
+            set -e
+            cd "${{ secrets.SERVER_PATH }}"
+            # venv
+            [ -d .venv ] || python3 -m venv .venv
+            . .venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+            # ініціалізація БД (іде потайно, якщо вже створено — ок)
+            python run_once.py || true
+            # перезапуск сервісу
+            sudo systemctl restart vpn-bot
+            sudo systemctl status vpn-bot --no-pager -l | tail -n 50
+          '
