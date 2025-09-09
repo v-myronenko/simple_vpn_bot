@@ -17,16 +17,27 @@ class WGManager:
         return res.stdout.strip()
 
     def next_ip(self) -> str:
-        # Простий спосіб знайти вільну IP у 10.8.0.0/24 (пробігаємось по 2..254)
-        used = set()
-        out = self._sudo("wg", "show", self.interface, "peers")
-        peers = out.splitlines() if out else []
-        for p in peers:
-            conf = self._sudo("wg", "show", self.interface, "allowed-ips", p)
-            for line in conf.splitlines():
-                if line.strip():
-                    used.add(line.split()[0].split('/')[0])
-        # 10.8.0.1 — сервер; почнемо з 10.8.0.2
+        """Повертає вільну IP з підмережі 10.8.0.0/24 (10.8.0.1 — сервер)."""
+        used = {"10.8.0.1"}  # IP сервера
+        try:
+            out = self._sudo("wg", "show", self.interface, "allowed-ips")
+        except Exception:
+            out = ""
+
+        for line in out.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+            # parts[0] = public key, parts[1] = "ip1/cidr,ip2/cidr,..."
+            for ip_cidr in parts[1].split(","):
+                ip = ip_cidr.split("/")[0].strip()
+                if ip:
+                    used.add(ip)
+
+        # шукаємо першу вільну адресу
         for last in range(2, 255):
             candidate = f"10.8.0.{last}"
             if candidate not in used:
