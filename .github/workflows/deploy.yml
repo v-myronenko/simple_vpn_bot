@@ -1,12 +1,26 @@
-name: Deploy bot to VPS
+name: deploy
 
 on:
   push:
-    branches: ["master"]   # якщо у тебе main — заміни на "main"
+    branches: [ master ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    env:
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      SERVER_PATH: ${{ secrets.SERVER_PATH }}
+      # .env для бота (додай потрібні значення у Secrets або в ENV нижче)
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      WG_INTERFACE: wg0
+      WG_NETWORK: 10.8.0.0/24
+      WG_ENDPOINT_HOST: ${{ secrets.SERVER_HOST }}
+      WG_ENDPOINT_PORT: 51820
+      WG_DNS: 1.1.1.1
+      WG_KEEPALIVE: 25
+      WG_MTU: 1280
 
     steps:
       - name: Checkout
@@ -14,54 +28,48 @@ jobs:
 
       - name: Set up SSH
         run: |
-          # створюємо .ssh з правильними правами
           mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-
-          # пишемо приватний ключ у файл
-          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-
-          # прибираємо CRLF (раптом секрет вставили з Windows)
-          sed -i 's/\r$//' ~/.ssh/id_ed25519
-
-          # коректні права на приватний ключ
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-
-          # додаємо хост до known_hosts
-          ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Test SSH
-        run: |
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes \
-            "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" 'echo "SSH OK on $(hostname)"'
-      
+          ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
 
       - name: Rsync project to server
         run: |
           rsync -az --delete \
-            --exclude ".git/" \
-            --exclude ".github/" \
-            --exclude ".venv/" \
-            --exclude "vpn.db" \
-            --exclude "__pycache__/" \
-            --exclude "*.log" \
-            --exclude ".env" \
-            ./ "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/"
+            -e "ssh -i ~/.ssh/id_ed25519" \
+            ./ "$SERVER_USER@$SERVER_HOST:$SERVER_PATH/"
+
+      - name: Write .env on server
+        run: |
+          ssh -i ~/.ssh/id_ed25519 "$SERVER_USER@$SERVER_HOST" bash -lc '
+            set -e
+            cd "$SERVER_PATH"
+            cat > .env <<EOF
+            TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+            WG_INTERFACE=${WG_INTERFACE}
+            WG_NETWORK=${WG_NETWORK}
+            WG_ENDPOINT_HOST=${WG_ENDPOINTп_HOST}
+            WG_ENDPOINT_PORT=${WG_ENDPOINT_PORT}
+            WG_DNS=${WG_DNS}
+            WG_KEEPALIVE=${WG_KEEPALIVE}
+            WG_MTU=${WG_MTU}
+            EOF
+                      '
 
       - name: Install deps & restart service
         run: |
-          ssh "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" bash -lc '
+          ssh -i ~/.ssh/id_ed25519 "$SERVER_USER@$SERVER_HOST" bash -lc '
             set -e
-            cd "${{ secrets.SERVER_PATH }}"
-            # venv
-            [ -d .venv ] || python3 -m venv .venv
+            cd "$SERVER_PATH"
+            # створити .venv якщо немає
+            if [ ! -d .venv ]; then
+              python3 -m venv .venv
+            fi
             . .venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-            # ініціалізація БД (іде потайно, якщо вже створено — ок)
-            python run_once.py || true
-            # перезапуск сервісу
+            pip -q install --upgrade pip
+            pip -q install -r requirements.txt
+            sudo systemctl daemon-reload || true
+            sudo systemctl enable --now vpn-bot || true
             sudo systemctl restart vpn-bot
-            sudo systemctl status vpn-bot --no-pager -l | tail -n 50
+            sudo systemctl --no-pager --full status vpn-bot | tail -n 50 || true
           '
