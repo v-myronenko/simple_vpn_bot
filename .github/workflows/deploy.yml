@@ -14,15 +14,28 @@ jobs:
 
       - name: Set up SSH
         run: |
-          install -m 600 -D /dev/stdin ~/.ssh/id_ed25519 <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          # на випадок CRLF з Windows — приберемо \r
-          tr -d '\r' < ~/.ssh/id_ed25519 > ~/.ssh/id_ed25519.clean && mv ~/.ssh/id_ed25519.clean ~/.ssh/id_ed25519
+          # створюємо .ssh з правильними правами
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          # пишемо приватний ключ у файл
+          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+
+          # прибираємо CRLF (раптом секрет вставили з Windows)
+          sed -i 's/\r$//' ~/.ssh/id_ed25519
+
+          # коректні права на приватний ключ
+          chmod 600 ~/.ssh/id_ed25519
+
+          # додаємо хост до known_hosts
           ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - name: Test SSH
         run: |
           ssh -o BatchMode=yes -o StrictHostKeyChecking=yes \
             "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" 'echo "SSH OK on $(hostname)"'
+      
 
       - name: Rsync project to server
         run: |
