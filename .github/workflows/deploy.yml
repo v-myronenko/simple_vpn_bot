@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy VPN Bot
 
 on:
   push:
@@ -7,20 +7,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     env:
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
       SERVER_USER: ${{ secrets.SERVER_USER }}
-      SERVER_PATH: ${{ secrets.SERVER_PATH }}
-      # .env для бота (додай потрібні значення у Secrets або в ENV нижче)
-      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-      WG_INTERFACE: wg0
-      WG_NETWORK: 10.8.0.0/24
-      WG_ENDPOINT_HOST: ${{ secrets.SERVER_HOST }}
-      WG_ENDPOINT_PORT: 51820
-      WG_DNS: 1.1.1.1
-      WG_KEEPALIVE: 25
-      WG_MTU: 1280
 
     steps:
       - name: Checkout
@@ -28,52 +17,57 @@ jobs:
 
       - name: Set up SSH
         run: |
-          mkdir -p ~/.ssh
+          install -m 600 -D /dev/null ~/.ssh/id_ed25519
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
 
       - name: Rsync project to server
         run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" "mkdir -p ~/apps/simple_vpn_bot"
           rsync -az --delete \
-            -e "ssh -i ~/.ssh/id_ed25519" \
-            ./ "$SERVER_USER@$SERVER_HOST:$SERVER_PATH/"
+            --exclude '.git' --exclude '.github' \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
+            ./ "$SERVER_USER@$SERVER_HOST:~/apps/simple_vpn_bot/"
 
-      - name: Write .env on server
+      - name: Build .env locally
         run: |
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
-            sudo install -d -m 755 /etc/vpn-bot
-          "'
-          # Передамо контент .env через безпечний heredoc: внутрішній маркер 'ENV' закавычений — $ не розширюються на сервері
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
-            cat << '\''ENV'\'' | sudo tee /etc/vpn-bot/.env > /dev/null
-            TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
-            WG_INTERFACE=${{ vars.WG_INTERFACE }}
-            WG_NETWORK=${{ vars.WG_NETWORK }}
-            WG_ENDPOINT_HOST=${{ vars.WG_ENDPOINT_HOST }}
-            WG_ENDPOINT_PORT=${{ vars.WG_ENDPOINT_PORT }}
-            WG_DNS=${{ vars.WG_DNS }}
-            WG_KEEPALIVE=${{ vars.WG_KEEPALIVE }}
-            WG_MTU=${{ vars.WG_MTU }}
-            ENV
-            sudo chown root:root /etc/vpn-bot/.env
-            sudo chmod 600 /etc/vpn-bot/.env
-            "'
+          cat > .env <<EOF
+          TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
+          WG_INTERFACE=${{ vars.WG_INTERFACE }}
+          WG_NETWORK=${{ vars.WG_NETWORK }}
+          WG_ENDPOINT_HOST=${{ vars.WG_ENDPOINT_HOST }}
+          WG_ENDPOINT_PORT=${{ vars.WG_ENDPOINT_PORT }}
+          WG_DNS=${{ vars.WG_DNS }}
+          WG_KEEPALIVE=${{ vars.WG_KEEPALIVE }}
+          WG_MTU=${{ vars.WG_MTU }}
+          EOF
 
-      - name: Install deps & restart service
+      - name: Copy .env and move to /etc
         run: |
-          ssh -i ~/.ssh/id_ed25519 "$SERVER_USER@$SERVER_HOST" bash -lc '
-            set -e
-            cd "$SERVER_PATH"
-            # створити .venv якщо немає
-            if [ ! -d .venv ]; then
-              python3 -m venv .venv
-            fi
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes .env "$SERVER_USER@$SERVER_HOST:/home/$SERVER_USER/.env"
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" "bash -lc '
+            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S install -d -m 755 /etc/vpn-bot
+            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S mv /home/$USER/.env /etc/vpn-bot/.env
+            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S chown root:root /etc/vpn-bot/.env
+            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S chmod 600 /etc/vpn-bot/.env
+          '"
+
+      - name: Create venv & install deps
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" "bash -lc '
+            cd ~/apps/simple_vpn_bot
+            python3 -m venv .venv
             . .venv/bin/activate
-            pip -q install --upgrade pip
-            pip -q install -r requirements.txt
-            sudo systemctl daemon-reload || true
-            sudo systemctl enable --now vpn-bot || true
-            sudo systemctl restart vpn-bot
-            sudo systemctl --no-pager --full status vpn-bot | tail -n 50 || true
-          '
+            python -m pip install --upgrade pip
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          '"
+
+      - name: Restart service
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" "bash -lc '
+            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S systemctl daemon-reload
+            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S systemctl restart vpn-bot.service || \
+            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S systemctl start vpn-bot.service
+            systemctl is-active --quiet vpn-bot.service
+          '"
