@@ -54,7 +54,7 @@ jobs:
             WG_KEEPALIVE=${WG_KEEPALIVE}
             WG_MTU=${WG_MTU}
             EOF
-                      '
+            '
 
       - name: Install deps & restart service
         run: |
