@@ -80,6 +80,41 @@ jobs:
             [ -f requirements.txt ] && pip install -r requirements.txt || true
           "'
 
+      - name: Ensure systemd unit (create/update)
+        run: |
+          # зберемо unit локально з підстановкою користувача
+          cat > vpn-bot.service <<EOF
+          [Unit]
+          Description=Simple VPN Telegram Bot
+          After=network-online.target
+          Wants=network-online.target
+          
+          [Service]
+          User=${{ secrets.SERVER_USER }}
+          WorkingDirectory=/home/${{ secrets.SERVER_USER }}/apps/simple_vpn_bot
+          EnvironmentFile=/etc/vpn-bot/.env
+          ExecStart=/home/${{ secrets.SERVER_USER }}/apps/simple_vpn_bot/.venv/bin/python /home/${{ secrets.SERVER_USER }}/apps/simple_vpn_bot/bot.py
+          Restart=on-failure
+          RestartSec=5s
+          
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+          # передамо на сервер і покладемо у /etc/systemd/system
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes vpn-bot.service "$SERVER_USER@$SERVER_HOST:~/vpn-bot.service"
+      
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
+            set -e
+            PW=\"${{ secrets.SUDO_PASSWORD }}\"
+            run(){ printf %s\\n \"$PW\" | sudo -S -p \"\" \"\$@\"; }
+            run mv ~/vpn-bot.service /etc/systemd/system/vpn-bot.service
+            run chmod 644 /etc/systemd/system/vpn-bot.service
+            run systemctl daemon-reload
+            run systemctl enable vpn-bot.service
+          "'
+
+
       - name: Restart service
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
