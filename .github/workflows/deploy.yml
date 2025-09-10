@@ -17,9 +17,11 @@ jobs:
 
       - name: Preflight – check required secrets/vars
         run: |
-          [ -n "${{ secrets.SUDO_PASSWORD }}" ] || { echo "❌ SUDO_PASSWORD is empty"; exit 1; }
+          [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ] || { echo "❌ SSH_PRIVATE_KEY is empty"; exit 1; }
           [ -n "${{ secrets.SERVER_HOST }}" ] || { echo "❌ SERVER_HOST is empty"; exit 1; }
           [ -n "${{ secrets.SERVER_USER }}" ] || { echo "❌ SERVER_USER is empty"; exit 1; }
+          [ -n "${{ secrets.SUDO_PASSWORD }}" ] || { echo "❌ SUDO_PASSWORD is empty"; exit 1; }
+          [ -n "${{ secrets.TELEGRAM_TOKEN }}" ] || { echo "❌ TELEGRAM_TOKEN is empty"; exit 1; }
 
       - name: Set up SSH
         run: |
@@ -36,7 +38,22 @@ jobs:
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
             ./ "$SERVER_USER@$SERVER_HOST:~/apps/simple_vpn_bot/"
 
-      - name: Copy .env to server home
+      # ⚠️ СТВОРЮЄМО .env ПЕРЕД тим як копіювати
+      - name: Build .env locally
+        run: |
+          cat > .env <<EOF
+          TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
+          WG_INTERFACE=${{ vars.WG_INTERFACE }}
+          WG_NETWORK=${{ vars.WG_NETWORK }}
+          WG_ENDPOINT_HOST=${{ vars.WG_ENDPOINT_HOST }}
+          WG_ENDPOINT_PORT=${{ vars.WG_ENDPOINT_PORT }}
+          WG_DNS=${{ vars.WG_DNS }}
+          WG_KEEPALIVE=${{ vars.WG_KEEPALIVE }}
+          WG_MTU=${{ vars.WG_MTU }}
+          EOF
+          ls -l .env
+
+      - name: Copy .env to server home (scp)
         run: |
           scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes .env "$SERVER_USER@$SERVER_HOST:~/.env"
 
@@ -52,38 +69,16 @@ jobs:
             run chmod 600 /etc/vpn-bot/.env
           "'
 
-      - name: Build .env locally
-        run: |
-          cat > .env <<EOF
-          TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
-          WG_INTERFACE=${{ vars.WG_INTERFACE }}
-          WG_NETWORK=${{ vars.WG_NETWORK }}
-          WG_ENDPOINT_HOST=${{ vars.WG_ENDPOINT_HOST }}
-          WG_ENDPOINT_PORT=${{ vars.WG_ENDPOINT_PORT }}
-          WG_DNS=${{ vars.WG_DNS }}
-          WG_KEEPALIVE=${{ vars.WG_KEEPALIVE }}
-          WG_MTU=${{ vars.WG_MTU }}
-          EOF
-
-      - name: Copy .env and move to /etc
-        run: |
-          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes .env "$SERVER_USER@$SERVER_HOST:/home/$SERVER_USER/.env"
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" "bash -lc '
-            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S install -d -m 755 /etc/vpn-bot
-            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S mv /home/$USER/.env /etc/vpn-bot/.env
-            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S chown root:root /etc/vpn-bot/.env
-            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S chmod 600 /etc/vpn-bot/.env
-          '"
-
       - name: Create venv & install deps
         run: |
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" "bash -lc '
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
+            set -e
             cd ~/apps/simple_vpn_bot
             python3 -m venv .venv
             . .venv/bin/activate
             python -m pip install --upgrade pip
-            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          '"
+            [ -f requirements.txt ] && pip install -r requirements.txt || true
+          "'
 
       - name: Restart service
         run: |
@@ -94,4 +89,3 @@ jobs:
             run systemctl restart vpn-bot.service || run systemctl start vpn-bot.service
             systemctl is-active --quiet vpn-bot.service
           "'
-      
