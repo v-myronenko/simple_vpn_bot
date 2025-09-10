@@ -15,6 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Preflight – check required secrets/vars
+        run: |
+          [ -n "${{ secrets.SUDO_PASSWORD }}" ] || { echo "❌ SUDO_PASSWORD is empty"; exit 1; }
+          [ -n "${{ secrets.SERVER_HOST }}" ] || { echo "❌ SERVER_HOST is empty"; exit 1; }
+          [ -n "${{ secrets.SERVER_USER }}" ] || { echo "❌ SERVER_USER is empty"; exit 1; }
+
       - name: Set up SSH
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_ed25519
@@ -29,6 +35,22 @@ jobs:
             --exclude '.git' --exclude '.github' \
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
             ./ "$SERVER_USER@$SERVER_HOST:~/apps/simple_vpn_bot/"
+
+      - name: Copy .env to server home
+        run: |
+          scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes .env "$SERVER_USER@$SERVER_HOST:~/.env"
+
+      - name: Move .env into /etc and set perms (remote sudo)
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
+            set -e
+            PW=\"${{ secrets.SUDO_PASSWORD }}\"
+            run(){ printf %s\\n \"$PW\" | sudo -S -p \"\" \"\$@\"; }
+            run install -d -m 755 /etc/vpn-bot
+            run mv ~/.env /etc/vpn-bot/.env
+            run chown root:root /etc/vpn-bot/.env
+            run chmod 600 /etc/vpn-bot/.env
+          "'
 
       - name: Build .env locally
         run: |
@@ -65,9 +87,11 @@ jobs:
 
       - name: Restart service
         run: |
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" "bash -lc '
-            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S systemctl daemon-reload
-            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S systemctl restart vpn-bot.service || \
-            echo \"${{ secrets.SUDO_PASSWORD }}\" | sudo -S systemctl start vpn-bot.service
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
+            PW=\"${{ secrets.SUDO_PASSWORD }}\"
+            run(){ printf %s\\n \"$PW\" | sudo -S -p \"\" \"\$@\"; }
+            run systemctl daemon-reload
+            run systemctl restart vpn-bot.service || run systemctl start vpn-bot.service
             systemctl is-active --quiet vpn-bot.service
-          '"
+          "'
+      
