@@ -41,20 +41,24 @@ jobs:
 
       - name: Write .env on server
         run: |
-          ssh -i ~/.ssh/id_ed25519 "$SERVER_USER@$SERVER_HOST" bash -lc '
-            set -e
-            cd "$SERVER_PATH"
-            cat > .env <<EOF
-            TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
-            WG_INTERFACE=${WG_INTERFACE}
-            WG_NETWORK=${WG_NETWORK}
-            WG_ENDPOINT_HOST=${WG_ENDPOINT_HOST}
-            WG_ENDPOINT_PORT=${WG_ENDPOINT_PORT}
-            WG_DNS=${WG_DNS}
-            WG_KEEPALIVE=${WG_KEEPALIVE}
-            WG_MTU=${WG_MTU}
-            EOF
-            '
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
+            sudo install -d -m 755 /etc/vpn-bot
+          "'
+          # Передамо контент .env через безпечний heredoc: внутрішній маркер 'ENV' закавычений — $ не розширюються на сервері
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes "$SERVER_USER@$SERVER_HOST" 'bash -lc "
+            cat << '\''ENV'\'' | sudo tee /etc/vpn-bot/.env > /dev/null
+            TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
+            WG_INTERFACE=${{ vars.WG_INTERFACE }}
+            WG_NETWORK=${{ vars.WG_NETWORK }}
+            WG_ENDPOINT_HOST=${{ vars.WG_ENDPOINT_HOST }}
+            WG_ENDPOINT_PORT=${{ vars.WG_ENDPOINT_PORT }}
+            WG_DNS=${{ vars.WG_DNS }}
+            WG_KEEPALIVE=${{ vars.WG_KEEPALIVE }}
+            WG_MTU=${{ vars.WG_MTU }}
+            ENV
+            sudo chown root:root /etc/vpn-bot/.env
+            sudo chmod 600 /etc/vpn-bot/.env
+            "'
 
       - name: Install deps & restart service
         run: |
