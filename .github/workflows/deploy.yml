@@ -18,15 +18,31 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Preflight – secrets & vars
+        env:
+          WG_INTERFACE: ${{ vars.WG_INTERFACE }}
+          WG_NETWORK: ${{ vars.WG_NETWORK }}
+          WG_ENDPOINT_HOST: ${{ vars.WG_ENDPOINT_HOST }}
+          WG_ENDPOINT_PORT: ${{ vars.WG_ENDPOINT_PORT }}
+          WG_DNS: ${{ vars.WG_DNS }}
+          WG_KEEPALIVE: ${{ vars.WG_KEEPALIVE }}
+          WG_MTU: ${{ vars.WG_MTU }}
         run: |
-          [ -n "${{ secrets.SERVER_HOST }}" ] || { echo "SERVER_HOST empty"; exit 1; }
-          [ -n "${{ secrets.SERVER_USER }}" ] || { echo "SERVER_USER empty"; exit 1; }
-          [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ] || { echo "SSH_PRIVATE_KEY empty"; exit 1; }
-          [ -n "${{ secrets.TELEGRAM_TOKEN }}" ] || { echo "TELEGRAM_TOKEN empty"; exit 1; }
-          # WG_ змінні в Actions → Variables (ти їх уже додав):
+          set -e
+          # обов'язкові секрети
+          [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ] || { echo "❌ SSH_PRIVATE_KEY is empty"; exit 1; }
+          [ -n "${{ secrets.SERVER_HOST }}" ]     || { echo "❌ SERVER_HOST is empty"; exit 1; }
+          [ -n "${{ secrets.SERVER_USER }}" ]     || { echo "❌ SERVER_USER is empty"; exit 1; }
+          [ -n "${{ secrets.SUDO_PASSWORD }}" ]   || { echo "❌ SUDO_PASSWORD is empty"; exit 1; }
+          [ -n "${{ secrets.TELEGRAM_TOKEN }}" ]  || { echo "❌ TELEGRAM_TOKEN is empty"; exit 1; }
+
+          # не фейлимось, але попереджаємо, якщо якісь WG_* порожні
           for v in WG_INTERFACE WG_NETWORK WG_ENDPOINT_HOST WG_ENDPOINT_PORT WG_DNS WG_KEEPALIVE WG_MTU; do
-            [ -n "${{ vars[$v] }}" ] || echo "WARN: $v is empty (використаємо те, що вже на сервері)"
+            eval "val=\${$v:-}"
+            if [ -z "$val" ]; then
+              echo "⚠️  $v is empty (буде записано порожнім у .env, якщо не визначено на сервері)"
+            fi
           done
+      
 
       - name: Set up SSH
         run: |
