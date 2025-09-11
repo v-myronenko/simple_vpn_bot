@@ -131,8 +131,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          script_stop: true
           script: |
-            set -e
+            set -euxo pipefail
             cd /home/bot/apps/simple_vpn_bot
             ./deploy.sh
 
