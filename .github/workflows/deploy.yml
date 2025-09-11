@@ -8,143 +8,132 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      HOST: ${{ secrets.SERVER_HOST }}
-      USER: ${{ secrets.SERVER_USER }}   # раджу: bot
-      SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+      APP_DIR: /home/bot/apps/simple_vpn_bot
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Preflight – secrets & vars
-        env:
-          WG_INTERFACE: ${{ vars.WG_INTERFACE }}
-          WG_NETWORK: ${{ vars.WG_NETWORK }}
-          WG_ENDPOINT_HOST: ${{ vars.WG_ENDPOINT_HOST }}
-          WG_ENDPOINT_PORT: ${{ vars.WG_ENDPOINT_PORT }}
-          WG_DNS: ${{ vars.WG_DNS }}
-          WG_KEEPALIVE: ${{ vars.WG_KEEPALIVE }}
-          WG_MTU: ${{ vars.WG_MTU }}
+      - name: Setup SSH
         run: |
-          set -e
-          # обов'язкові секрети
-          [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ] || { echo "❌ SSH_PRIVATE_KEY is empty"; exit 1; }
-          [ -n "${{ secrets.SERVER_HOST }}" ]     || { echo "❌ SERVER_HOST is empty"; exit 1; }
-          [ -n "${{ secrets.SERVER_USER }}" ]     || { echo "❌ SERVER_USER is empty"; exit 1; }
-          [ -n "${{ secrets.SUDO_PASSWORD }}" ]   || { echo "❌ SUDO_PASSWORD is empty"; exit 1; }
-          [ -n "${{ secrets.TELEGRAM_TOKEN }}" ]  || { echo "❌ TELEGRAM_TOKEN is empty"; exit 1; }
-
-          # не фейлимось, але попереджаємо, якщо якісь WG_* порожні
-          for v in WG_INTERFACE WG_NETWORK WG_ENDPOINT_HOST WG_ENDPOINT_PORT WG_DNS WG_KEEPALIVE WG_MTU; do
-            eval "val=\${$v:-}"
-            if [ -z "$val" ]; then
-              echo "⚠️  $v is empty (буде записано порожнім у .env, якщо не визначено на сервері)"
-            fi
-          done
-      
-
-      - name: Set up SSH
-        run: |
+          install -m 700 -d ~/.ssh
           install -m 600 -D /dev/null ~/.ssh/id_ed25519
-          echo "${{ env.SSH_KEY }}" > ~/.ssh/id_ed25519
-          ssh-keyscan -p "$SSH_PORT" -H "$HOST" >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Ensure target dir & ownership (server)
+      - name: Upload code to server (rsync)
         run: |
-          ssh -p "$SSH_PORT" -i ~/.ssh/id_ed25519 "$USER@$HOST" \
-            "sudo install -d -o $USER -g $USER -m 755 /home/$USER/apps/simple_vpn_bot"
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes \
+            "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" \
+            "mkdir -p $APP_DIR"
+          rsync -az --delete \
+            --exclude ".git" --exclude ".github" --exclude ".venv" \
+            --exclude "__pycache__" --exclude "*.pyc" --exclude ".env" \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
+            ./ "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:$APP_DIR/"
 
-      # ⬇️ головний трюк: беремо лише звичайні файли (глоб ./*) — це не включає .git і інші dotfiles
-      - name: Upload code (no dotfiles)
-        uses: appleboy/scp-action@v0.1.7
+      - name: Create/merge .env and data dir (remote)
+        uses: appleboy/ssh-action@v1.1.0
         with:
-          host: ${{ env.HOST }}
-          username: ${{ env.USER }}
-          key: ${{ env.SSH_KEY }}
-          port: ${{ env.SSH_PORT }}
-          source: "./*"
-          target: "/home/${{ env.USER }}/apps/simple_vpn_bot"
-          overwrite: true
-          rm: false
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            set -Eeuo pipefail
 
-      - name: Build & push .env
-        run: |
-          cat > .env <<EOF
-          TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
-          WG_INTERFACE=${{ vars.WG_INTERFACE }}
-          WG_NETWORK=${{ vars.WG_NETWORK }}
-          WG_ENDPOINT_HOST=${{ vars.WG_ENDPOINT_HOST }}
-          WG_ENDPOINT_PORT=${{ vars.WG_ENDPOINT_PORT }}
-          WG_DNS=${{ vars.WG_DNS }}
-          WG_KEEPALIVE=${{ vars.WG_KEEPALIVE }}
-          WG_MTU=${{ vars.WG_MTU }}
-          DATABASE_URL=sqlite:////home/${{ env.USER }}/data/vpn_users.db
-          EOF
-          scp -P "$SSH_PORT" -i ~/.ssh/id_ed25519 .env "$USER@$HOST:~/.env"
+            PW='${{ secrets.SUDO_PASSWORD }}'
+            run() { printf '%s\n' "$PW" | sudo -S -p '' "$@"; }
 
-      - name: Move .env to /etc and prep data dir (sudo)
-        run: |
-          ssh -p "$SSH_PORT" -i ~/.ssh/id_ed25519 "$USER@$HOST" "
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S install -d -m 755 /etc/vpn-bot
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S mv -f ~/.env /etc/vpn-bot/.env
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S chown root:root /etc/vpn-bot/.env
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S chmod 600 /etc/vpn-bot/.env
-            mkdir -p /home/$USER/data
-          "
+            # Підхопимо поточні змінні з /etc/vpn-bot/.env (якщо файл вже є)
+            if run test -f /etc/vpn-bot/.env; then
+              set -a; run bash -lc 'source /etc/vpn-bot/.env' || true; set +a
+            fi
 
-      - name: Create venv & install deps
-        run: |
-          ssh -p "$SSH_PORT" -i ~/.ssh/id_ed25519 "$USER@$HOST" '
-            set -e
-            cd ~/apps/simple_vpn_bot
-            python3 -m venv .venv || true
+            # Значення з GitHub Vars (якщо задані) матимуть пріоритет
+            : "${WG_INTERFACE:=${{ vars.WG_INTERFACE }}}"
+            : "${WG_NETWORK:=${{ vars.WG_NETWORK }}}"
+            : "${WG_ENDPOINT_HOST:=${{ vars.WG_ENDPOINT_HOST }}}"
+            : "${WG_ENDPOINT_PORT:=${{ vars.WG_ENDPOINT_PORT }}}"
+            : "${WG_DNS:=${{ vars.WG_DNS }}}"
+            : "${WG_KEEPALIVE:=${{ vars.WG_KEEPALIVE }}}"
+            : "${WG_MTU:=${{ vars.WG_MTU }}}"
+
+            # Дефолти, якщо щось порожнє
+            : "${WG_INTERFACE:=wg0}"
+            : "${WG_NETWORK:=10.8.0.0/24}"
+            : "${WG_ENDPOINT_HOST:=142.93.238.250}"
+            : "${WG_ENDPOINT_PORT:=51820}"
+            : "${WG_DNS:=1.1.1.1,8.8.8.8}"
+            : "${WG_KEEPALIVE:=25}"
+            : "${WG_MTU:=1280}"
+
+            # TELEGRAM_TOKEN беремо лише з секретів репозиторію
+            TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}'
+            if [ -z "$TELEGRAM_TOKEN" ]; then
+              echo "❌ TELEGRAM_TOKEN is empty"; exit 1
+            fi
+
+            # База
+            run install -d -o bot -g bot /home/bot/data
+            DATABASE_URL=${DATABASE_URL:-sqlite:////home/bot/data/vpn_users.db}
+
+            # Збираємо новий .env у /tmp і атомарно кладемо в /etc
+            run install -d -m 755 /etc/vpn-bot
+            cat >/tmp/vpn-bot.env <<EOF
+            TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+            WG_INTERFACE=${WG_INTERFACE}
+            WG_NETWORK=${WG_NETWORK}
+            WG_ENDPOINT_HOST=${WG_ENDPOINT_HOST}
+            WG_ENDPOINT_PORT=${WG_ENDPOINT_PORT}
+            WG_DNS=${WG_DNS}
+            WG_KEEPALIVE=${WG_KEEPALIVE}
+            WG_MTU=${WG_MTU}
+            DATABASE_URL=${DATABASE_URL}
+            EOF
+            run install -o root -g root -m 600 /tmp/vpn-bot.env /etc/vpn-bot/.env
+            rm -f /tmp/vpn-bot.env
+
+            echo "== /etc/vpn-bot/.env =="
+            run bash -lc "sed -n '1,120p' /etc/vpn-bot/.env | sed 's/TELEGRAM_TOKEN=.*/TELEGRAM_TOKEN=***hidden***/'"
+
+      - name: Install deps in venv (remote)
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -Eeuo pipefail
+            cd "$APP_DIR"
+            python3 -m venv .venv >/dev/null 2>&1 || true
             . .venv/bin/activate
             python -m pip install --upgrade pip wheel
             [ -f requirements.txt ] && pip install -r requirements.txt || true
-          '
 
-      - name: Ensure systemd unit (and wg0 dependency)
-        run: |
-          cat > vpn-bot.service <<EOF
-          [Unit]
-          Description=Simple VPN Telegram Bot
-          After=network-online.target
-          Wants=network-online.target
+      # Якщо unit вже встановлений — цей крок можна пропустити. Лишаю як «на всяк».
+      # Він не потребує редагування, якщо ти вже маєш робочий unit.
+      - name: Restart and healthcheck (remote)
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -Eeuo pipefail
+            PW='${{ secrets.SUDO_PASSWORD }}'
+            run() { printf '%s\n' "$PW" | sudo -S -p '' "$@"; }
 
-          [Service]
-          User=${{ env.USER }}
-          WorkingDirectory=/home/${{ env.USER }}/apps/simple_vpn_bot
-          EnvironmentFile=/etc/vpn-bot/.env
-          ExecStart=/home/${{ env.USER }}/apps/simple_vpn_bot/.venv/bin/python /home/${{ env.USER }}/apps/simple_vpn_bot/bot.py
-          Restart=on-failure
-          RestartSec=5s
-
-          [Install]
-          WantedBy=multi-user.target
-          EOF
-
-          scp -P "$SSH_PORT" -i ~/.ssh/id_ed25519 vpn-bot.service "$USER@$HOST:~/vpn-bot.service"
-
-          ssh -p "$SSH_PORT" -i ~/.ssh/id_ed25519 "$USER@$HOST" "
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S mv -f ~/vpn-bot.service /etc/systemd/system/vpn-bot.service
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S mkdir -p /etc/systemd/system/vpn-bot.service.d
-            echo '[Unit]
-          After=wg-quick@wg0.service network-online.target
-          Wants=wg-quick@wg0.service
-
-          [Service]
-          ExecStartPre=/bin/sh -c '\''for i in \$(seq 1 10); do ip -4 addr show wg0 | grep -q \"inet \" && exit 0; sleep 1; done; echo \"wg0 has no IPv4, failing\"; exit 1'\''' | \
-              (echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S tee /etc/systemd/system/vpn-bot.service.d/override.conf >/dev/null)
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S systemctl daemon-reload
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S systemctl enable vpn-bot.service
-          "
-
-      - name: Restart & healthcheck
-        run: |
-          ssh -p "$SSH_PORT" -i ~/.ssh/id_ed25519 "$USER@$HOST" "
-            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S systemctl restart vpn-bot.service
+            run systemctl daemon-reload
+            run systemctl restart vpn-bot.service || run systemctl start vpn-bot.service
             sleep 2
-            systemctl is-active --quiet vpn-bot.service
-            journalctl -u vpn-bot.service -n 20 --no-pager
-          "
+            systemctl --no-pager -l status vpn-bot.service | sed -n '1,120p'
+            echo
+            echo "== tail logs =="
+            journalctl -u vpn-bot.service -n 60 --no-pager || true
+
+            echo
+            echo "== Telegram getMe =="
+            TOKEN=$(run bash -lc "grep -oP '^TELEGRAM_TOKEN=\\K.*' /etc/vpn-bot/.env")
+            curl -fsS "https://api.telegram.org/bot${TOKEN}/getMe" | sed 's/\"id\":[0-9]\+/\"id\":…/' || true
