@@ -120,16 +120,25 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22 # або просто 22, якщо не використовуєш кастомний порт
+          port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             set -Eeuo pipefail
             APP_DIR=/home/bot/apps/simple_vpn_bot
             cd "$APP_DIR"
-            git fetch --all --prune
-            git reset --hard origin/main
+
+            # якщо колись зробиш clone на сервері — ці рядки спрацюють, інакше просто пропустяться
+            if [ -d .git ]; then
+              git fetch --all --prune
+              git reset --hard origin/main
+            else
+              echo "No .git here -> skipping git steps"
+            fi
+
             . .venv/bin/activate
-            pip install -r requirements.txt
+            pip install -r requirements.txt --upgrade
+            sudo systemctl daemon-reload
             sudo systemctl restart vpn-bot.service
+      
 
       - name: Restart service
         run: |
