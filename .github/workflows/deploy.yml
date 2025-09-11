@@ -37,18 +37,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          target: /home/${{ secrets.SERVER_USER }}/apps/simple_vpn_bot
-          source: |
-            bot.py
-            config.py
-            handlers/**
-            services/**
-            utils/**
-            requirements.txt
-            README.md
+          source: "."
+          target: "/home/${{ secrets.SERVER_USER }}/apps/simple_vpn_bot"
           overwrite: true
           rm: false
-          exclude: ".venv/**,__pycache__/**,*.pyc,.git/**,.github/**,db/**,.env"
+
 
       - name: Create/merge .env and data dir (remote)
         uses: appleboy/ssh-action@v1.1.0
