@@ -1,7 +1,9 @@
 ﻿import base64
+import io, qrcode
 import ipaddress
 import os
 import subprocess
+from qrcode.image.pil import PilImage
 from dataclasses import dataclass
 from typing import Optional, Tuple
 
@@ -129,10 +131,10 @@ class WGManager:
 
     @staticmethod
     def _png_from_text(text: str) -> bytes:
-        img: PilImage = qrcode.make(text)
-        import io
+        img: PilImage = qrcode.make(text, image_factory=PilImage)
         buf = io.BytesIO()
         img.save(buf, format="PNG")
+        buf.seek(0)
         return buf.getvalue()
 
     def add_peer(self, peer_name: str) -> Tuple[bytes, Optional[bytes]]:
