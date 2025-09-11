@@ -117,24 +117,21 @@ jobs:
       - name: Run remote deploy
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-              set -euxo pipefail
-              APP_DIR=/home/bot/apps/simple_vpn_bot
-              cd "$APP_DIR"
-              
-              # оновлюємо код
-              git fetch --all --prune
-              git reset --hard origin/master
-              
-              # python env
-              python3 -m venv .venv || true
-              . .venv/bin/activate
-              pip install --upgrade pip
-              pip install -r requirements.txt
+            set -euxo pipefail
+            APP_DIR=/home/bot/apps/simple_vpn_bot   # перевір, щоб шлях збігався з rsync кроком
+            cd "$APP_DIR"
+
+            # Якщо треба — прогнати міграції/перевірки:
+            . .venv/bin/activate
+            python -V
+            # alembic upgrade head || true   # якщо використовуєш alembic
+
+            echo "Deploy via rsync: ок, git кроки пропущено"
 
       - name: Restart service
         run: |
