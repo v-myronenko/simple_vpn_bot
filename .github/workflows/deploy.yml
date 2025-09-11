@@ -124,3 +124,16 @@ jobs:
             run systemctl restart vpn-bot.service || run systemctl start vpn-bot.service
             systemctl is-active --quiet vpn-bot.service
           "'
+          
+      - name: Run remote deploy
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            set -e
+            cd /home/bot/apps/simple_vpn_bot
+            ./deploy.sh
+
