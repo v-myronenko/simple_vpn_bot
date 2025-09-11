@@ -52,33 +52,13 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
             set -Eeuo pipefail
-            PW="${{ secrets.SUDO_PASSWORD }}"
-            run(){ printf %s\\n "$PW" | sudo -S -p "" "$@"; }
-
-            APP_DIR="/home/${{ secrets.SERVER_USER }}/apps/simple_vpn_bot"
-            DATA_DIR="/home/${{ secrets.SERVER_USER }}/data"
-
-            run install -d -o "${{ secrets.SERVER_USER }}" -g "${{ secrets.SERVER_USER }}" "$APP_DIR" "$DATA_DIR"
-            run install -d /etc/vpn-bot
-            run touch /etc/vpn-bot/.env
-
-            # оновлюємо ТІЛЬКИ керовані ключі
-            run sed -i '/^TELEGRAM_TOKEN=/d;/^WG_INTERFACE=/d;/^WG_NETWORK=/d;/^WG_ENDPOINT_HOST=/d;/^WG_ENDPOINT_PORT=/d;/^WG_DNS=/d;/^WG_KEEPALIVE=/d;/^WG_MTU=/d;/^DATABASE_URL=/d' /etc/vpn-bot/.env
-
-            cat <<ENV | run tee -a /etc/vpn-bot/.env >/dev/null
-            TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}
-            WG_INTERFACE=${{ vars.WG_INTERFACE && vars.WG_INTERFACE || 'wg0' }}
-            WG_NETWORK=${{ vars.WG_NETWORK && vars.WG_NETWORK || '10.8.0.0/24' }}
-            WG_ENDPOINT_HOST=${{ vars.WG_ENDPOINT_HOST && vars.WG_ENDPOINT_HOST || '' }}
-            WG_ENDPOINT_PORT=${{ vars.WG_ENDPOINT_PORT && vars.WG_ENDPOINT_PORT || 51820 }}
-            WG_DNS=${{ vars.WG_DNS && vars.WG_DNS || '1.1.1.1,8.8.8.8' }}
-            WG_KEEPALIVE=${{ vars.WG_KEEPALIVE && vars.WG_KEEPALIVE || 25 }}
-            WG_MTU=${{ vars.WG_MTU && vars.WG_MTU || 1280 }}
-            DATABASE_URL=sqlite:////home/${{ secrets.SERVER_USER }}/data/vpn_users.db
-            ENV
-
-            run chown root:root /etc/vpn-bot/.env
-            run chmod 600 /etc/vpn-bot/.env
+            # ~/.env вже скопійований попереднім кроком
+            sudo -n install -d -m 755 /etc/vpn-bot
+            sudo -n install -d -o bot -g bot /home/bot/data
+            sudo -n mv -f ~/.env /etc/vpn-bot/.env
+            sudo -n chown root:root /etc/vpn-bot/.env
+            sudo -n chmod 0644 /etc/vpn-bot/.env
+      
 
       - name: Install deps in venv (remote)
         uses: appleboy/ssh-action@v1.1.0
