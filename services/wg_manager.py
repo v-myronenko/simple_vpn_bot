@@ -12,9 +12,15 @@ from qrcode.image.pil import PilImage
 
 
 def _run(cmd: str) -> str:
-    """Запускає команду в bash і повертає stdout як str (падає з помилкою, якщо код != 0)."""
-    proc = subprocess.run(["bash", "-lc", cmd], check=True, text=True, capture_output=True)
-    return proc.stdout.strip()
+    try:
+        p = subprocess.run(["bash", "-lc", cmd], check=True, text=True, capture_output=True)
+        return p.stdout.strip()
+    except subprocess.CalledProcessError:
+        # якщо це команда wg — пробуємо через sudo без пароля
+        if cmd.lstrip().startswith("wg "):
+            p = subprocess.run(["bash", "-lc", f"sudo -n {cmd}"], check=True, text=True, capture_output=True)
+            return p.stdout.strip()
+        raise
 
 
 def _read_file(path: str, binary: bool = False):
@@ -47,7 +53,7 @@ class WGManager:
         keepalive: int = 25,
         mtu: Optional[int] = 1280,
     ):
-        self.interface = interface
+        self.interface = interface or os.getenv("WG_INTERFACE", "wg0")
         self.network = ipaddress.ip_network(network_cidr)
         self.dns = dns
         self.keepalive = keepalive
@@ -56,7 +62,10 @@ class WGManager:
         self.endpoint_port = endpoint_port
 
         # Зчитуємо server public key з живого інтерфейсу, а не з файлу.
-        self.server_public_key = _run(f"wg show {self.interface} public-key")
+        self.server_public_key = (
+                os.getenv("WG_SERVER_PUBLIC_KEY")
+                or _run(f"wg show {self.interface} public-key")
+        )
 
         # IP сервера (Address у [Interface]) беремо з конфігу wg0
         # Спроба витягти першу адресу з `ip addr show`.
