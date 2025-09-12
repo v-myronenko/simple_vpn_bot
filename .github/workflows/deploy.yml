@@ -43,15 +43,12 @@ jobs:
           script: |
             set -Eeuo pipefail
 
-            PW='${{ secrets.SUDO_PASSWORD }}'
-            run() { printf '%s\n' "$PW" | sudo -S -p '' "$@"; }
-
-            # Підхопимо поточні змінні з /etc/vpn-bot/.env (якщо файл вже є)
-            if run test -f /etc/vpn-bot/.env; then
-              set -a; run bash -lc 'source /etc/vpn-bot/.env' || true; set +a
+            # Якщо є старий /etc/vpn-bot/.env — підхопимо як дефолти
+            if sudo -n test -f /etc/vpn-bot/.env; then
+              set -a; sudo -n bash -lc 'source /etc/vpn-bot/.env' || true; set +a
             fi
 
-            # Значення з GitHub Vars (якщо задані) матимуть пріоритет
+            # Підставляємо значення з GitHub Vars (якщо задані)
             : "${WG_INTERFACE:=${{ vars.WG_INTERFACE }}}"
             : "${WG_NETWORK:=${{ vars.WG_NETWORK }}}"
             : "${WG_ENDPOINT_HOST:=${{ vars.WG_ENDPOINT_HOST }}}"
@@ -69,18 +66,15 @@ jobs:
             : "${WG_KEEPALIVE:=25}"
             : "${WG_MTU:=1280}"
 
-            # TELEGRAM_TOKEN беремо лише з секретів репозиторію
             TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}'
-            if [ -z "$TELEGRAM_TOKEN" ]; then
-              echo "❌ TELEGRAM_TOKEN is empty"; exit 1
-            fi
+            [ -n "$TELEGRAM_TOKEN" ] || { echo "❌ TELEGRAM_TOKEN is empty"; exit 1; }
 
-            # База
-            run install -d -o bot -g bot /home/bot/data
+            # База (у домашній директорії — sudo не потрібно)
+            mkdir -p /home/bot/data
             DATABASE_URL=${DATABASE_URL:-sqlite:////home/bot/data/vpn_users.db}
 
-            # Збираємо новий .env у /tmp і атомарно кладемо в /etc
-            run install -d -m 755 /etc/vpn-bot
+            # Зібрати новий .env і покласти в /etc атомарно (через sudo -n)
+            sudo -n mkdir -p /etc/vpn-bot
             cat >/tmp/vpn-bot.env <<EOF
             TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
             WG_INTERFACE=${WG_INTERFACE}
@@ -92,11 +86,8 @@ jobs:
             WG_MTU=${WG_MTU}
             DATABASE_URL=${DATABASE_URL}
             EOF
-            run install -o root -g root -m 600 /tmp/vpn-bot.env /etc/vpn-bot/.env
+            sudo -n /usr/bin/install -o root -g root -m 600 /tmp/vpn-bot.env /etc/vpn-bot/.env
             rm -f /tmp/vpn-bot.env
-
-            echo "== /etc/vpn-bot/.env =="
-            run bash -lc "sed -n '1,120p' /etc/vpn-bot/.env | sed 's/TELEGRAM_TOKEN=.*/TELEGRAM_TOKEN=***hidden***/'"
 
       - name: Install deps in venv (remote)
         uses: appleboy/ssh-action@v1.1.0
@@ -112,8 +103,6 @@ jobs:
             python -m pip install --upgrade pip wheel
             [ -f requirements.txt ] && pip install -r requirements.txt || true
 
-      # Якщо unit вже встановлений — цей крок можна пропустити. Лишаю як «на всяк».
-      # Він не потребує редагування, якщо ти вже маєш робочий unit.
       - name: Restart and healthcheck (remote)
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -122,18 +111,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -Eeuo pipefail
-            PW='${{ secrets.SUDO_PASSWORD }}'
-            run() { printf '%s\n' "$PW" | sudo -S -p '' "$@"; }
-
-            run systemctl daemon-reload
-            run systemctl restart vpn-bot.service || run systemctl start vpn-bot.service
+            sudo -n systemctl daemon-reload
+            sudo -n systemctl restart vpn-bot.service || sudo -n systemctl start vpn-bot.service
             sleep 2
-            systemctl --no-pager -l status vpn-bot.service | sed -n '1,120p'
+            systemctl --no-pager -l status vpn-bot.service | sed -n '1,120p' || true
             echo
             echo "== tail logs =="
             journalctl -u vpn-bot.service -n 60 --no-pager || true
-
-            echo
-            echo "== Telegram getMe =="
-            TOKEN=$(run bash -lc "grep -oP '^TELEGRAM_TOKEN=\\K.*' /etc/vpn-bot/.env")
-            curl -fsS "https://api.telegram.org/bot${TOKEN}/getMe" | sed 's/\"id\":[0-9]\+/\"id\":…/' || true
