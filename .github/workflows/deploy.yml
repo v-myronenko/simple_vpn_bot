@@ -49,14 +49,32 @@ jobs:
 
       - name: Deploy & restart remotely
         uses: appleboy/ssh-action@v1.1.0
+        env: # ← Мапимо GitHub Secrets/Vars у середовище кроку
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          WG_INTERFACE: ${{ secrets.WG_INTERFACE }}
+          WG_NETWORK: ${{ secrets.WG_NETWORK }}
+          WG_ENDPOINT_HOST: ${{ secrets.WG_ENDPOINT_HOST }}
+          WG_ENDPOINT_PORT: ${{ secrets.WG_ENDPOINT_PORT }}
+          WG_DNS: ${{ secrets.WG_DNS }}
+          WG_KEEPALIVE: ${{ secrets.WG_KEEPALIVE }}
+          WG_MTU: ${{ secrets.WG_MTU }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          REMOTE_APP_DIR: ${{ env.REMOTE_APP_DIR }}
+          REMOTE_DATA_DIR: ${{ env.REMOTE_DATA_DIR }}
+          REMOTE_ENV_DIR: ${{ env.REMOTE_ENV_DIR }}
+          REMOTE_ENV_FILE: ${{ env.REMOTE_ENV_FILE }}
+          REMOTE_SERVICE: ${{ env.REMOTE_SERVICE }}
+          REMOTE_UNIT_PATH: ${{ env.REMOTE_UNIT_PATH }}
+          REMOTE_DROPIN_DIR: ${{ env.REMOTE_DROPIN_DIR }}
+          REMOTE_DROPIN_FILE: ${{ env.REMOTE_DROPIN_FILE }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
-          envs: |
-            REMOTE_APP_DIR,REMOTE_DATA_DIR,REMOTE_ENV_DIR,REMOTE_ENV_FILE,REMOTE_SERVICE,REMOTE_UNIT_PATH,REMOTE_DROPIN_DIR,REMOTE_DROPIN_FILE,
-            TELEGRAM_TOKEN,WG_INTERFACE,WG_NETWORK,WG_ENDPOINT_HOST,WG_ENDPOINT_PORT,WG_DNS,WG_KEEPALIVE,WG_MTU,DATABASE_URL
+          envs: | # ← Імена змінних, які треба передати на віддалений хост
+            TELEGRAM_TOKEN,WG_INTERFACE,WG_NETWORK,WG_ENDPOINT_HOST,WG_ENDPOINT_PORT,WG_DNS,WG_KEEPALIVE,WG_MTU,DATABASE_URL,
+            REMOTE_APP_DIR,REMOTE_DATA_DIR,REMOTE_ENV_DIR,REMOTE_ENV_FILE,REMOTE_SERVICE,REMOTE_UNIT_PATH,REMOTE_DROPIN_DIR,REMOTE_DROPIN_FILE
           script: |
             set -Eeuo pipefail
 
@@ -75,13 +93,27 @@ jobs:
               done
             }
 
-            echo "== Ensure directories =="
+            echo "== [1/7] Ensure directories & ownership =="
             sudo -n /bin/mkdir -p "${REMOTE_APP_DIR}" "${REMOTE_DATA_DIR}" "${REMOTE_ENV_DIR}"
             if id bot >/dev/null 2>&1; then
               sudo -n chown -R bot:bot "${REMOTE_APP_DIR}" "${REMOTE_DATA_DIR}"
             fi
 
-            echo "== Build .env =="
+            echo "== [2/7] Cleanup server-side junk =="
+            rm -rf "${REMOTE_APP_DIR}/.git" "${REMOTE_APP_DIR}/.github" || true
+
+            echo "== [3/7] Validate required envs =="
+            : "${TELEGRAM_TOKEN:?TELEGRAM_TOKEN is required}"
+            : "${WG_INTERFACE:?WG_INTERFACE is required}"
+            : "${WG_NETWORK:?WG_NETWORK is required}"
+            : "${WG_ENDPOINT_HOST:?WG_ENDPOINT_HOST is required}"
+            : "${WG_ENDPOINT_PORT:?WG_ENDPOINT_PORT is required}"
+            : "${WG_DNS:?WG_DNS is required}"
+            : "${WG_KEEPALIVE:?WG_KEEPALIVE is required}"
+            : "${WG_MTU:?WG_MTU is required}"
+            : "${DATABASE_URL:?DATABASE_URL is required}"
+
+            echo "== [4/7] Build .env =="
             TMP_ENV="$(mktemp)"
             cat >"${TMP_ENV}" <<EOF
             TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
@@ -95,18 +127,19 @@ jobs:
             DATABASE_URL=${DATABASE_URL}
             EOF
 
-            sudo -n /usr/bin/install -o root -g root -m 600 "${TMP_ENV}" "${REMOTE_ENV_FILE}"
+            retry 3 2 sudo -n /usr/bin/install -o root -g root -m 600 "${TMP_ENV}" "${REMOTE_ENV_FILE}"
             rm -f "${TMP_ENV}"
 
-            echo "== Python venv & deps =="
+            echo "== [5/7] Python venv & deps =="
             cd "${REMOTE_APP_DIR}"
             rm -rf .venv || true
-            python3 -m venv .venv
+            python3 -V
+            retry 3 2 python3 -m venv .venv
             . .venv/bin/activate
-            pip install --upgrade pip wheel setuptools
-            pip install -r requirements.txt
+            python -m pip install --upgrade pip wheel setuptools
+            retry 3 3 pip install -r requirements.txt
 
-            echo "== Systemd unit =="
+            echo "== [6/7] Systemd unit/drop-in (idempotent) =="
             UNIT_TMP="$(mktemp)"
             cat >"${UNIT_TMP}" <<'UNIT_EOF'
             [Unit]
@@ -136,13 +169,49 @@ jobs:
             ExecStartPre=/bin/sh -c 'for i in $(seq 1 10); do ip -4 addr show wg0 | grep -q "inet " && exit 0; sleep 1; done; echo "wg0 has no IPv4, failing"; exit 1'
             DROPIN_EOF
 
-            sudo -n /usr/bin/install -o root -g root -m 0644 "${UNIT_TMP}" "${REMOTE_UNIT_PATH}"
-            sudo -n /bin/mkdir -p "${REMOTE_DROPIN_DIR}"
-            sudo -n /usr/bin/install -o root -g root -m 0644 "${DROPIN_TMP}" "${REMOTE_DROPIN_FILE}"
-            sudo -n systemctl daemon-reload
-            sudo -n systemctl enable wg-quick@wg0.service "${REMOTE_SERVICE}"
-            sudo -n systemctl restart "${REMOTE_SERVICE}"
+            NEED_RELOAD=0
+            if [ ! -f "${REMOTE_UNIT_PATH}" ] || ! cmp -s "${UNIT_TMP}" "${REMOTE_UNIT_PATH}"; then
+              retry 3 2 sudo -n /usr/bin/install -o root -g root -m 0644 "${UNIT_TMP}" "${REMOTE_UNIT_PATH}"
+              NEED_RELOAD=1
+            fi
+            rm -f "${UNIT_TMP}"
 
-            echo "== Status =="
+            retry 3 2 sudo -n /bin/mkdir -p "${REMOTE_DROPIN_DIR}"
+            if [ ! -f "${REMOTE_DROPIN_FILE}" ] || ! cmp -s "${DROPIN_TMP}" "${REMOTE_DROPIN_FILE}"; then
+              retry 3 2 sudo -n /usr/bin/install -o root -g root -m 0644 "${DROPIN_TMP}" "${REMOTE_DROPIN_FILE}"
+              NEED_RELOAD=1
+            fi
+            rm -f "${DROPIN_TMP}"
+
+            if [ "${NEED_RELOAD}" -eq 1 ]; then
+              sudo -n systemctl daemon-reload
+            fi
+            sudo -n systemctl enable wg-quick@wg0.service "${REMOTE_SERVICE}"
+
+            echo "== [7/7] Restart & health checks =="
+            retry 3 3 sudo -n systemctl restart "${REMOTE_SERVICE}"
+
+            echo "--- systemctl status ---"
             sudo -n systemctl --no-pager --full status "${REMOTE_SERVICE}" || true
-            sudo -n journalctl -u "${REMOTE_SERVICE}" -n 50 --no-pager || true
+
+            echo "--- last 80 log lines ---"
+            sudo -n journalctl -u "${REMOTE_SERVICE}" -n 80 --no-pager || true
+
+            echo "--- wg0 interface v4 presence ---"
+            ip -4 addr show wg0 || true
+            if ! ip -4 addr show wg0 | grep -q "inet "; then
+              echo "WARN: wg0 has no IPv4 address (check wg-quick@wg0.service)" >&2
+            fi
+
+            echo "--- wg show ---"
+            sudo -n wg show || true
+
+            echo "--- UDP 51820 listening ---"
+            ss -ulpn | grep 51820 || echo "NOTE: 51820/udp not listed here (wg may still be up)"
+
+            echo "--- outbound probe (IPv4) ---"
+            set +e
+            HTTP_CODE=$(curl -4 -m 5 -s -o /dev/null -w "%{http_code}" https://1.1.1.1)
+            set -e
+            echo "curl https://1.1.1.1 -> HTTP ${HTTP_CODE:-000}"
+            echo "== DONE =="
