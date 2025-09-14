@@ -50,9 +50,6 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
 
 # ----------- Bot Handlers -----------
 
-dp = Dispatcher()
-dp.include_router(howto_router)
-
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not update.effective_user:
         return
@@ -132,6 +129,9 @@ async def cmd_myvpn(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         f"Тріал: {'так' if sub.is_trial else 'ні'}"
     )
     await update.effective_chat.send_message(text_out, parse_mode=ParseMode.MARKDOWN)
+
+    dp = Dispatcher()
+    dp.include_router(howto_router)
 
 # ---- helpers for WG ----
 def _gen_wg_keypair():

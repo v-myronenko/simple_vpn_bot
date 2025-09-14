@@ -1,18 +1,15 @@
 # howto.py
 from aiogram import Router, F, types
 from aiogram.filters import Command
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.exceptions import TelegramBadRequest
 
 howto_router = Router(name="howto")
 
-# --- Контент інструкцій -------------------------------------------------------
-
 INTRO = (
     "🛠️ <b>Як підключитись до VPN (WireGuard)</b>\n\n"
-    "Обери платформу нижче, я покажу кроки з нуля: встановити застосунок, "
-    "імпортувати .conf або відсканувати QR, та перевірити з’єднання.\n\n"
-    "Порада: після генерації конфігу в боті командою <code>/myvpn</code> "
-    "ти отримаєш файл і QR-код."
+    "Обери платформу нижче: встановлення застосунка, імпорт .conf або QR, перевірка з’єднання.\n\n"
+    "Порада: згенеруй конфіг у боті командою <code>/myvpn</code> — отримаєш файл і QR."
 )
 
 PLATFORMS = [
@@ -26,72 +23,61 @@ PLATFORMS = [
 HOWTO = {
     "android": (
         "📱 <b>Android — WireGuard</b>\n\n"
-        "1) Встанови застосунок <b>WireGuard</b> з Google Play.\n"
-        "2) У боті виконай <code>/myvpn</code> та отримай свій конфіг (.conf) і QR.\n"
-        "3) У WireGuard натисни <i>+</i> → <b>Scan from QR code</b> і наведи камеру на QR, "
-        "або <b>Import from file</b> та вибери .conf.\n"
-        "4) Увімкни тумблер профілю, дай дозвіл на VPN.\n"
-        "5) Перевір: відкрий https://ipinfo.io (має бути інша країна/IP).\n\n"
-        "Якщо не підключається: перевір час/дату, режим економії енергії, спробуй мобільний інтернет/іншу Wi-Fi мережу."
+        "1) Встанови <b>WireGuard</b> з Google Play.\n"
+        "2) У боті виконай <code>/myvpn</code> і отримай .conf + QR.\n"
+        "3) У WireGuard: + → <b>Scan from QR code</b> або <b>Import from file</b>.\n"
+        "4) Увімкни профіль (дозвіл на VPN).\n"
+        "5) Перевір IP: https://ipinfo.io\n\n"
+        "Якщо не конектиться: час/дата, енергозбереження, інша мережа (мобільний інет/інший Wi-Fi)."
     ),
     "ios": (
         "🍎 <b>iOS / iPadOS — WireGuard</b>\n\n"
         "1) Встанови <b>WireGuard</b> з App Store.\n"
         "2) Отримай конфіг через <code>/myvpn</code>.\n"
-        "3) У WireGuard: <i>Додати</i> → <b>Scan QR Code</b> (або імпорт .conf із «Файлів»).\n"
-        "4) Увімкни тумблер профілю, підтвердь додавання VPN-конфігурації.\n"
-        "5) Перевір IP на https://ipinfo.io.\n\n"
-        "Проблеми: якщо немає інтернету після підключення — перезапусти тунель, перевір Параметри → VPN → дозволи для WireGuard."
+        "3) <b>Scan QR Code</b> або імпорт .conf із «Файлів».\n"
+        "4) Увімкни тунель (підтверди додавання VPN-профілю).\n"
+        "5) Перевір IP: https://ipinfo.io\n\n"
+        "Проблеми: перезапусти тунель, перевір Параметри → VPN → дозволи для WireGuard."
     ),
     "windows": (
         "🪟 <b>Windows — WireGuard</b>\n\n"
-        "1) Завантаж інсталятор з https://www.wireguard.com/install/ (Windows) і встанови.\n"
-        "2) У боті <code>/myvpn</code> → завантаж .conf на ПК.\n"
-        "3) Відкрий WireGuard → <b>Import tunnel(s) from file</b> → обери .conf.\n"
-        "4) Натисни <b>Activate</b> для підключення.\n"
-        "5) Перевір IP на https://ipinfo.io.\n\n"
-        "Якщо не конектиться: перевір час/дату системи, антивірус/фаєрвол (дозволь WireGuard), спробуй іншу мережу (мобільний хот-спот)."
+        "1) Завантаж з https://www.wireguard.com/install/ (Windows) та встанови.\n"
+        "2) Збережи .conf із <code>/myvpn</code> на ПК.\n"
+        "3) WireGuard → <b>Import tunnel(s) from file</b> → обери .conf.\n"
+        "4) Натисни <b>Activate</b>.\n"
+        "5) Перевір IP: https://ipinfo.io\n\n"
+        "Не конектиться: час/дата, фаєрвол/антивірус (дозволь WireGuard), спробуй іншу мережу."
     ),
     "macos": (
         "🖥️ <b>macOS — WireGuard</b>\n\n"
-        "1) Встанови застосунок <b>WireGuard</b> з App Store (або з офсайту для macOS).\n"
-        "2) Отримай .conf / QR через <code>/myvpn</code>.\n"
-        "3) WireGuard → <b>Import tunnel(s) from file</b> або <b>Import tunnel(s) from QR code</b>.\n"
-        "4) Увімкни тумблер профілю (може попросити пароль/Touch ID).\n"
-        "5) Перевір IP на https://ipinfo.io.\n\n"
-        "Порада: якщо після сну Mac немає інтернету, вимкни/ввімкни тунель."
+        "1) Встанови з App Store або офсайту.\n"
+        "2) Імпортуй .conf / QR з <code>/myvpn</code>.\n"
+        "3) Увімкни тунель (може попросити пароль/Touch ID).\n"
+        "4) Перевір IP: https://ipinfo.io\n\n"
+        "Після сну немає інтернету? Вимк/увімкни тунель."
     ),
     "linux": (
         "🐧 <b>Linux — WireGuard</b>\n\n"
-        "Варіант A (GUI — NetworkManager):\n"
-        "1) Встанови підтримку WireGuard для NetworkManager (залежить від дистро).\n"
-        "2) «Налаштування мережі» → VPN → Імпорт з файлу → обери .conf з <code>/myvpn</code>.\n"
-        "3) Увімкни VPN-профіль.\n\n"
-        "Варіант B (CLI — wg-quick):\n"
-        "1) Встанови wireguard-tools (wg/wg-quick).\n"
-        "2) Скопіюй .conf до <code>/etc/wireguard/myvpn.conf</code> (права 600).\n"
-        "3) Запуск: <code>sudo wg-quick up myvpn</code>\n"
-        "4) Зупинка: <code>sudo wg-quick down myvpn</code>\n"
-        "5) Перевір IP: <code>curl https://ipinfo.io/ip</code>\n\n"
-        "Якщо немає маршрутизації: перевір <code>AllowedIPs</code> (0.0.0.0/0, ::/0) та DNS (наприклад, 1.1.1.1)."
+        "A) GUI (NetworkManager): Імпортуй .conf у «Налаштування мережі» → VPN.\n"
+        "B) CLI (wg-quick):\n"
+        "   1) Встанови wireguard-tools.\n"
+        "   2) /etc/wireguard/myvpn.conf (права 600).\n"
+        "   3) Запуск: <code>sudo wg-quick up myvpn</code>\n"
+        "      Стоп:   <code>sudo wg-quick down myvpn</code>\n"
+        "   4) Перевір: <code>curl https://ipinfo.io/ip</code>\n\n"
+        "Немає маршруту? <code>AllowedIPs = 0.0.0.0/0, ::/0</code> і коректний DNS (1.1.1.1)."
     ),
 }
 
-# --- Клавіатури ---------------------------------------------------------------
+def menu_kb() -> InlineKeyboardMarkup:
+    rows = [[InlineKeyboardButton(text=title, callback_data=f"howto:platform:{slug}")]
+            for title, slug in PLATFORMS]
+    return InlineKeyboardMarkup(inline_keyboard=rows)
 
-def menu_kb() -> types.InlineKeyboardMarkup:
-    kb = InlineKeyboardBuilder()
-    for title, slug in PLATFORMS:
-        kb.button(text=title, callback_data=f"howto:platform:{slug}")
-    kb.adjust(1, 1)
-    return kb.as_markup()
-
-def back_kb() -> types.InlineKeyboardMarkup:
-    kb = InlineKeyboardBuilder()
-    kb.button(text="⬅️ Назад до меню", callback_data="howto:menu")
-    return kb.as_markup()
-
-# --- Хендлери -----------------------------------------------------------------
+def back_kb() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text="⬅️ Назад до меню", callback_data="howto:menu")
+    ]])
 
 @howto_router.message(Command("howto"))
 async def cmd_howto(message: types.Message):
@@ -99,7 +85,10 @@ async def cmd_howto(message: types.Message):
 
 @howto_router.callback_query(F.data == "howto:menu")
 async def cb_menu(call: types.CallbackQuery):
-    await call.message.edit_text(INTRO, reply_markup=menu_kb())
+    try:
+        await call.message.edit_text(INTRO, reply_markup=menu_kb(), disable_web_page_preview=True)
+    except TelegramBadRequest:
+        pass
     await call.answer()
 
 @howto_router.callback_query(F.data.startswith("howto:platform:"))
