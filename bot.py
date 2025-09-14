@@ -5,6 +5,9 @@ import os
 from datetime import datetime, timezone, timedelta
 from typing import AsyncGenerator
 import base64, ipaddress, io, os
+
+import dp
+from aiogram import Dispatcher
 from nacl.public import PrivateKey
 import qrcode
 from telegram import InputFile
@@ -16,6 +19,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
+from howto import howto_router
 from db.models import Base
 from db.repo import get_or_create_user, get_active_subscription, grant_trial_if_needed
 
@@ -45,6 +49,9 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
 
 
 # ----------- Bot Handlers -----------
+
+dp = Dispatcher()
+dp.include_router(howto_router)
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not update.effective_user:
