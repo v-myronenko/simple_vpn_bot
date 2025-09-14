@@ -1,40 +1,80 @@
+# db/models.py
 from __future__ import annotations
 
-from datetime import datetime, timedelta
-from typing import List, Optional
+import os
+from datetime import datetime, timedelta, timezone
 
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import Integer, Text, DateTime, ForeignKey
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    DateTime,
+    Boolean,
+    ForeignKey,
+    Index,
+)
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from dotenv import load_dotenv
+
+# ---------------------------------------------------------------------
+# env + engine
+# ---------------------------------------------------------------------
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    # fallback для локалки (щоб не впав, якщо .env ще не зроблений)
+    DATABASE_URL = "sqlite+aiosqlite:///./local.db"
+
+engine = create_async_engine(DATABASE_URL, echo=False, future=True)
+
+async_session_maker = sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+)
+
+Base = declarative_base()
 
 
-class Base(DeclarativeBase):
-    pass
+# ---------------------------------------------------------------------
+# helpers
+# ---------------------------------------------------------------------
+def utcnow() -> datetime:
+    return datetime.now(timezone.utc)
 
 
+# ---------------------------------------------------------------------
+# models
+# ---------------------------------------------------------------------
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    telegram_id: Mapped[int] = mapped_column(Integer, unique=True, index=True, nullable=False)
-    username: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    id = Column(Integer, primary_key=True)
+    telegram_id = Column(Integer, unique=True, index=True, nullable=False)
+    username = Column(String, nullable=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
 
-    subscriptions: Mapped[List["Subscription"]] = relationship(
-        back_populates="user", cascade="all, delete-orphan"
-    )
+    subscriptions = relationship("Subscription", back_populates="user", cascade="all, delete-orphan")
 
 
 class Subscription(Base):
     __tablename__ = "subscriptions"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    starts_at = Column(DateTime, default=utcnow, nullable=False)
+    expires_at = Column(DateTime, nullable=False)
+    is_trial = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
 
-    starts_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow)
-    expires_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=lambda: datetime.utcnow() + timedelta(days=7)
-    )
-    is_trial: Mapped[int] = mapped_column(Integer, default=0, nullable=False)  # 0/1
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    user = relationship("User", back_populates="subscriptions")
 
-    user: Mapped["User"] = relationship(back_populates="subscriptions")
+
+# ---------------------------------------------------------------------
+# create tables (на випадок першого запуску)
+# ---------------------------------------------------------------------
+async def init_models():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
