@@ -2,6 +2,7 @@
 from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.exceptions import TelegramBadRequest
 
 payments_router = Router(name="payments")
 
@@ -10,41 +11,45 @@ def buy_kb() -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text="⭐ Telegram Stars", callback_data="buy:stars")],
         [InlineKeyboardButton(text="💠 Crypto (USDT)", callback_data="buy:usdt")],
         [InlineKeyboardButton(text="💳 Card (Stripe/LiqPay)", callback_data="buy:card")],
-        [InlineKeyboardButton(text="⬅️ Назад у меню", callback_data="buy:menu")],
     ])
+
+MENU_TEXT = (
+    "💳 <b>Оплата / продовження підписки</b>\n\n"
+    "Обери спосіб оплати. Після успіху — підписка автоматично подовжиться на 31 день.\n"
+    "Почнемо з Telegram Stars і USDT (як MVP)."
+)
 
 @payments_router.message(Command("buy"))
 async def cmd_buy(message: types.Message):
-    text = (
-        "💳 <b>Оплата / продовження підписки</b>\n\n"
-        "Обери спосіб оплати. Після успіху — підписка автоматично подовжиться на 31 день.\n"
-        "Почнемо з Telegram Stars і USDT (як MVP)."
-    )
-    await message.answer(text, reply_markup=buy_kb())
+    await message.answer(MENU_TEXT, reply_markup=buy_kb())
 
 @payments_router.callback_query(F.data.startswith("buy:"))
 async def cb_buy(call: types.CallbackQuery):
     action = call.data.split(":")[1]
-    if action == "menu":
-        await call.message.edit_text("Меню оплати:", reply_markup=buy_kb())
-    elif action == "stars":
-        await call.message.edit_text(
+
+    if action == "stars":
+        text = (
             "⭐ <b>Telegram Stars</b>\n\n"
-            "Інтегруємо зараз. Після підключення з’явиться кнопка оплати прямо тут, "
-            "а продовження буде автоматичним.",
-            reply_markup=buy_kb()
+            "Готуємо інтеграцію. Тут з’явиться кнопка оплати, а підписка подовжиться на 31 день автоматично."
         )
     elif action == "usdt":
-        await call.message.edit_text(
+        text = (
             "💠 <b>USDT (MVP)</b>\n\n"
-            "Тимчасовий варіант: надсилаєш TXID у чат, ми підтверджуємо — і я продовжую доступ на 31 день.\n"
-            "Найближчим кроком додамо автопідтвердження через вебхук.",
-            reply_markup=buy_kb()
+            "Надішли TXID у відповідь на це повідомлення.\n"
+            "Після підтвердження — продовжимо доступ на 31 день.\n"
+            "Далі додамо автопідтвердження через вебхук."
         )
     elif action == "card":
-        await call.message.edit_text(
+        text = (
             "💳 <b>Оплата карткою</b>\n\n"
-            "Підключимо Stripe/LiqPay після Stars/USDT. Кнопка займеться автоматично.",
-            reply_markup=buy_kb()
+            "Підключимо Stripe/LiqPay після Stars/USDT. Кнопка оплати з’явиться тут."
         )
+    else:
+        await call.answer("Невідома дія", show_alert=True)
+        return
+
+    try:
+        await call.message.edit_text(text, reply_markup=buy_kb(), disable_web_page_preview=True)
+    except TelegramBadRequest:
+        pass
     await call.answer()
