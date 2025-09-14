@@ -14,6 +14,8 @@ from db.models import init_models
 from db.repo import get_or_create_user, grant_trial_if_needed, is_active
 from howto import howto_router
 from myvpn import myvpn_router
+from ui import ui_router, main_reply_kb
+from payments import payments_router
 
 logging.basicConfig(level=logging.INFO)
 
@@ -34,6 +36,8 @@ router = Router(name="root")
 # підключаємо модулі
 router.include_router(howto_router)
 router.include_router(myvpn_router)
+router.include_router(ui_router)
+router.include_router(payments_router)
 
 # --------------------- HANDLERS ------------------------
 @router.message(Command("start"))
@@ -56,7 +60,8 @@ async def cmd_start(message: types.Message):
                 "👋 Вітаю з поверненням!\n"
                 "• Статус підписки: /status\n"
                 "• Інструкція підключення: /howto\n"
-                "• Конфіг і QR: /myvpn"
+                "• Конфіг і QR: /myvpn",
+                reply_markup=main_reply_kb(),  # 👈 показуємо меню
             )
     except Exception as e:
         print(f"[/start] ERROR: {e}")
