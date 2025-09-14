@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/db/migrate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/repo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/session_async.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/myvpn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/models.py" afterDir="false" />
-    </list>
+    <list default="true" id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

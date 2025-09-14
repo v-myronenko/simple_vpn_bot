@@ -109,10 +109,6 @@ async def cmd_howto(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def build_app(token: str) -> Application:
     app = Application.builder().token(token).build()
 
-    # Вимикаємо webhook, щоб працював polling
-    # (робимо це один раз на старті самого процесу)
-    asyncio.run(app.bot.delete_webhook(drop_pending_updates=True))
-
     # Хендлери
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("myvpn", cmd_myvpn))
