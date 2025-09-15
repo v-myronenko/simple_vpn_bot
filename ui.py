@@ -79,4 +79,4 @@ async def on_howto_btn(message: types.Message):
 @ui_router.message(F.text == BTN_BUY)
 async def on_buy_btn(message: types.Message):
     # Викликаємо існуючий хендлер /buy
-    await cmd_buy(message)
+    await cmd_buy(message, message.bot)

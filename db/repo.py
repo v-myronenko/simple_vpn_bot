@@ -95,3 +95,29 @@ async def is_active(telegram_id: int) -> Tuple[bool, Optional[Subscription]]:
         now = utcnow()
         active = bool(sub.expires_at and sub.expires_at > now)
         return active, sub
+
+
+async def extend_subscription(user_id: int, days: int = 31) -> None:
+    async with async_session_maker() as session:  # type: AsyncSession
+        res = await session.execute(
+            select(Subscription)
+            .where(Subscription.user_id == user_id)
+            .order_by(Subscription.expires_at.desc())
+            .limit(1)
+        )
+        sub: Optional[Subscription] = res.scalar_one_or_none()
+        now = utcnow()
+
+        if sub and sub.expires_at and sub.expires_at > now:
+            sub.expires_at = sub.expires_at + timedelta(days=days)
+        else:
+            sub = Subscription(
+                user_id=user_id,
+                starts_at=now,
+                expires_at=now + timedelta(days=days),
+                created_at=now,
+                is_trial=False,
+            )
+            session.add(sub)
+
+        await session.commit()
