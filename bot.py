@@ -1,4 +1,7 @@
 # bot.py
+from ui import ui_router, main_reply_kb
+from payments import payments_router
+
 import asyncio
 import logging
 import os
@@ -10,17 +13,18 @@ from aiogram.types import BotCommand
 from aiogram.client.default import DefaultBotProperties
 from dotenv import load_dotenv
 
+# ВАЖЛИВО: спершу підвантажуємо .env, потім імпортуємо модулі, які читають os.getenv
+load_dotenv()
+
 from db.models import init_models
 from db.repo import get_or_create_user, grant_trial_if_needed, is_active
 from howto import howto_router
 from myvpn import myvpn_router
-from ui import ui_router, main_reply_kb
-from payments import payments_router
 
 logging.basicConfig(level=logging.INFO)
 
 # ------------------------- ENV -------------------------
-load_dotenv()
+
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 if not TELEGRAM_TOKEN:
     raise RuntimeError("TELEGRAM_TOKEN не заданий у .env")
