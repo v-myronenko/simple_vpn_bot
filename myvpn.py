@@ -12,10 +12,10 @@ from aiogram.types import BufferedInputFile
 import qrcode
 from nacl.public import PrivateKey as X25519PrivateKey  # PyNaCl
 
-from wg_integrator import add_peer_and_get_ip
+from wg_integrator import add_peer_and_get_ip, get_server_pubkey
 
 myvpn_router = Router(name="myvpn")
-
+server_pub = get_server_pubkey()
 
 def _get_wg_env():
     return {
@@ -54,7 +54,7 @@ def _make_conf(private_key_b64: str, client_ip_cidr: str, cfg: dict) -> str:
         f"Address = {client_ip_cidr}\n"
         f"DNS = {cfg['DNS']}\n\n"
         "[Peer]\n"
-        f"PublicKey = {cfg['SERVER_PUB']}\n"
+        f"PublicKey = {server_pub}\n"
         f"AllowedIPs = {cfg['ALLOWED']}\n"
         f"Endpoint = {cfg['ENDPOINT']}\n"
         "PersistentKeepalive = 25\n"

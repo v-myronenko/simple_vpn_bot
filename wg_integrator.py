@@ -3,14 +3,48 @@ from __future__ import annotations
 
 import os
 import shlex
+import subprocess
 from pathlib import Path
 
 import paramiko
 
 
+def get_server_pubkey() -> str:
+    """
+    Повертає актуальний публічний ключ сервера WireGuard.
+    Порядок спроб:
+      1) wg show wg0 public-key (живий інтерфейс)
+      2) /etc/wireguard/server_public.key (збережений файл)
+      3) змінна середовища WG_PUBLIC_KEY (фолбек)
+    """
+    # 1) live-інтерфейс
+    try:
+        out = subprocess.check_output(["wg", "show", "wg0", "public-key"], text=True).strip()
+        if out:
+            return out
+    except Exception:
+        pass
+
+    # 2) файл(и) із ключем
+    for path in ("/etc/wireguard/server_public.key", "/etc/wireguard/wg0.pub"):
+        try:
+            if os.path.exists(path):
+                with open(path) as f:
+                    s = f.read().strip()
+                    if s:
+                        return s
+        except Exception:
+            pass
+
+    # 3) .env фолбек (небажано, але хай буде)
+    env = os.getenv("WG_PUBLIC_KEY", "").strip()
+    if env:
+        return env
+
+    raise RuntimeError("Server public key not found: ні wg0, ні /etc/wireguard/server_public.key, ні WG_PUBLIC_KEY")
+
 class WGServerError(Exception):
     pass
-
 
 def _read_env():
     # читаємо .env/ENV під час виклику
