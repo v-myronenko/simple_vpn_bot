@@ -4,7 +4,6 @@ import io
 import os
 import re
 from datetime import datetime, timezone
-from wg_integrator import build_client_conf_text
 
 from aiogram import Router, types
 from aiogram.filters import Command
@@ -16,22 +15,36 @@ from nacl.public import PrivateKey as X25519PrivateKey  # PyNaCl
 from wg_integrator import add_peer_and_get_ip, get_server_pubkey
 
 myvpn_router = Router(name="myvpn")
-server_pub = get_server_pubkey()
+
+
+class ServerPublicKeyUnavailableError(RuntimeError):
+    """Raised when the WireGuard server public key cannot be located."""
+
+
+def _load_server_pubkey() -> str:
+    try:
+        return get_server_pubkey()
+    except RuntimeError as exc:
+        raise ServerPublicKeyUnavailableError(
+            "⚠️ Не вдалося отримати публічний ключ сервера WireGuard.\n"
+            "Адмін, переконайся, що ключ доступний через одну з опцій:\n"
+            "• працює інтерфейс (wg show wg0 public-key);\n"
+            "• ключ збережено у /etc/wireguard/server_public.key або wg0.pub;\n"
+            "• задано змінну середовища WG_PUBLIC_KEY."
+        ) from exc
 
 def _get_wg_env():
     return {
         "ENDPOINT": os.getenv("WG_ENDPOINT"),
-        "SERVER_PUB": os.getenv("WG_PUBLIC_KEY_SERVER"),
         "DNS": os.getenv("WG_DNS", "1.1.1.1"),
         "ALLOWED": os.getenv("WG_ALLOWED_IPS", "0.0.0.0/0, ::/0").replace(" ", ""),
     }
-
 
 def _validate_server_env() -> tuple[bool, str, dict]:
     cfg = _get_wg_env()
     if not cfg["ENDPOINT"]:
         return False, "В .env не задано WG_ENDPOINT (приклад: 203.0.113.10:51820)", cfg
-    # SERVER_PUB більше не обов'язковий — ключ сервера читаємо з системи через get_server_pubkey()
+    # Публічний ключ сервера читаємо з системи через get_server_pubkey()
     return True, "", cfg
 
 
@@ -44,7 +57,7 @@ def _gen_keypair() -> tuple[str, str]:
 
 def _make_conf(private_key_b64: str, client_ip_cidr: str, cfg: dict) -> str:
     # читаємо актуальний публічний ключ сервера на момент генерації
-    spub = get_server_pubkey()
+    spub = _load_server_pubkey()
     return (
         "[Interface]\n"
         f"PrivateKey = {private_key_b64}\n"
@@ -92,7 +105,9 @@ async def cmd_myvpn(message: types.Message):
         await message.answer(
             "⚠️ Налаштування сервера WireGuard відсутні або некоректні.\n"
             f"{why}\n\n"
-            "Адмін, задай WG_ENDPOINT та WG_PUBLIC_KEY_SERVER у .env і перезапусти бота."
+            "Адмін, задай WG_ENDPOINT у .env і перезапусти бота.\n"
+            "Публічний ключ серверного інтерфейсу бот отримує автоматично через "
+            "`wg show`, резервні файли або змінну WG_PUBLIC_KEY."
         )
         return
 
@@ -125,6 +140,8 @@ async def cmd_myvpn(message: types.Message):
         await message.answer_document(
             BufferedInputFile(conf_text.encode("utf-8"), filename=conf_name)
         )
+    except ServerPublicKeyUnavailableError as e:
+        await message.answer(str(e))
     except Exception as e:
         print(f"[/myvpn] ERROR: {e}")
         await message.answer("⚠️ Не вдалося згенерувати робочий конфіг. Надішли, будь ласка, лог із консолі.")
