@@ -4,6 +4,7 @@ import io
 import os
 import re
 from datetime import datetime, timezone
+from wg_integrator import build_client_conf_text
 
 from aiogram import Router, types
 from aiogram.filters import Command
@@ -30,15 +31,9 @@ def _validate_server_env() -> tuple[bool, str, dict]:
     cfg = _get_wg_env()
     if not cfg["ENDPOINT"]:
         return False, "В .env не задано WG_ENDPOINT (приклад: 203.0.113.10:51820)", cfg
-    if not cfg["SERVER_PUB"]:
-        return False, "В .env не задано WG_PUBLIC_KEY_SERVER (base64(32 байт))", cfg
-    try:
-        raw = base64.b64decode(cfg["SERVER_PUB"], validate=True)
-        if len(raw) != 32:
-            return False, "WG_PUBLIC_KEY_SERVER має бути base64(32 байт)", cfg
-    except Exception:
-        return False, "WG_PUBLIC_KEY_SERVER не схожий на валідний base64", cfg
+    # SERVER_PUB більше не обов'язковий — ключ сервера читаємо з системи через get_server_pubkey()
     return True, "", cfg
+
 
 
 def _gen_keypair() -> tuple[str, str]:
@@ -48,13 +43,15 @@ def _gen_keypair() -> tuple[str, str]:
 
 
 def _make_conf(private_key_b64: str, client_ip_cidr: str, cfg: dict) -> str:
+    # читаємо актуальний публічний ключ сервера на момент генерації
+    spub = get_server_pubkey()
     return (
         "[Interface]\n"
         f"PrivateKey = {private_key_b64}\n"
         f"Address = {client_ip_cidr}\n"
         f"DNS = {cfg['DNS']}\n\n"
         "[Peer]\n"
-        f"PublicKey = {server_pub}\n"
+        f"PublicKey = {spub}\n"
         f"AllowedIPs = {cfg['ALLOWED']}\n"
         f"Endpoint = {cfg['ENDPOINT']}\n"
         "PersistentKeepalive = 25\n"

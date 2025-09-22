@@ -19,13 +19,16 @@ def get_server_pubkey() -> str:
     """
     # 1) live-інтерфейс
     try:
-        out = subprocess.check_output(["wg", "show", "wg0", "public-key"], text=True).strip()
+        out = subprocess.check_output(
+            ["wg", "show", "wg0", "public-key"],
+            text=True
+        ).strip()
         if out:
             return out
     except Exception:
         pass
 
-    # 2) файл(и) із ключем
+    # 2) файл (страховка)
     for path in ("/etc/wireguard/server_public.key", "/etc/wireguard/wg0.pub"):
         try:
             if os.path.exists(path):
@@ -36,12 +39,12 @@ def get_server_pubkey() -> str:
         except Exception:
             pass
 
-    # 3) .env фолбек (небажано, але хай буде)
+    # 3) .env (крайній випадок)
     env = os.getenv("WG_PUBLIC_KEY", "").strip()
     if env:
         return env
 
-    raise RuntimeError("Server public key not found: ні wg0, ні /etc/wireguard/server_public.key, ні WG_PUBLIC_KEY")
+    raise RuntimeError("WG: server public key not found")
 
 class WGServerError(Exception):
     pass
@@ -161,3 +164,18 @@ def add_peer_and_get_ip(client_pubkey_b64: str) -> str:
         return out
     finally:
         client.close()
+
+
+def build_client_conf_text(private_key_b64: str, client_ip_cidr: str, endpoint: str, dns: str="1.1.1.1", allowed="0.0.0.0/0, ::/0") -> str:
+    spub = get_server_pubkey()
+    return (
+        "[Interface]\n"
+        f"PrivateKey = {private_key_b64}\n"
+        f"Address = {client_ip_cidr}\n"
+        f"DNS = {dns}\n\n"
+        "[Peer]\n"
+        f"PublicKey = {spub}\n"
+        f"AllowedIPs = {allowed}\n"
+        f"Endpoint = {endpoint}\n"
+        "PersistentKeepalive = 25\n"
+    )
