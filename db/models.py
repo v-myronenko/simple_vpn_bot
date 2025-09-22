@@ -12,12 +12,46 @@ from sqlalchemy import (
     Boolean,
     ForeignKey,
 )
+from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 from dotenv import load_dotenv
 
+def _resolve_database_url() -> str:
+    """Return an async-capable database URL.
+
+    Falls back to a local SQLite database when ``DATABASE_URL`` is not set and
+    upgrades any synchronous SQLite URLs to their async variant. This keeps the
+    development experience simple while still surfacing a clear error for other
+    backends that are misconfigured.
+    """
+
+    raw_url = os.getenv("DATABASE_URL")
+    if not raw_url:
+        return "sqlite+aiosqlite:///./local.db"
+
+    url = make_url(raw_url)
+    backend = url.get_backend_name()
+    driver = url.drivername
+
+    if backend == "sqlite" and "aiosqlite" not in driver:
+        # Accept common synchronous variants such as ``sqlite:///`` and
+        # ``sqlite+pysqlite://`` by transparently upgrading them to the async
+        # driver expected by ``create_async_engine``.
+        upgraded = url.set(drivername="sqlite+aiosqlite")
+        return upgraded.render_as_string(hide_password=False)
+
+    if "+" not in driver:
+        raise RuntimeError(
+            "DATABASE_URL must use an async driver (e.g. 'postgresql+asyncpg://', "
+            "'mysql+aiomysql://'). Got driver %r in %r" % (driver, raw_url)
+        )
+
+    return raw_url
+
+
 load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL") or "sqlite+aiosqlite:///./local.db"
+DATABASE_URL = _resolve_database_url()
 
 engine = create_async_engine(DATABASE_URL, echo=False, future=True)
 
