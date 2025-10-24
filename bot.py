@@ -131,6 +131,7 @@ async def main():
     await setup_bot_commands(bot)
 
     # 4) запускаємо поллінг
+    await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
