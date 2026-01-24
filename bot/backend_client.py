@@ -37,7 +37,7 @@ class BackendClient:
 
         Викликається після успішної оплати через Telegram Stars.
         """
-        url = f"{self.base_url}/api/payment/telegram/starts-complete"
+        url = f"{self.base_url}/api/payment/telegram/stars-complete"
 
         data = {
             "telegram_id": telegram_id,

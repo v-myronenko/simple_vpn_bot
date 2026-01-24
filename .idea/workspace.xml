@@ -5,32 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/.env.example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/alembic.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/alembic/env.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/alembic/script.py.mako" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/core/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/core/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/core/logging.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/db/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/db/base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/db/session.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/payment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/plan.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/server.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/subscription.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/models/vpn_account.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/routers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/routers/health.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/svpn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/svpn.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/backend_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/backend_client.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,15 +32,15 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/v-myronenko/simple_vpn_bot&quot;,
-    &quot;accountId&quot;: &quot;6a8c07a5-94b0-4543-b05a-02ce25b40f51&quot;
+    &quot;url&quot;: &quot;https://github.com/v-myronenko/simple_vpn_bot.git&quot;,
+    &quot;accountId&quot;: &quot;46eeb687-2b70-4a8a-bed4-0806e82fbfc8&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2uxE51pnHNuMtrMwHsPZQrN5rKP" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -79,6 +56,7 @@
     &quot;Python.test.executor&quot;: &quot;Run&quot;,
     &quot;Python.webhook_server.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Vova/PycharmProjects/VPNBot&quot;,
@@ -247,7 +225,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-1b1018131e27-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.180" />
+        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
       </set>
     </attachedChunks>
   </component>
