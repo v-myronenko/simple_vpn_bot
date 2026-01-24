@@ -1,9 +1,15 @@
 import asyncio
 import logging
+from uuid import uuid4
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import (
+    Message,
+    CallbackQuery,
+    PreCheckoutQuery,
+    LabeledPrice,
+)
 
 from config import settings
 from backend_client import BackendClient
@@ -17,14 +23,16 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-
 backend_client = BackendClient()
+
+# ✅ MVP: ціна у Stars (ціле число). Винесеш потім у бекенд/плани.
+BASIC_30D_STARS_PRICE = 199
+PLAN_CODE = "basic_30d"
 
 
 async def cmd_start(message: Message):
     """
     /start:
-    - реєструємо / отримуємо користувача через бекенд
     - перевіряємо, чи є активна підписка
     - показуємо відповідне повідомлення + меню
     """
@@ -32,7 +40,7 @@ async def cmd_start(message: Message):
 
     try:
         status = await backend_client.get_subscription_status(telegram_id=tg_id)
-    except Exception as e:
+    except Exception:
         logger.exception("Error calling backend")
         await message.answer(
             "Сталася помилка при зверненні до сервера. Спробуйте ще раз пізніше."
@@ -63,47 +71,46 @@ async def cmd_start(message: Message):
     )
 
 
-async def on_callback_placeholder(callback: CallbackQuery):
+async def send_stars_invoice(callback: CallbackQuery, bot: Bot, mode: str):
     """
-    Тимчасові заглушки для кнопок.
-    Потім сюди підвʼяжемо оплату, видачу доступу і т.д.
+    mode: 'buy' або 'renew' (для логіки/аналітики, в payload просто позначимо)
     """
-    data = callback.data or ""
-    if data == "buy_subscription":
-        await callback.message.edit_text(
-            "Тут буде оформлення підписки через Telegram Stars (ще в розробці)."
-        )
-    elif data == "renew_subscription":
-        await callback.message.edit_text(
-            "Тут буде продовження підписки (ще в розробці)."
-        )
-    elif data == "show_access":
-        await callback.message.edit_text(
-            "Тут буде показано твої VPN-налаштування (ще в розробці)."
-        )
-    elif data == "help":
-        await callback.message.answer(
-            "Якщо є питання щодо SVPN — напиши адміну: @your_username (замінимо пізніше)."
-        )
+    tg_id = callback.from_user.id
 
-    await callback.answer()
+    # payload буде потім ключем ідемпотентності на бекенді (можна зберігати)
+    payload = f"{mode}:{PLAN_CODE}:{tg_id}:{uuid4()}"
 
+    title = "SVPN — підписка на 30 днів"
+    description = "Доступ до SVPN на 30 днів. Після оплати підписка активується автоматично."
 
-async def main():
-    bot = Bot(token=settings.bot_token)
-    dp = Dispatcher()
+    prices = [LabeledPrice(label="SVPN Basic 30 days", amount=BASIC_30D_STARS_PRICE)]
 
-    # хендлер /start
-    dp.message.register(cmd_start, CommandStart())
+    await callback.answer()  # прибрати "loading" у кнопці
 
-    # заглушки для callback-кнопок
-    dp.callback_query.register(on_callback_placeholder, F.data.in_(
-        ["buy_subscription", "renew_subscription", "show_access", "help"]
-    ))
-
-    logger.info("Bot starting...")
-    await dp.start_polling(bot)
+    await bot.send_invoice(
+        chat_id=callback.message.chat.id,
+        title=title,
+        description=description,
+        payload=payload,
+        currency="XTR",  # ✅ Telegram Stars
+        prices=prices,
+        start_parameter="svpn-basic-30d",
+    )
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+async def on_pre_checkout_query(pre_checkout_query: PreCheckoutQuery, bot: Bot):
+    """
+    ✅ ОБОВʼЯЗКОВО: відповісти ok=True, інакше оплата не завершиться
+    """
+    try:
+        await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
+    except Exception:
+        logger.exception("Failed to answer pre_checkout_query")
+
+
+async def on_successful_payment(message: Message):
+    """
+    Приходить після успішної оплати. Тут викликаємо бекенд, щоб активувати/продовжити підписку.
+    """
+    sp = message.successful_payment
+    tg_id = message.from_u

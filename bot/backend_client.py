@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, Dict, Optional
 
 import httpx
@@ -20,3 +22,32 @@ class BackendClient:
             resp = await client.get(url)
             resp.raise_for_status()
             return resp.json()
+
+    async def complete_telegram_stars_payment(
+            self,
+            telegram_id: int,
+            payload: str,
+            stars_amount: int,
+            currency: str,
+            telegram_payment_charge_id: str,
+            provider_payment_charge_id: str | None,
+    ) -> Dict[str, Any]:
+        """
+        Викликає бекенд-ендпоінт:
+        POST /api/payments/telegram-stars/complete
+        """
+        url = f"{self.base_url}/api/payments/telegram-stars/complete"
+        data = {
+            "telegram_id": telegram_id,
+            "payload": payload,
+            "stars_amount": stars_amount,
+            "currency": currency,
+            "telegram_payment_charge_id": telegram_payment_charge_id,
+            "provider_payment_charge_id": provider_payment_charge_id,
+        }
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            resp = await client.post(url, json=data)
+            resp.raise_for_status()
+            return resp.json()
+
