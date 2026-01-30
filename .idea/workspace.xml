@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cae4a195-568d-469a-b627-c058db26f699" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/backend_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/backend_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/routers/payment_telegram.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/payment_telegram.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/schemas/payment_telegram.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/schemas/payment_telegram.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/services/payment_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/services/payment_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/svpn.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/svpn.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

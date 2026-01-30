@@ -13,75 +13,94 @@ class PaymentService:
         self.db = db
         self.subscription_service = SubscriptionService(db)
 
-    def process_telegram_stars_payment(self, telegram_id: int) -> tuple[Subscription, Payment]:
-        """
-        Обробка успішної оплати через Telegram Stars.
+    # --- Внутрішні хелпери ---
 
-        Спрощений MVP-варіант:
-        - беремо юзера по telegram_id (створити якщо немає)
-        - беремо дефолтний план (basic_30d)
-        - беремо дефолтний сервер (frankfurt-1)
-        - якщо вже є активна підписка:
-            - продовжуємо її, створюючи НОВУ підписку з датою start_at = max(now, end_at старої)
-        - створюємо запис у payments зі статусом 'success'
-        """
-
-        # 1. Юзер
+    def _get_or_create_user(self, telegram_id: int) -> User:
         user: User | None = (
             self.db.query(User)
             .filter(User.telegram_id == telegram_id)
             .first()
         )
-        if not user:
-            # імпорт тут, щоб уникнути циклічної залежності на рівні імпортів
-            from app.services.user_service import UserService
-            user = UserService(self.db).get_or_create_user(telegram_id=telegram_id)
+        if user:
+            return user
 
-        # 2. План (дефолтний: basic_30d)
+        # Створюємо нового юзера (мову поки не знаємо)
+        user = User(
+            telegram_id=telegram_id,
+            language=None,
+            created_at=datetime.utcnow(),
+        )
+        self.db.add(user)
+        self.db.commit()
+        self.db.refresh(user)
+        return user
+
+    def _get_basic_plan(self) -> Plan:
         plan: Plan | None = (
             self.db.query(Plan)
-            .filter(Plan.code == "basic_30d", Plan.is_active.is_(True))
-            .first()
+                .filter(
+                    Plan.code == "basic_30d",
+                    Plan.is_active.is_(True),
+                )
+                .first()
         )
         if not plan:
-            raise ValueError("Active plan 'basic_30d' not found")
+            raise ValueError("Plan 'basic_30d' not found. Run seed or create this plan.")
+        return plan
 
-        duration_days = plan.duration_days or 30
-        amount_stars = plan.price_stars or 1000
-
-        # 3. Сервер (дефолтний: frankfurt-1)
+    def _get_default_server(self) -> Server:
         server: Server | None = (
             self.db.query(Server)
-            .filter(Server.name == "frankfurt-1", Server.is_active.is_(True))
-            .first()
+                .filter(
+                    Server.name == "frankfurt-1",
+                    Server.is_active.is_(True),
+                )
+                .first()
         )
         if not server:
-            # fallback: беремо будь-який активний
-            server = (
-                self.db.query(Server)
-                .filter(Server.is_active.is_(True))
-                .first()
-            )
-        if not server:
-            raise ValueError("No active VPN server found")
+            raise ValueError("Default server 'frankfurt-1' not found. Run seed or create server.")
+        return server
 
-        now = datetime.utcnow()
+    # --- Публічний метод ---
 
-        # 4. Діюча підписка (для продовження)
+    def process_telegram_stars_payment(self, telegram_id: int) -> tuple[Subscription, Payment]:
+        """
+        Обробка успішної оплати через Telegram Stars.
+
+        MVP-логіка:
+        - беремо/створюємо юзера по telegram_id
+        - беремо дефолтний план (basic_30d)
+        - беремо дефолтний сервер (frankfurt-1)
+        - якщо вже є активна підписка:
+            - продовжуємо її: створюємо НОВУ підписку зі start_at = max(now, end_at старої)
+        - якщо немає — створюємо першу підписку
+        - створюємо запис у payments зі статусом 'success'
+        """
+
+        now = datetime.utcnow()  # naive UTC, як і у моделях
+
+        # 1. Юзер
+        user = self._get_or_create_user(telegram_id=telegram_id)
+
+        # 2. План і сервер
+        plan = self._get_basic_plan()
+        server = self._get_default_server()
+
+        # 3. Перевірити, чи є вже активна підписка
         active_sub = self.subscription_service.get_active_subscription(user_id=user.id)
 
-        if active_sub:
-            # стару можна позначити неактивною (якщо хочеш)
-            active_sub.status = "expired"
+        duration = timedelta(days=plan.duration_days)
 
-            # нова підписка починається з моменту закінчення старої або з now, що більше
-            start_at = active_sub.end_at if active_sub.end_at > now else now
+        if active_sub:
+            # Якщо вже є активна — продовжуємо з кінця поточної
+            start_at = max(now, active_sub.end_at)
         else:
+            # Інакше починаємо з "зараз"
             start_at = now
 
-        end_at = start_at + timedelta(days=duration_days)
+        end_at = start_at + duration
 
-        # 5. Створюємо нову підписку
+        # 4. Створюємо нову підписку
         new_sub = Subscription(
             user_id=user.id,
             plan_id=plan.id,
@@ -92,22 +111,23 @@ class PaymentService:
             created_at=now,
         )
         self.db.add(new_sub)
-        self.db.flush()  # щоб new_sub.id зʼявився
+        self.db.flush()  # щоб зʼявився new_sub.id
 
-        # 6. Записуємо платіж
+        # 5. Створюємо платіж (спрощено: сума = планова ціна в Stars)
         payment = Payment(
             user_id=user.id,
             subscription_id=new_sub.id,
             provider="telegram_stars",
-            amount_stars=amount_stars,
+            amount_stars=plan.price_stars,
             currency="XTR",
             status="success",
-            provider_charge_id=None,  # поки що не використовуємо
+            provider_charge_id=None,  # поки не використовуємо конкретний charge_id
             created_at=now,
             paid_at=now,
         )
         self.db.add(payment)
 
+        # 6. Фіксуємо все
         self.db.commit()
         self.db.refresh(new_sub)
         self.db.refresh(payment)

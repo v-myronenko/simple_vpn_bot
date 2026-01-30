@@ -11,7 +11,7 @@ app = FastAPI(
 # Routers
 app.include_router(health.router)
 app.include_router(user_subscription.router)
-app.include_router(payment_telegram.router)
+app.include_router(payment_telegram.router, prefix="/api")
 
 
 @app.get("/")

@@ -17,7 +17,7 @@ from keyboards import get_main_menu_keyboard
 
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,  # ставимо DEBUG, щоб бачити максимум
     format="[%(asctime)s] [%(levelname)s] %(name)s: %(message)s",
 )
 
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 backend_client = BackendClient()
 
 # ✅ MVP: ціна у Stars (ціле число). Винесеш потім у бекенд/плани.
-BASIC_30D_STARS_PRICE = 199
+BASIC_30D_STARS_PRICE = 1
 PLAN_CODE = "basic_30d"
 
 
@@ -113,4 +113,98 @@ async def on_successful_payment(message: Message):
     Приходить після успішної оплати. Тут викликаємо бекенд, щоб активувати/продовжити підписку.
     """
     sp = message.successful_payment
-    tg_id = message.from_u
+    tg_id = message.from_user.id
+
+    payload = sp.invoice_payload
+    currency = sp.currency
+    total_amount = sp.total_amount  # для XTR — кількість Stars (ціле число)
+
+    telegram_charge_id = sp.telegram_payment_charge_id
+    provider_charge_id = sp.provider_payment_charge_id  # може бути None
+
+    await message.answer("✅ Оплата пройшла! Активую підписку...")
+
+    try:
+        result = await backend_client.complete_telegram_stars_payment(
+            telegram_id=tg_id,
+            payload=payload,
+            stars_amount=total_amount,
+            currency=currency,
+            telegram_payment_charge_id=telegram_charge_id,
+            provider_payment_charge_id=provider_charge_id,
+        )
+    except Exception:
+        logger.exception("Backend activation failed after successful payment")
+        await message.answer(
+            "⚠️ Оплата пройшла, але не вдалося підтвердити активацію підписки.\n"
+            "Напиши в підтримку — ми швидко розберемося."
+        )
+        return
+
+    # Очікуємо, що бекенд поверне end_at (або subscription)
+    end_at = result.get("end_at") or result.get("subscription", {}).get("end_at")
+
+    if end_at:
+        await message.answer(
+            f"🎉 Підписка активна!\n\n"
+            f"Дійсна до: <b>{end_at}</b>",
+            parse_mode="HTML",
+        )
+    else:
+        await message.answer(
+            "🎉 Підписка активована! (Деталі оновляться в /start)"
+        )
+
+
+async def on_callback(callback: CallbackQuery, bot: Bot):
+    """
+    Callback-кнопки меню.
+    """
+    data = callback.data or ""
+
+    if data == "buy_subscription":
+        await send_stars_invoice(callback, bot, mode="buy")
+
+    elif data == "renew_subscription":
+        await send_stars_invoice(callback, bot, mode="renew")
+
+    elif data == "show_access":
+        await callback.message.edit_text(
+            "Тут буде показано твої VPN-налаштування (ще в розробці)."
+        )
+        await callback.answer()
+
+    elif data == "help":
+        await callback.message.answer(
+            "Якщо є питання щодо SVPN — напиши адміну: @your_username (замінимо пізніше)."
+        )
+        await callback.answer()
+
+
+async def main():
+    bot = Bot(token=settings.bot_token)
+    dp = Dispatcher()
+
+    # /start
+    dp.message.register(cmd_start, CommandStart())
+
+    # callback-кнопки
+    dp.callback_query.register(
+        on_callback,
+        F.data.in_(["buy_subscription", "renew_subscription", "show_access", "help"]),
+    )
+
+    # платежі через Telegram Stars
+    dp.pre_checkout_query.register(on_pre_checkout_query)
+    dp.message.register(on_successful_payment, F.successful_payment)
+
+    logger.info("Bot starting...")
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    try:
+        logger.info("Launching bot via asyncio.run(main())")
+        asyncio.run(main())
+    except Exception:
+        logger.exception("Bot crashed with an unhandled exception")
