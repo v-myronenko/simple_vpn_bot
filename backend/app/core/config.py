@@ -16,5 +16,9 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./svpn.db"
     TZ: str = "Europe/Warsaw"
 
+    # --- 3x-ui / VPN ---
+    THREEXUI_USERNAME: str = "admin"
+    THREEXUI_PASSWORD: str = "change_me"
+    THREEXUI_INBOUND_ID: int = 1
 
 settings = Settings()
