@@ -12,8 +12,12 @@ from aiogram.types import (
 )
 
 from config import settings
-from backend_client import BackendClient
 from keyboards import get_main_menu_keyboard
+
+from backend_client import BackendClient, BackendTrialError
+import base64
+from aiogram.types import BufferedInputFile
+
 
 
 logging.basicConfig(
@@ -155,7 +159,6 @@ async def on_successful_payment(message: Message):
             "🎉 Підписка активована! (Деталі оновляться в /start)"
         )
 
-
 async def on_callback(callback: CallbackQuery, bot: Bot):
     """
     Callback-кнопки меню.
@@ -169,10 +172,51 @@ async def on_callback(callback: CallbackQuery, bot: Bot):
         await send_stars_invoice(callback, bot, mode="renew")
 
     elif data == "show_access":
-        await callback.message.edit_text(
-            "Тут буде показано твої VPN-налаштування (ще в розробці)."
-        )
-        await callback.answer()
+        tg_id = callback.from_user.id
+        await callback.answer()  # прибираємо "loading"
+
+        try:
+            vpn_info = await backend_client.get_vpn_config(tg_id)
+        except BackendTrialError as e:
+            # тріал вже закінчився / недоступний
+            await callback.message.answer(
+                "Твій пробний доступ уже недоступний.\n\n"
+                "Щоб продовжити користування SVPN, оформіть підписку через меню."
+            )
+            return
+        except Exception:
+            await callback.message.answer(
+                "Не вдалося отримати VPN-налаштування. "
+                "Спробуй пізніше або напиши в підтримку."
+            )
+            return
+
+        vless_url = vpn_info["vless_url"]
+        is_trial = vpn_info.get("is_trial", False)
+        trial_end_at = vpn_info.get("trial_end_at")
+        qr_b64 = vpn_info.get("qr_png_base64")
+        lines = [
+            "<b>Твої налаштування SVPN:</b>",
+            "",
+            f"<code>{vless_url}</code>",
+        ]
+
+        if is_trial and trial_end_at:
+            lines.append("")
+            lines.append(f"Це пробний доступ до: <b>{trial_end_at}</b> (UTC).")
+        text = "\n".join(lines)
+
+        if qr_b64:
+            png_bytes = base64.b64decode(qr_b64)
+            photo = BufferedInputFile(png_bytes, filename="svpn_qr.png")
+            await callback.message.answer_photo(
+                photo=photo,
+                caption=text,
+                parse_mode="HTML",
+            )
+
+        else:
+            await callback.message.answer(text, parse_mode="HTML")
 
     elif data == "help":
         await callback.message.answer(

@@ -5,6 +5,7 @@ def get_main_menu_keyboard(has_active_subscription: bool) -> InlineKeyboardMarku
     buttons = []
 
     if has_active_subscription:
+        # Є активна підписка
         buttons.append(
             [InlineKeyboardButton(text="Мій VPN доступ", callback_data="show_access")]
         )
@@ -12,6 +13,10 @@ def get_main_menu_keyboard(has_active_subscription: bool) -> InlineKeyboardMarku
             [InlineKeyboardButton(text="Продовжити підписку", callback_data="renew_subscription")]
         )
     else:
+        # Немає підписки — даємо тріал + можливість купити
+        buttons.append(
+            [InlineKeyboardButton(text="Отримати пробний доступ", callback_data="show_access")]
+        )
         buttons.append(
             [InlineKeyboardButton(text="Купити підписку", callback_data="buy_subscription")]
         )
