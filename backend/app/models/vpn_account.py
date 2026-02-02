@@ -22,6 +22,17 @@ class VPNAccount(Base):
         String(100), nullable=True
     )  # id у панелі x-ui, якщо є
 
+    # 🔹 Поля для trial-доступу
+    trial_started_at: Mapped[datetime | None] = mapped_column(
+        DateTime, nullable=True
+    )
+    trial_end_at: Mapped[datetime | None] = mapped_column(
+        DateTime, nullable=True
+    )
+    trial_used: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=False
+    )
+
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, nullable=False
