@@ -8,10 +8,10 @@ from app.models import Server
 from app.schemas import VpnConfigResponse
 from app.services import UserService, TrialService
 from app.services.trial_service import TrialError
+from app.utils.vless_config import build_vless_reality_url
+from app.utils.vpn_qr import generate_qr_png_base64
 
 
-# Тут одразу ставимо фінальний префікс, як у user_subscription:
-# /api/users/...
 router = APIRouter(prefix="/api/users", tags=["users"])
 
 
@@ -20,30 +20,15 @@ def get_vpn_config(
     telegram_id: int,
     db: Session = Depends(get_db),
 ):
-    """
-    Видає uuid VPN-клієнта + інфо по серверу.
-
-    Логіка:
-    - створюємо / беремо користувача
-    - беремо дефолтний сервер (як у PaymentService)
-    - TrialService:
-      - якщо є активна підписка -> ок
-      - якщо немає, але тріал ще не стартував -> старт тріалу
-      - якщо тріал іде -> ок
-      - якщо тріал закінчився -> 403
-    """
     user_service = UserService(db)
     trial_service = TrialService(db)
 
     user = user_service.get_or_create_user(telegram_id=telegram_id)
 
-    # Поки що жорстко використовуємо той самий дефолтний сервер, що й PaymentService
+    # Поки що — жорстко frankfurt-1 (як у PaymentService)
     server: Server | None = (
         db.query(Server)
-        .filter(
-            Server.name == "frankfurt-1",
-            Server.is_active.is_(True),
-        )
+        .filter(Server.name == "frankfurt-1", Server.is_active.is_(True))
         .first()
     )
     if not server:
@@ -53,23 +38,21 @@ def get_vpn_config(
         )
 
     try:
-        vpn_account, is_trial = trial_service.ensure_vpn_access(
-            user=user,
-            server=server,
-        )
+        vpn_account, is_trial = trial_service.ensure_vpn_access(user=user, server=server)
     except TrialError as e:
-        # Тріал закінчився / недоступний
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail={"code": e.code, "message": e.message},
         )
 
     if not vpn_account.uuid:
-        # Це дуже малоймовірно, але на всяк випадок
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="VPN account UUID is missing.",
         )
+
+    vless_url = build_vless_reality_url(uuid=vpn_account.uuid, server_name=server.name)
+    qr_b64 = generate_qr_png_base64(vless_url)
 
     msg = (
         "VPN access granted via trial."
@@ -80,9 +63,11 @@ def get_vpn_config(
     return VpnConfigResponse(
         ok=True,
         message=msg,
+        vless_url=vless_url,
         uuid=vpn_account.uuid,
         server_name=server.name,
         server_region=server.region,
         is_trial=is_trial,
         trial_end_at=vpn_account.trial_end_at if is_trial else None,
+        qr_png_base64=qr_b64,
     )

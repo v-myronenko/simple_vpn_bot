@@ -7,11 +7,12 @@ class VpnConfigResponse(BaseModel):
     ok: bool
     message: str
 
-    # Мінімум, що треба боту:
-    uuid: str | None = None
+    vless_url: str
+    uuid: str
     server_name: str | None = None
     server_region: str | None = None
 
-    # Інфо про тріал
     is_trial: bool = False
     trial_end_at: datetime | None = None
+
+    qr_png_base64: str | None = None

@@ -8,18 +8,13 @@ from sqlalchemy.orm import Session
 
 from app.models import User, Server, VPNAccount
 from app.services.subscription_service import SubscriptionService
-from app.services.vpn_provider_3xui import ThreeXUIProvider, VpnProviderError
+from app.services.vpn_provider_3xui import ThreeXUIProvider
 
 
 class TrialError(Exception):
     """Помилка, пов'язана з trial-доступом."""
 
-    def __init__(self, code: str, message: str):
-        """
-        code:
-          - "trial_expired"   — тріал вже був і закінчився
-          - "no_trial_left"   — тріал уже використовувався
-        """
+    def __init__(self, code: str, message: str) -> None:
         self.code = code
         self.message = message
         super().__init__(message)
@@ -35,14 +30,13 @@ class TrialService:
 
     TRIAL_DAYS = 3
 
-    def __init__(self, db: Session):
+    def __init__(self, db: Session) -> None:
         self.db = db
         self.subscription_service = SubscriptionService(db)
 
-    # ⚙️ окремий хелпер, щоб не чіпати PaymentService
     def _get_or_create_vpn_account(self, user: User, server: Server) -> VPNAccount:
         """
-        Для вказаного user+server:
+        Для user+server:
         - якщо вже є активний VPNAccount -> повертаємо його
         - якщо немає -> створюємо клієнта в 3x-ui + запис у vpn_accounts
         """
@@ -58,12 +52,8 @@ class TrialService:
         if vpn_acc:
             return vpn_acc
 
-        # Створюємо нового клієнта в 3x-ui
         provider = ThreeXUIProvider(server)
-
-        # email у 3x-ui — це просто унікальний ідентифікатор, не обов'язково реальний e-mail
         email = f"tg_{user.telegram_id}@svpn"
-
         client = provider.create_client(email=email)
 
         vpn_acc = VPNAccount(
@@ -71,62 +61,54 @@ class TrialService:
             server_id=server.id,
             protocol="vless_reality",
             uuid=client.uuid,
-            external_id=client.email,  # або інший external_id, якщо потім захочеш
+            external_id=None,
             is_active=True,
             created_at=datetime.utcnow(),
         )
         self.db.add(vpn_acc)
-        # commit робимо в публічному методі, щоб усе було атомарно
         return vpn_acc
 
     def ensure_vpn_access(self, user: User, server: Server) -> tuple[VPNAccount, bool]:
         """
-        Головний метод.
+        Повертає (vpn_account, is_trial).
 
-        Повертає:
-          (vpn_account, is_trial)
-
-        Можливі сценарії:
-        - є активна підписка -> повертаємо акаунт, is_trial = False
-        - немає підписки, тріал ще не стартував -> стартуємо тріал, is_trial = True
-        - немає підписки, тріал іде -> is_trial = True
-        - немає підписки, тріал закінчився -> TrialError
+        Логіка:
+        - якщо є активна підписка -> повертаємо акаунт, is_trial=False
+        - якщо немає підписки:
+            - якщо тріал ще не стартував -> стартуємо
+            - якщо тріал іде -> ok
+            - якщо тріал закінчився / вже був -> TrialError
         """
-        now = datetime.utcnow()  # naive UTC, як у моделях
+        now = datetime.utcnow()
 
-        # 1. Перевіряємо активну підписку
         active_sub = self.subscription_service.get_active_subscription(user_id=user.id)
 
-        # 2. Гарантуємо наявність VPN-акаунта (створюємо клієнта в 3x-ui, якщо треба)
         vpn_acc = self._get_or_create_vpn_account(user=user, server=server)
 
-        # Якщо є активна підписка — тріал нас не цікавить
+        # Підписка завжди важливіша за тріал
         if active_sub:
             return vpn_acc, False
 
-        # 3. Немає активної підписки — працюємо з тріалом
-
-        # Якщо тріал уже колись стартував
+        # Немає підписки → дивимось на тріал
         if vpn_acc.trial_started_at is not None:
-            # якщо час ще не вийшов — ок, це "живий" тріал
+            # вже стартував
             if vpn_acc.trial_end_at and now <= vpn_acc.trial_end_at:
                 return vpn_acc, True
 
-            # якщо час вийшов — тріал закінчився
             raise TrialError(
                 code="trial_expired",
                 message="Trial period has already expired.",
             )
 
-        # Тут тріал ще не стартував.
-        # Якщо при цьому trial_used = True — значить, щось вже колись пробували / мігрували.
-        if getattr(vpn_acc, "trial_used", False):
+        # Ще не стартував
+        if vpn_acc.trial_used:
+            # прапорець каже, що вже колись був
             raise TrialError(
                 code="no_trial_left",
                 message="Trial has already been used.",
             )
 
-        # 4. Стартуємо тріал ПРЯМО ЗАРАЗ (first use)
+        # Старт тріалу зараз
         vpn_acc.trial_started_at = now
         vpn_acc.trial_end_at = now + timedelta(days=self.TRIAL_DAYS)
         vpn_acc.trial_used = True
