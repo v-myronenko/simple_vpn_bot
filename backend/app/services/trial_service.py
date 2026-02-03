@@ -36,22 +36,24 @@ class TrialService:
 
     def _get_or_create_vpn_account(self, user: User, server: Server) -> VPNAccount:
         """
-        Для user+server:
-        - якщо вже є активний VPNAccount -> повертаємо його
-        - якщо немає -> створюємо клієнта в 3x-ui + запис у vpn_accounts
+        Для тріалу:
+        - якщо є ХОЧ ОДИН VPNAccount для користувача+сервера -> повертаємо його,
+          незалежно від is_active (нам важливі поля trial_*)
+        - якщо немає жодного -> створюємо нового клієнта в 3x-ui
         """
         vpn_acc: VPNAccount | None = (
             self.db.query(VPNAccount)
             .filter(
                 VPNAccount.user_id == user.id,
                 VPNAccount.server_id == server.id,
-                VPNAccount.is_active.is_(True),
             )
+            .order_by(VPNAccount.id.desc())
             .first()
         )
         if vpn_acc:
             return vpn_acc
 
+        # Клієнта ще ніколи не було -> створюємо вперше
         provider = ThreeXUIProvider(server)
         email = f"tg_{user.telegram_id}@svpn"
         client = provider.create_client(email=email)

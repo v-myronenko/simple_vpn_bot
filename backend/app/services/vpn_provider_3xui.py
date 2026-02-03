@@ -137,4 +137,42 @@ class ThreeXUIProvider:
 
         return VpnClient(uuid=client_uuid, email=email)
 
+    def disable_client(self, uuid: str) -> None:
+        """
+        Вимикає (фактично видаляє) клієнта з inbound у 3x-ui за його UUID.
+
+        Використовує endpoint:
+        POST /panel/api/inbounds/{inbound_id}/delClient/{clientId}
+        """
+
+        client = self._get_client()
+        try:
+            url = (
+                f"{self.base_url.rstrip('/')}"
+                f"/panel/api/inbounds/{self.inbound_id}/delClient/{uuid}"
+            )
+            resp = client.post(url)
+        finally:
+            client.close()
+
+        if resp.status_code != 200:
+            raise VpnProviderError(
+                f"delClient failed: {resp.status_code} "
+                f"url={url} inbound_id={self.inbound_id} "
+                f"resp_text={resp.text!r}"
+            )
+
+        try:
+            data = resp.json()
+        except Exception:
+            raise VpnProviderError(
+                f"delClient: cannot parse JSON response: {resp.text!r}"
+            )
+
+        if not data.get("success", False):
+            raise VpnProviderError(
+                f"delClient returned error: {data.get('msg')} raw={data}"
+            )
+
+
 
