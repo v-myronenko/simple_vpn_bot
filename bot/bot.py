@@ -1,3 +1,10 @@
+# bot/bot.py
+from middlewares.i18n import I18nMiddleware
+from i18n.keys import I18nKey
+from keyboards import get_main_menu_keyboard, get_language_keyboard
+from services.locale_service import LocaleService
+from backend_client import BackendTrialError
+
 import asyncio
 import logging
 from uuid import uuid4
@@ -34,7 +41,7 @@ BASIC_30D_STARS_PRICE = 1
 PLAN_CODE = "basic_30d"
 
 
-async def cmd_start(message: Message):
+async def cmd_start(message: Message, i18n):
     """
     /start:
     - перевіряємо, чи є активна підписка
@@ -47,7 +54,7 @@ async def cmd_start(message: Message):
     except Exception:
         logger.exception("Error calling backend")
         await message.answer(
-            "Сталася помилка при зверненні до сервера. Спробуйте ще раз пізніше."
+            i18n.t(I18nKey.ERR_BACKEND)
         )
         return
 
@@ -55,24 +62,25 @@ async def cmd_start(message: Message):
     sub_info = status.get("subscription")
 
     if has_sub and sub_info:
-        text = (
-            "✅ У тебе є активна підписка.\n\n"
-            f"Тариф: <b>{sub_info.get('plan_name')}</b>\n"
-            f"До: <b>{sub_info.get('end_at')}</b>\n"
-            f"Сервер: <b>{sub_info.get('server_name')} ({sub_info.get('server_region')})</b>\n\n"
-            "Натисни кнопку нижче, щоб отримати / оновити налаштування підключення."
+        text = i18n.t(
+            I18nKey.START_ACTIVE_SUB,
+            plan_name=sub_info.get("plan_name"),
+            end_at=sub_info.get("end_at"),
+            server_name=sub_info.get("server_name"),
+            server_region=sub_info.get("server_region"),
         )
     else:
-        text = (
-            "У тебе поки що немає активної підписки на SVPN.\n\n"
-            "Натисни кнопку нижче, щоб вибрати тариф і оформити підписку."
-        )
+        text = i18n.t(I18nKey.START_NO_SUB)
 
     await message.answer(
         text,
-        reply_markup=get_main_menu_keyboard(has_active_subscription=has_sub),
+        reply_markup=get_main_menu_keyboard(
+            has_active_subscription=has_sub,
+            i18n=i18n,
+        ),
         parse_mode="HTML",
     )
+
 
 
 async def send_stars_invoice(callback: CallbackQuery, bot: Bot, mode: str):
@@ -112,21 +120,21 @@ async def on_pre_checkout_query(pre_checkout_query: PreCheckoutQuery, bot: Bot):
         logger.exception("Failed to answer pre_checkout_query")
 
 
-async def on_successful_payment(message: Message):
+async def on_successful_payment(message: Message, i18n):
     """
-    Приходить після успішної оплати. Тут викликаємо бекенд, щоб активувати/продовжити підписку.
+    Приходить після успішної оплати.
     """
     sp = message.successful_payment
     tg_id = message.from_user.id
 
     payload = sp.invoice_payload
     currency = sp.currency
-    total_amount = sp.total_amount  # для XTR — кількість Stars (ціле число)
+    total_amount = sp.total_amount
 
     telegram_charge_id = sp.telegram_payment_charge_id
     provider_charge_id = sp.provider_payment_charge_id  # може бути None
 
-    await message.answer("✅ Оплата пройшла! Активую підписку...")
+    await message.answer(i18n.t(I18nKey.PAYMENT_ACTIVATING))
 
     try:
         result = await backend_client.complete_telegram_stars_payment(
@@ -140,70 +148,60 @@ async def on_successful_payment(message: Message):
     except Exception:
         logger.exception("Backend activation failed after successful payment")
         await message.answer(
-            "⚠️ Оплата пройшла, але не вдалося підтвердити активацію підписки.\n"
-            "Напиши в підтримку — ми швидко розберемося."
+            i18n.t(I18nKey.PAYMENT_BACKEND_FAIL)
         )
         return
 
-    # Очікуємо, що бекенд поверне end_at (або subscription)
     end_at = result.get("end_at") or result.get("subscription", {}).get("end_at")
 
     if end_at:
         await message.answer(
-            f"🎉 Підписка активна!\n\n"
-            f"Дійсна до: <b>{end_at}</b>",
+            i18n.t(I18nKey.PAYMENT_SUCCESS_WITH_END, end_at=end_at),
             parse_mode="HTML",
         )
     else:
-        await message.answer(
-            "🎉 Підписка активована! (Деталі оновляться в /start)"
-        )
+        await message.answer(i18n.t(I18nKey.PAYMENT_SUCCESS_GENERIC))
 
-async def on_callback(callback: CallbackQuery, bot: Bot):
-    """
-    Callback-кнопки меню.
-    """
+
+async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
     data = callback.data or ""
+    tg_id = callback.from_user.id
 
     if data == "buy_subscription":
-        await send_stars_invoice(callback, bot, mode="buy")
+        await send_stars_invoice(callback, bot, mode="buy", i18n=i18n)
 
     elif data == "renew_subscription":
-        await send_stars_invoice(callback, bot, mode="renew")
+        await send_stars_invoice(callback, bot, mode="renew", i18n=i18n)
 
     elif data == "show_access":
-        tg_id = callback.from_user.id
-        await callback.answer()  # прибираємо "loading"
+        await callback.answer()
 
         try:
             vpn_info = await backend_client.get_vpn_config(tg_id)
-        except BackendTrialError as e:
-            # тріал вже закінчився / недоступний
-            await callback.message.answer(
-                "Твій пробний доступ уже недоступний.\n\n"
-                "Щоб продовжити користування SVPN, оформіть підписку через меню."
-            )
+        except BackendTrialError:
+            await callback.message.answer(i18n.t(I18nKey.TRIAL_EXPIRED))
             return
         except Exception:
-            await callback.message.answer(
-                "Не вдалося отримати VPN-налаштування. "
-                "Спробуй пізніше або напиши в підтримку."
-            )
+            await callback.message.answer(i18n.t(I18nKey.VPN_FETCH_ERROR))
             return
 
         vless_url = vpn_info["vless_url"]
         is_trial = vpn_info.get("is_trial", False)
         trial_end_at = vpn_info.get("trial_end_at")
         qr_b64 = vpn_info.get("qr_png_base64")
+
         lines = [
-            "<b>Твої налаштування SVPN:</b>",
+            i18n.t(I18nKey.VPN_SETTINGS_TITLE),
             "",
             f"<code>{vless_url}</code>",
         ]
 
         if is_trial and trial_end_at:
             lines.append("")
-            lines.append(f"Це пробний доступ до: <b>{trial_end_at}</b> (UTC).")
+            lines.append(
+                i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=trial_end_at)
+            )
+
         text = "\n".join(lines)
 
         if qr_b64:
@@ -214,14 +212,39 @@ async def on_callback(callback: CallbackQuery, bot: Bot):
                 caption=text,
                 parse_mode="HTML",
             )
-
         else:
             await callback.message.answer(text, parse_mode="HTML")
 
     elif data == "help":
+        await callback.message.answer(i18n.t(I18nKey.HELP_TEXT))
+        await callback.answer()
+
+    elif data == "language":
+        # показуємо список мов
         await callback.message.answer(
-            "Якщо є питання щодо SVPN — напиши адміну: @your_username (замінимо пізніше)."
+            i18n.t(I18nKey.LANG_SELECT_PROMPT),
+            reply_markup=get_language_keyboard(),
         )
+        await callback.answer()
+
+    elif data.startswith("set_lang:"):
+        # парсимо код мови
+        _, lang_code = data.split(":", 1)
+        lang_code = lang_code.strip()
+
+        # зберігаємо на бекенді
+        try:
+            saved_lang = await backend_client.set_user_language(tg_id, lang_code)
+        except Exception:
+            # якщо бекенд ліг — хоча б не мовчимо
+            await callback.message.answer(i18n.t(I18nKey.ERR_BACKEND))
+            await callback.answer()
+            return
+
+        # робимо локальний i18n з новою мовою, щоб відповідь вже була на ній
+        new_i18n = LocaleService(saved_lang or lang_code)
+
+        await callback.message.answer(new_i18n.t(I18nKey.LANG_UPDATED))
         await callback.answer()
 
 
@@ -229,14 +252,14 @@ async def main():
     bot = Bot(token=settings.bot_token)
     dp = Dispatcher()
 
+    # i18n для всіх апдейтів
+    dp.update.middleware(I18nMiddleware())
+
     # /start
     dp.message.register(cmd_start, CommandStart())
 
     # callback-кнопки
-    dp.callback_query.register(
-        on_callback,
-        F.data.in_(["buy_subscription", "renew_subscription", "show_access", "help"]),
-    )
+    dp.callback_query.register(on_callback)
 
     # платежі через Telegram Stars
     dp.pre_checkout_query.register(on_pre_checkout_query)

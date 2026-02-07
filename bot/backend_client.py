@@ -78,3 +78,30 @@ class BackendClient:
 
         resp.raise_for_status()
         return resp.json()
+
+    async def get_user_language(self, telegram_id: int) -> str | None:
+        """
+        Отримує мову користувача з бекенду, або None.
+        """
+        url = f"{self.base_url}/api/users/{telegram_id}/language"
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            resp = await client.get(url)
+
+        if resp.status_code == 404:
+            return None
+
+        resp.raise_for_status()
+        data = resp.json()
+        return data.get("language")
+
+    async def set_user_language(self, telegram_id: int, language: str) -> str:
+        """
+        Оновлює мову користувача на бекенді. Повертає збережену мову.
+        """
+        url = f"{self.base_url}/api/users/{telegram_id}/language"
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            resp = await client.put(url, json={"language": language})
+
+        resp.raise_for_status()
+        data = resp.json()
+        return data.get("language")
