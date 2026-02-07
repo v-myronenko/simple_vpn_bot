@@ -14,11 +14,7 @@ class UserService:
     def get_or_create_user(self, telegram_id: int, language: str | None = None) -> User:
         """
         Повертає існуючого користувача або створює нового.
-
-        - якщо користувач з таким telegram_id вже є:
-          - повертаємо його
-          - якщо передана мова і вона відрізняється — оновлюємо language
-        - якщо немає — створюємо нового користувача
+        Якщо передана language і вона відрізняється від поточної — оновлює її.
         """
         user = (
             self.db.query(User)
@@ -27,7 +23,7 @@ class UserService:
         )
 
         if user:
-            if language and user.language != language:
+            if language and language != user.language:
                 user.language = language
                 self.db.commit()
                 self.db.refresh(user)

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -7,7 +8,22 @@ from app.services import UserService, SubscriptionService
 
 
 router = APIRouter(prefix="/api/users", tags=["users"])
+SUPPORTED_LANGUAGES = {"en", "ua", "es", "ru"}
 
+class UserLanguageUpdate(BaseModel):
+    language: str
+
+@router.get("/{telegram_id}/language")
+def get_user_language(
+    telegram_id: int,
+    db: Session = Depends(get_db),
+):
+    """
+    Повертає мову користувача. Якщо юзера ще немає — створює без мови.
+    """
+    user_service = UserService(db)
+    user = user_service.get_or_create_user(telegram_id=telegram_id)
+    return {"language": user.language}
 
 @router.get("/{telegram_id}/subscription/status", response_model=SubscriptionStatusResponse)
 def get_subscription_status(
