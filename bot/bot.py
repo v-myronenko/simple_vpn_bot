@@ -2,8 +2,9 @@
 from middlewares.i18n import I18nMiddleware
 from i18n.keys import I18nKey
 from keyboards import get_main_menu_keyboard, get_language_keyboard
-from services.locale_service import LocaleService
+from services.locale_service import LocaleService, set_user_lang_override
 from backend_client import BackendTrialError
+from aiogram.exceptions import TelegramForbiddenError
 
 import asyncio
 import logging
@@ -40,6 +41,8 @@ backend_client = BackendClient()
 BASIC_30D_STARS_PRICE = 1
 PLAN_CODE = "basic_30d"
 
+
+dp = Dispatcher()
 
 async def cmd_start(message: Message, i18n):
     """
@@ -227,30 +230,23 @@ async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
         )
         await callback.answer()
 
+
     elif data.startswith("set_lang:"):
         # парсимо код мови
         _, lang_code = data.split(":", 1)
         lang_code = lang_code.strip()
 
-        # зберігаємо на бекенді
-        try:
-            saved_lang = await backend_client.set_user_language(tg_id, lang_code)
-        except Exception:
-            # якщо бекенд ліг — хоча б не мовчимо
-            await callback.message.answer(i18n.t(I18nKey.ERR_BACKEND))
-            await callback.answer()
-            return
+        # зберігаємо обрану мову локально (в процесі бота)
+        set_user_lang_override(tg_id, lang_code)
 
         # робимо локальний i18n з новою мовою, щоб відповідь вже була на ній
-        new_i18n = LocaleService(saved_lang or lang_code)
-
+        new_i18n = LocaleService(lang_code)
         await callback.message.answer(new_i18n.t(I18nKey.LANG_UPDATED))
         await callback.answer()
 
 
 async def main():
     bot = Bot(token=settings.bot_token)
-    dp = Dispatcher()
 
     # i18n для всіх апдейтів
     dp.update.middleware(I18nMiddleware())
@@ -267,6 +263,16 @@ async def main():
 
     logger.info("Bot starting...")
     await dp.start_polling(bot)
+
+@dp.errors()
+async def errors_handler(update, exception):
+    # Якщо юзер заблокував бота — просто ігноруємо
+    if isinstance(exception, TelegramForbiddenError):
+        # можна залогувати на debug, якщо хочеш
+        return True  # сигнал aiogram: "помилка оброблена"
+
+    # всі інші помилки нехай летять далі (щоб ми їх бачили)
+    return False
 
 
 if __name__ == "__main__":
