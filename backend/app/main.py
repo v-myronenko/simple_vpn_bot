@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 
+from app.core.logging import setup_logging
 from app.routers import health, user_subscription, payment_telegram, vpn_config
+
+setup_logging()
 
 app = FastAPI(
     title="svpn-backend",

@@ -9,7 +9,10 @@ from sqlalchemy.orm import Session
 from app.models import User, Server, VPNAccount
 from app.services.subscription_service import SubscriptionService
 from app.services.vpn_provider_3xui import ThreeXUIProvider
+from app.services.audit_service import AuditService
+import logging
 
+logger = logging.getLogger(__name__)
 
 class TrialError(Exception):
     """Помилка, пов'язана з trial-доступом."""
@@ -32,6 +35,7 @@ class TrialService:
 
     def __init__(self, db: Session) -> None:
         self.db = db
+        self.audit = AuditService(db)
         self.subscription_service = SubscriptionService(db)
 
     def _get_or_create_vpn_account(self, user: User, server: Server) -> VPNAccount:
@@ -119,4 +123,33 @@ class TrialService:
         self.db.commit()
         self.db.refresh(vpn_acc)
 
+        # Аудит + лог
+        self.audit.log(
+            event_type="trial.started",
+            source="backend",
+            level="info",
+            user=user,
+            telegram_id=user.telegram_id,
+            object_type="trial",
+            object_id=vpn_acc.id,
+            description="Trial started",
+            meta={
+                "trial_end_at": vpn_acc.trial_end_at.isoformat() if vpn_acc.trial_end_at else None,
+                "server_id": server.id,
+            },
+        )
+
+        logger.info(
+            "Trial started",
+            extra={
+                "extra": {
+                    "user_id": user.id,
+                    "telegram_id": user.telegram_id,
+                    "vpn_account_id": vpn_acc.id,
+                    "server_id": server.id,
+                }
+            },
+        )
+
         return vpn_acc, True
+

@@ -5,6 +5,10 @@ from sqlalchemy.orm import Session
 from app.models import User, Plan, Server, Subscription, Payment, VPNAccount
 from app.services.subscription_service import SubscriptionService
 from app.services.vpn_provider_3xui import ThreeXUIProvider, VpnProviderError
+from app.services.audit_service import AuditService
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PaymentService:
@@ -13,6 +17,7 @@ class PaymentService:
     def __init__(self, db: Session):
         self.db = db
         self.subscription_service = SubscriptionService(db)
+        self.audit = AuditService(db)
 
     # --- Внутрішні хелпери ---
 
@@ -160,6 +165,40 @@ class PaymentService:
         self.db.commit()
         self.db.refresh(new_sub)
         self.db.refresh(payment)
+
+        # 7. Аудит + лог
+        self.audit.log(
+            event_type="payment.telegram_stars.completed",
+            source="backend",
+            level="info",
+            user=user,
+            telegram_id=user.telegram_id,
+            object_type="subscription",
+            object_id=new_sub.id,
+            description="Telegram Stars payment processed, subscription updated.",
+            meta={
+                "plan_code": plan.code,
+                "plan_name": plan.name,
+                "server_id": server.id,
+                "subscription_id": new_sub.id,
+                "payment_id": payment.id,
+                "amount_stars": plan.price_stars,
+                "currency": "XTR",
+            },
+        )
+
+        logger.info(
+            "Telegram Stars payment processed",
+            extra={
+                "extra": {
+                    "user_id": user.id,
+                    "telegram_id": user.telegram_id,
+                    "subscription_id": new_sub.id,
+                    "payment_id": payment.id,
+                    "plan_code": plan.code,
+                }
+            },
+        )
 
         return new_sub, payment
 
