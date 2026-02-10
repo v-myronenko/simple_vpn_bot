@@ -171,10 +171,10 @@ async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
     tg_id = callback.from_user.id
 
     if data == "buy_subscription":
-        await send_stars_invoice(callback, bot, mode="buy", i18n=i18n)
+        await send_stars_invoice(callback, bot, mode="buy")
 
     elif data == "renew_subscription":
-        await send_stars_invoice(callback, bot, mode="renew", i18n=i18n)
+        await send_stars_invoice(callback, bot, mode="renew")
 
     elif data == "show_access":
         await callback.answer()
@@ -265,7 +265,7 @@ async def main():
     await dp.start_polling(bot)
 
 @dp.errors()
-async def errors_handler(update, exception):
+async def errors_handler(exception):
     # Якщо юзер заблокував бота — просто ігноруємо
     if isinstance(exception, TelegramForbiddenError):
         # можна залогувати на debug, якщо хочеш
@@ -273,7 +273,6 @@ async def errors_handler(update, exception):
 
     # всі інші помилки нехай летять далі (щоб ми їх бачили)
     return False
-
 
 if __name__ == "__main__":
     try:
