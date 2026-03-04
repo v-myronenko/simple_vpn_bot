@@ -52,6 +52,15 @@ def get_main_menu_keyboard(
         ]
     )
 
+    buttons.append(
+        [
+            InlineKeyboardButton(
+                text=i18n.t(I18nKey.BTN_INSTRUCTION),
+                callback_data="instruction"
+            )
+        ]
+    )
+
     # 🌐 Кнопка вибору мови
     buttons.append(
         [

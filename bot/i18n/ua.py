@@ -6,6 +6,36 @@ TRANSLATIONS = {
     I18nKey.BTN_LANGUAGE: "Мова інтерфейсу",
     I18nKey.LANG_SELECT_PROMPT: "Оберіть мову інтерфейсу SVPN:",
     I18nKey.LANG_UPDATED: "Мову змінено. Якщо щось не оновилось — натисни /start.",
+    I18nKey.BTN_INSTRUCTION: "📖 Інструкція",
+    I18nKey.INSTRUCTION_CHOOSE_DEVICE: "Оберіть ваш пристрій:",
+
+    I18nKey.INSTRUCTION_ANDROID: (
+        "📱 <b>Android</b>\n\n"
+        "1️⃣ Встановіть VPN-клієнт\n"
+        "2️⃣ Імпортуйте конфігурацію\n"
+        "3️⃣ Натисніть «Підключитися»"
+    ),
+
+    I18nKey.INSTRUCTION_IOS: (
+        "🍎 <b>iOS</b>\n\n"
+        "1️⃣ Встановіть VPN-клієнт\n"
+        "2️⃣ Імпортуйте конфігурацію\n"
+        "3️⃣ Натисніть «Connect»"
+    ),
+
+    I18nKey.INSTRUCTION_WINDOWS: (
+        "💻 <b>Windows</b>\n\n"
+        "1️⃣ Завантажте клієнт\n"
+        "2️⃣ Імпортуйте конфіг\n"
+        "3️⃣ Запустіть VPN"
+    ),
+
+    I18nKey.INSTRUCTION_MACOS: (
+        "🖥 <b>macOS</b>\n\n"
+        "1️⃣ Завантажте клієнт\n"
+        "2️⃣ Імпортуйте конфіг\n"
+        "3️⃣ Активуйте підключення"
+    ),
 
     I18nKey.START_ACTIVE_SUB: (
         "✅ У тебе є активна підписка.\n\n"

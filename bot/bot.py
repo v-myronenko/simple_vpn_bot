@@ -25,7 +25,7 @@ from keyboards import get_main_menu_keyboard
 from backend_client import BackendClient, BackendTrialError
 import base64
 from aiogram.types import BufferedInputFile
-
+from handlers.instruction import router as instruction_router
 
 
 logging.basicConfig(
@@ -41,8 +41,8 @@ backend_client = BackendClient()
 BASIC_30D_STARS_PRICE = 1
 PLAN_CODE = "basic_30d"
 
-
 dp = Dispatcher()
+dp.include_router(instruction_router)
 
 async def cmd_start(message: Message, i18n):
     """
