@@ -28,7 +28,7 @@ from handlers.instruction import router as instruction_router
 
 
 logging.basicConfig(
-    level=logging.DEBUG,  # ставимо DEBUG, щоб бачити максимум
+    level=logging.DEBUG,
     format="[%(asctime)s] [%(levelname)s] %(name)s: %(message)s",
 )
 
@@ -36,28 +36,21 @@ logger = logging.getLogger(__name__)
 
 backend_client = BackendClient()
 
-# ✅ MVP: ціна у Stars (ціле число). Винесеш потім у бекенд/плани.
 BASIC_30D_STARS_PRICE = 1
 PLAN_CODE = "basic_30d"
 
 dp = Dispatcher()
 dp.include_router(instruction_router)
 
+
 async def cmd_start(message: Message, i18n):
-    """
-    /start:
-    - перевіряємо, чи є активна підписка
-    - показуємо відповідне повідомлення + меню
-    """
     tg_id = message.from_user.id
 
     try:
         status = await backend_client.get_subscription_status(telegram_id=tg_id)
     except Exception:
         logger.exception("Error calling backend")
-        await message.answer(
-            i18n.t(I18nKey.ERR_BACKEND)
-        )
+        await message.answer(i18n.t(I18nKey.ERR_BACKEND))
         return
 
     has_sub = status.get("has_active_subscription", False)
@@ -84,38 +77,28 @@ async def cmd_start(message: Message, i18n):
     )
 
 
-
 async def send_stars_invoice(callback: CallbackQuery, bot: Bot, mode: str):
-    """
-    mode: 'buy' або 'renew' (для логіки/аналітики, в payload просто позначимо)
-    """
     tg_id = callback.from_user.id
-
-    # payload буде потім ключем ідемпотентності на бекенді (можна зберігати)
     payload = f"{mode}:{PLAN_CODE}:{tg_id}:{uuid4()}"
 
     title = "SVPN — підписка на 30 днів"
     description = "Доступ до SVPN на 30 днів. Після оплати підписка активується автоматично."
-
     prices = [LabeledPrice(label="SVPN Basic 30 days", amount=BASIC_30D_STARS_PRICE)]
 
-    await callback.answer()  # прибрати "loading" у кнопці
+    await callback.answer()
 
     await bot.send_invoice(
         chat_id=callback.message.chat.id,
         title=title,
         description=description,
         payload=payload,
-        currency="XTR",  # ✅ Telegram Stars
+        currency="XTR",
         prices=prices,
         start_parameter="svpn-basic-30d",
     )
 
 
 async def on_pre_checkout_query(pre_checkout_query: PreCheckoutQuery, bot: Bot):
-    """
-    ✅ ОБОВʼЯЗКОВО: відповісти ok=True, інакше оплата не завершиться
-    """
     try:
         await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
     except Exception:
@@ -123,16 +106,12 @@ async def on_pre_checkout_query(pre_checkout_query: PreCheckoutQuery, bot: Bot):
 
 
 async def on_successful_payment(message: Message, i18n):
-    """
-    Приходить після успішної оплати.
-    """
     sp = message.successful_payment
     tg_id = message.from_user.id
 
     payload = sp.invoice_payload
     currency = sp.currency
     total_amount = sp.total_amount
-
     telegram_charge_id = sp.telegram_payment_charge_id
     provider_charge_id = sp.provider_payment_charge_id
 
@@ -188,38 +167,98 @@ async def on_successful_payment(message: Message, i18n):
 
     except Exception:
         logger.exception("Failed to send QR after payment — user can get it via menu")
-        # Не показуємо помилку юзеру — підписка вже активована,
-        # він може отримати конфіг через кнопку "Отримати доступ"
+
+
+async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
+    data = callback.data or ""
+    tg_id = callback.from_user.id
+
+    if data == "buy_subscription":
+        await send_stars_invoice(callback, bot, mode="buy")
+
+    elif data == "renew_subscription":
+        await send_stars_invoice(callback, bot, mode="renew")
+
+    elif data == "show_access":
+        await callback.answer()
+
+        try:
+            vpn_info = await backend_client.get_vpn_config(tg_id)
+        except BackendTrialError:
+            await callback.message.answer(i18n.t(I18nKey.TRIAL_EXPIRED))
+            return
+        except Exception:
+            await callback.message.answer(i18n.t(I18nKey.VPN_FETCH_ERROR))
+            return
+
+        vless_url = vpn_info["vless_url"]
+        is_trial = vpn_info.get("is_trial", False)
+        trial_end_at = vpn_info.get("trial_end_at")
+        qr_b64 = vpn_info.get("qr_png_base64")
+
+        lines = [
+            i18n.t(I18nKey.VPN_SETTINGS_TITLE),
+            "",
+            f"<code>{vless_url}</code>",
+        ]
+
+        if is_trial and trial_end_at:
+            lines.append("")
+            lines.append(i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=trial_end_at))
+
+        text = "\n".join(lines)
+
+        if qr_b64:
+            png_bytes = base64.b64decode(qr_b64)
+            photo = BufferedInputFile(png_bytes, filename="svpn_qr.png")
+            await callback.message.answer_photo(
+                photo=photo,
+                caption=text,
+                parse_mode="HTML",
+            )
+        else:
+            await callback.message.answer(text, parse_mode="HTML")
+
+    elif data == "help":
+        await callback.message.answer(i18n.t(I18nKey.HELP_TEXT))
+        await callback.answer()
+
+    elif data == "language":
+        await callback.message.answer(
+            i18n.t(I18nKey.LANG_SELECT_PROMPT),
+            reply_markup=get_language_keyboard(),
+        )
+        await callback.answer()
+
+    elif data.startswith("set_lang:"):
+        _, lang_code = data.split(":", 1)
+        lang_code = lang_code.strip()
+        set_user_lang_override(tg_id, lang_code)
+        new_i18n = LocaleService(lang_code)
+        await callback.message.answer(new_i18n.t(I18nKey.LANG_UPDATED))
+        await callback.answer()
 
 
 async def main():
     bot = Bot(token=settings.bot_token)
 
-    # i18n для всіх апдейтів
     dp.update.middleware(I18nMiddleware())
 
-    # /start
     dp.message.register(cmd_start, CommandStart())
-
-    # callback-кнопки
     dp.callback_query.register(on_callback)
-
-    # платежі через Telegram Stars
     dp.pre_checkout_query.register(on_pre_checkout_query)
     dp.message.register(on_successful_payment, F.successful_payment)
 
     logger.info("Bot starting...")
     await dp.start_polling(bot)
 
+
 @dp.errors()
 async def errors_handler(exception):
-    # Якщо юзер заблокував бота — просто ігноруємо
     if isinstance(exception, TelegramForbiddenError):
-        # можна залогувати на debug, якщо хочеш
-        return True  # сигнал aiogram: "помилка оброблена"
-
-    # всі інші помилки нехай летять далі (щоб ми їх бачили)
+        return True
     return False
+
 
 if __name__ == "__main__":
     try:
