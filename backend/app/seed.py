@@ -19,7 +19,7 @@ def run_initial_seed() -> None:
                 code=basic_plan_code,
                 name="Basic 30 days",
                 duration_days=30,
-                price_stars=1000,  # TODO: потім оновимо під реальний прайс
+                price_stars=170,  # ~$2.19 по курсу Telegram Stars
                 is_active=True,
             )
             db.add(basic_plan)

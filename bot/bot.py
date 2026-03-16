@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 
 backend_client = BackendClient()
 
-BASIC_30D_STARS_PRICE = 1
+BASIC_30D_STARS_PRICE = 170  # ~$2.19 по курсу Telegram Stars
 PLAN_CODE = "basic_30d"
 
 dp = Dispatcher()

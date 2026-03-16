@@ -31,7 +31,7 @@ class TrialService:
     - пріоритет активної підписки над тріалом
     """
 
-    TRIAL_DAYS = 3
+    TRIAL_DAYS = 30
 
     def __init__(self, db: Session) -> None:
         self.db = db
@@ -152,4 +152,3 @@ class TrialService:
         )
 
         return vpn_acc, True
-
