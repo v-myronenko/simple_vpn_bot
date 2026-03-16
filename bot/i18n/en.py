@@ -2,7 +2,7 @@ from .keys import I18nKey
 
 TRANSLATIONS = {
     I18nKey.START_WELCOME: "Welcome to SVPN 👋",
-    I18nKey.START_TRIAL_INFO: "You get a 3-day trial after first use.",
+    I18nKey.START_TRIAL_INFO: "You get a 30-day trial after first use.",
     I18nKey.BTN_LANGUAGE: "🌐 Language",
     I18nKey.LANG_SELECT_PROMPT: "Choose the interface language for SVPN:",
     I18nKey.LANG_UPDATED: "Language updated. If something didn't refresh, press /start.",
@@ -80,7 +80,7 @@ TRANSLATIONS = {
     ),
     I18nKey.START_NO_SUB: (
         "You don't have an active SVPN subscription yet.\n\n"
-        "Try «🎁 Get trial access» — 3 days free,\n"
+        "Try «🎁 Get trial access» — 30 days free,\n"
         "or go straight to «💳 Buy subscription»."
     ),
 
@@ -89,7 +89,7 @@ TRANSLATIONS = {
     I18nKey.BTN_PROFILE: "My profile",
     I18nKey.BTN_SHOW_ACCESS_ACTIVE: "🔑 My VPN access",
     I18nKey.BTN_RENEW: "🔄 Renew subscription",
-    I18nKey.BTN_TRIAL: "🎁 Get trial access (3 days)",
+    I18nKey.BTN_TRIAL: "🎁 Get trial access (30 days)",
     I18nKey.BTN_HELP: "❓ Help",
 
     I18nKey.SUB_EXPIRED: "Your subscription has expired.",

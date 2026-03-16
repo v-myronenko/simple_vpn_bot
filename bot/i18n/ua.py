@@ -2,7 +2,7 @@ from .keys import I18nKey
 
 TRANSLATIONS = {
     I18nKey.START_WELCOME: "Ласкаво просимо до SVPN 👋",
-    I18nKey.START_TRIAL_INFO: "Ви отримуєте 3-денну пробну версію після першого використання.",
+    I18nKey.START_TRIAL_INFO: "Ви отримуєте 30-денну пробну версію після першого використання.",
     I18nKey.BTN_LANGUAGE: "🌐 Мова інтерфейсу",
     I18nKey.LANG_SELECT_PROMPT: "Оберіть мову інтерфейсу SVPN:",
     I18nKey.LANG_UPDATED: "Мову змінено. Якщо щось не оновилось — натисни /start.",
@@ -81,7 +81,7 @@ TRANSLATIONS = {
     ),
     I18nKey.START_NO_SUB: (
         "У тебе поки що немає активної підписки на SVPN.\n\n"
-        "Натисни «🎁 Отримати пробний доступ» — 3 дні безкоштовно,\n"
+        "Натисни «🎁 Отримати пробний доступ» — 30 днів безкоштовно,\n"
         "або одразу «💳 Купити підписку»."
     ),
 
@@ -90,7 +90,7 @@ TRANSLATIONS = {
     I18nKey.BTN_PROFILE: "Мій профіль",
     I18nKey.BTN_SHOW_ACCESS_ACTIVE: "🔑 Мій VPN доступ",
     I18nKey.BTN_RENEW: "🔄 Продовжити підписку",
-    I18nKey.BTN_TRIAL: "🎁 Отримати пробний доступ (3 дні)",
+    I18nKey.BTN_TRIAL: "🎁 Отримати пробний доступ (30 днів)",
     I18nKey.BTN_HELP: "❓ Допомога",
 
     I18nKey.SUB_EXPIRED: "Термін дії вашої підписки закінчився.",
