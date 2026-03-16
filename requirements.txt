@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+sqlalchemy
+alembic
+psycopg2-binary
+python-telegram-bot  # або aiogram, дивіться що ви використовуєте
