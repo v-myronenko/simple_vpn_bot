@@ -3,9 +3,73 @@ from .keys import I18nKey
 TRANSLATIONS = {
     I18nKey.START_WELCOME: "Добро пожаловать в SVPN 👋",
     I18nKey.START_TRIAL_INFO: "После первого использования вы получаете 3-дневную пробную версию.",
-    I18nKey.BTN_LANGUAGE: "Язык интерфейса",
+    I18nKey.BTN_LANGUAGE: "🌐 Язык интерфейса",
     I18nKey.LANG_SELECT_PROMPT: "Выберите язык интерфейса SVPN:",
     I18nKey.LANG_UPDATED: "Язык изменён. Если что-то не обновилось — нажмите /start.",
+    I18nKey.BTN_INSTRUCTION: "📖 Как подключить VPN",
+    I18nKey.INSTRUCTION_CHOOSE_DEVICE: (
+        "📱 Выберите ваше устройство — пришлю пошаговую инструкцию:"
+    ),
+
+    I18nKey.INSTRUCTION_ANDROID: (
+        "📱 <b>Подключение на Android</b>\n\n"
+        "<b>Шаг 1.</b> Установите <b>Hiddify</b>\n"
+        "→ Google Play: найдите «Hiddify» или перейдите:\n"
+        "https://play.google.com/store/apps/details?id=app.hiddify.com\n\n"
+        "<b>Шаг 2.</b> Нажмите кнопку ниже:\n"
+        "<b>«🎁 Получить пробный доступ»</b> или <b>«🔑 Мой VPN доступ»</b>\n\n"
+        "<b>Шаг 3.</b> Бот пришлёт VLESS-ссылку и QR-код.\n"
+        "→ Откройте <b>Hiddify</b>\n"
+        "→ Нажмите <b>«+»</b> → <b>«Добавить из буфера обмена»</b>\n"
+        "(или «+» → «Сканировать QR» и отсканируйте QR из бота)\n\n"
+        "<b>Шаг 4.</b> Нажмите большой переключатель в центре экрана\n\n"
+        "✅ Готово! Android попросит разрешение на VPN — нажмите «OK»."
+    ),
+
+    I18nKey.INSTRUCTION_IOS: (
+        "🍎 <b>Подключение на iPhone / iPad (iOS)</b>\n\n"
+        "<b>Шаг 1.</b> Установите <b>Hiddify</b>\n"
+        "→ App Store: найдите «Hiddify Next» или перейдите:\n"
+        "https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532\n\n"
+        "<b>Шаг 2.</b> Нажмите кнопку ниже:\n"
+        "<b>«🎁 Получить пробный доступ»</b> или <b>«🔑 Мой VPN доступ»</b>\n\n"
+        "<b>Шаг 3.</b> Бот пришлёт VLESS-ссылку.\n"
+        "→ Нажмите и удержите ссылку → нажмите <b>«Скопировать»</b>\n"
+        "→ Перейдите в <b>Hiddify</b>\n"
+        "→ Нажмите <b>«+»</b> → <b>«Add from Clipboard»</b>\n\n"
+        "<b>Шаг 4.</b> Нажмите большой переключатель\n\n"
+        "✅ Готово! iOS попросит разрешение — нажмите «Разрешить»."
+    ),
+
+    I18nKey.INSTRUCTION_WINDOWS: (
+        "💻 <b>Подключение на Windows</b>\n\n"
+        "<b>Шаг 1.</b> Скачайте <b>Hiddify</b>\n"
+        "→ Сайт: https://hiddify.com\n"
+        "→ Нажмите <b>Download</b> → выберите <b>Windows</b>\n"
+        "→ Установите и запустите\n\n"
+        "<b>Шаг 2.</b> Нажмите кнопку ниже:\n"
+        "<b>«🎁 Получить пробный доступ»</b> или <b>«🔑 Мой VPN доступ»</b>\n\n"
+        "<b>Шаг 3.</b> Бот пришлёт VLESS-ссылку.\n"
+        "→ Нажмите на ссылку в Telegram — скопируется\n"
+        "→ В <b>Hiddify</b> нажмите <b>«+»</b> → <b>«Add from Clipboard»</b>\n\n"
+        "<b>Шаг 4.</b> Нажмите большой переключатель в центре\n\n"
+        "✅ Готово! VPN активен — иконка в трее подсветится."
+    ),
+
+    I18nKey.INSTRUCTION_MACOS: (
+        "🖥 <b>Подключение на macOS</b>\n\n"
+        "<b>Шаг 1.</b> Скачайте <b>Hiddify</b>\n"
+        "→ Сайт: https://hiddify.com\n"
+        "→ Нажмите <b>Download</b> → выберите <b>macOS</b>\n"
+        "→ Откройте .dmg → перетащите в Applications → запустите\n\n"
+        "<b>Шаг 2.</b> Нажмите кнопку ниже:\n"
+        "<b>«🎁 Получить пробный доступ»</b> или <b>«🔑 Мой VPN доступ»</b>\n\n"
+        "<b>Шаг 3.</b> Бот пришлёт VLESS-ссылку.\n"
+        "→ Скопируйте её\n"
+        "→ В <b>Hiddify</b> нажмите <b>«+»</b> → <b>«Add from Clipboard»</b>\n\n"
+        "<b>Шаг 4.</b> Нажмите большой переключатель\n\n"
+        "✅ Готово! macOS попросит разрешение — нажмите «Разрешить». Иконка в меню-баре = VPN включён."
+    ),
 
     I18nKey.START_ACTIVE_SUB: (
         "✅ У тебя есть активная подписка.\n\n"
@@ -16,19 +80,20 @@ TRANSLATIONS = {
     ),
     I18nKey.START_NO_SUB: (
         "У тебя пока нет активной подписки на SVPN.\n\n"
-        "Нажми кнопку ниже, чтобы выбрать тариф и оформить подписку."
+        "Попробуй «🎁 Получить пробный доступ» — 3 дня бесплатно,\n"
+        "или сразу «💳 Купить подписку»."
     ),
 
     I18nKey.BTN_GET_VPN: "Получить VPN",
-    I18nKey.BTN_BUY: "Купить подписку",
+    I18nKey.BTN_BUY: "💳 Купить подписку",
     I18nKey.BTN_PROFILE: "Мой профиль",
-    I18nKey.BTN_SHOW_ACCESS_ACTIVE: "Мой VPN доступ",
-    I18nKey.BTN_RENEW: "Продлить подписку",
-    I18nKey.BTN_TRIAL: "Получить пробный доступ",
-    I18nKey.BTN_HELP: "Помощь",
+    I18nKey.BTN_SHOW_ACCESS_ACTIVE: "🔑 Мой VPN доступ",
+    I18nKey.BTN_RENEW: "🔄 Продлить подписку",
+    I18nKey.BTN_TRIAL: "🎁 Получить пробный доступ (3 дня)",
+    I18nKey.BTN_HELP: "❓ Помощь",
 
     I18nKey.SUB_EXPIRED: "Ваша подписка истекла.",
-    I18nKey.ERR_GENERIC: "Что-то пошло не так. Пожалуйста, попробуйте еще раз.",
+    I18nKey.ERR_GENERIC: "Что-то пошло не так. Попробуйте ещё раз.",
     I18nKey.ERR_BACKEND: "Произошла ошибка при обращении к серверу. Попробуйте позже.",
 
     I18nKey.INVOICE_TITLE: "SVPN — подписка на 30 дней",
@@ -42,10 +107,11 @@ TRANSLATIONS = {
     ),
     I18nKey.PAYMENT_SUCCESS_WITH_END: (
         "🎉 Подписка активна!\n\n"
-        "Действительна до: <b>{end_at}</b>"
+        "Действительна до: <b>{end_at}</b>\n\n"
+        "Нажми «🔑 Мой VPN доступ», чтобы получить конфиг для подключения."
     ),
     I18nKey.PAYMENT_SUCCESS_GENERIC: (
-        "🎉 Подписка активирована! (Детали обновятся в /start)"
+        "🎉 Подписка активирована! Нажми /start, чтобы получить конфиг."
     ),
 
     I18nKey.TRIAL_EXPIRED: (
@@ -56,10 +122,18 @@ TRANSLATIONS = {
         "Не удалось получить VPN-настройки. "
         "Попробуй позже или напиши в поддержку."
     ),
-    I18nKey.VPN_SETTINGS_TITLE: "<b>Твои настройки SVPN:</b>",
-    I18nKey.VPN_TRIAL_INFO: "Это пробный доступ до: <b>{trial_end_at}</b> (UTC).",
+    I18nKey.VPN_SETTINGS_TITLE: (
+        "🔑 <b>Твои настройки SVPN:</b>\n\n"
+        "Скопируй ссылку ниже и вставь в Hiddify (<b>«+» → Add from Clipboard</b>),\n"
+        "или отсканируй QR-код.\n\n"
+        "Не установил Hiddify? Нажми «📖 Как подключить VPN»."
+    ),
+    I18nKey.VPN_TRIAL_INFO: "⏳ Это пробный доступ. Действует до: <b>{trial_end_at}</b> (UTC).",
 
     I18nKey.HELP_TEXT: (
-        "Если есть вопросы по SVPN — напиши админу: @your_username (позже заменим)."
+        "❓ <b>Нужна помощь?</b>\n\n"
+        "Напиши администратору в Telegram: @svpn_support\n\n"
+        "Также нажми «📖 Как подключить VPN» — там пошаговые инструкции\n"
+        "для Android, iPhone, Windows и Mac (приложение Hiddify)."
     ),
 }

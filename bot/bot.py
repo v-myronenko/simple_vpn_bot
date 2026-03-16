@@ -3,7 +3,6 @@ from middlewares.i18n import I18nMiddleware
 from i18n.keys import I18nKey
 from keyboards import get_main_menu_keyboard, get_language_keyboard
 from services.locale_service import LocaleService, set_user_lang_override
-from backend_client import BackendTrialError
 from aiogram.exceptions import TelegramForbiddenError
 
 import asyncio

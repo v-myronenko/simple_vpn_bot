@@ -1,0 +1,35 @@
+name: Deploy to Hetzner
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            cd /opt/simple_vpn_bot
+            git pull origin main
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install -r requirements.txt
+
+            # Міграція БД
+            cd backend
+            alembic upgrade head
+            cd ..
+
+            # Перезапуск сервісів
+            sudo systemctl restart vpn-bot-backend
+            sudo systemctl restart vpn-bot-telegram
+
+            echo "Deployment completed!"
