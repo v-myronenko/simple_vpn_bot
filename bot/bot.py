@@ -134,7 +134,7 @@ async def on_successful_payment(message: Message, i18n):
     total_amount = sp.total_amount
 
     telegram_charge_id = sp.telegram_payment_charge_id
-    provider_charge_id = sp.provider_payment_charge_id  # може бути None
+    provider_charge_id = sp.provider_payment_charge_id
 
     await message.answer(i18n.t(I18nKey.PAYMENT_ACTIVATING))
 
@@ -149,9 +149,7 @@ async def on_successful_payment(message: Message, i18n):
         )
     except Exception:
         logger.exception("Backend activation failed after successful payment")
-        await message.answer(
-            i18n.t(I18nKey.PAYMENT_BACKEND_FAIL)
-        )
+        await message.answer(i18n.t(I18nKey.PAYMENT_BACKEND_FAIL))
         return
 
     end_at = result.get("end_at") or result.get("subscription", {}).get("end_at")
@@ -164,32 +162,10 @@ async def on_successful_payment(message: Message, i18n):
     else:
         await message.answer(i18n.t(I18nKey.PAYMENT_SUCCESS_GENERIC))
 
-
-async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
-    data = callback.data or ""
-    tg_id = callback.from_user.id
-
-    if data == "buy_subscription":
-        await send_stars_invoice(callback, bot, mode="buy")
-
-    elif data == "renew_subscription":
-        await send_stars_invoice(callback, bot, mode="renew")
-
-    elif data == "show_access":
-        await callback.answer()
-
-        try:
-            vpn_info = await backend_client.get_vpn_config(tg_id)
-        except BackendTrialError:
-            await callback.message.answer(i18n.t(I18nKey.TRIAL_EXPIRED))
-            return
-        except Exception:
-            await callback.message.answer(i18n.t(I18nKey.VPN_FETCH_ERROR))
-            return
-
+    # ✅ Автоматично надсилаємо QR-код після активації
+    try:
+        vpn_info = await backend_client.get_vpn_config(tg_id)
         vless_url = vpn_info["vless_url"]
-        is_trial = vpn_info.get("is_trial", False)
-        trial_end_at = vpn_info.get("trial_end_at")
         qr_b64 = vpn_info.get("qr_png_base64")
 
         lines = [
@@ -197,51 +173,23 @@ async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
             "",
             f"<code>{vless_url}</code>",
         ]
-
-        if is_trial and trial_end_at:
-            lines.append("")
-            lines.append(
-                i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=trial_end_at)
-            )
-
         text = "\n".join(lines)
 
         if qr_b64:
             png_bytes = base64.b64decode(qr_b64)
             photo = BufferedInputFile(png_bytes, filename="svpn_qr.png")
-            await callback.message.answer_photo(
+            await message.answer_photo(
                 photo=photo,
                 caption=text,
                 parse_mode="HTML",
             )
         else:
-            await callback.message.answer(text, parse_mode="HTML")
+            await message.answer(text, parse_mode="HTML")
 
-    elif data == "help":
-        await callback.message.answer(i18n.t(I18nKey.HELP_TEXT))
-        await callback.answer()
-
-    elif data == "language":
-        # показуємо список мов
-        await callback.message.answer(
-            i18n.t(I18nKey.LANG_SELECT_PROMPT),
-            reply_markup=get_language_keyboard(),
-        )
-        await callback.answer()
-
-
-    elif data.startswith("set_lang:"):
-        # парсимо код мови
-        _, lang_code = data.split(":", 1)
-        lang_code = lang_code.strip()
-
-        # зберігаємо обрану мову локально (в процесі бота)
-        set_user_lang_override(tg_id, lang_code)
-
-        # робимо локальний i18n з новою мовою, щоб відповідь вже була на ній
-        new_i18n = LocaleService(lang_code)
-        await callback.message.answer(new_i18n.t(I18nKey.LANG_UPDATED))
-        await callback.answer()
+    except Exception:
+        logger.exception("Failed to send QR after payment — user can get it via menu")
+        # Не показуємо помилку юзеру — підписка вже активована,
+        # він може отримати конфіг через кнопку "Отримати доступ"
 
 
 async def main():
