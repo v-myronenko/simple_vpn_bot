@@ -10,7 +10,7 @@ import logging
 from uuid import uuid4
 
 from aiogram import Bot, Dispatcher, F
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 from aiogram.types import (
     Message,
     CallbackQuery,
@@ -239,12 +239,82 @@ async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
         await callback.answer()
 
 
+async def cmd_myvpn(message: Message, i18n):
+    tg_id = message.from_user.id
+    try:
+        vpn_info = await backend_client.get_vpn_config(tg_id)
+    except BackendTrialError:
+        await message.answer(i18n.t(I18nKey.TRIAL_EXPIRED))
+        return
+    except Exception:
+        await message.answer(i18n.t(I18nKey.VPN_FETCH_ERROR))
+        return
+
+    vless_url = vpn_info["vless_url"]
+    is_trial = vpn_info.get("is_trial", False)
+    trial_end_at = vpn_info.get("trial_end_at")
+    qr_b64 = vpn_info.get("qr_png_base64")
+
+    lines = [i18n.t(I18nKey.VPN_SETTINGS_TITLE), "", f"<code>{vless_url}</code>"]
+    if is_trial and trial_end_at:
+        lines.append("")
+        lines.append(i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=trial_end_at))
+    text = "\n".join(lines)
+
+    if qr_b64:
+        png_bytes = base64.b64decode(qr_b64)
+        photo = BufferedInputFile(png_bytes, filename="svpn_qr.png")
+        await message.answer_photo(photo=photo, caption=text, parse_mode="HTML")
+    else:
+        await message.answer(text, parse_mode="HTML")
+
+
+async def cmd_status(message: Message, i18n):
+    tg_id = message.from_user.id
+    try:
+        status = await backend_client.get_subscription_status(telegram_id=tg_id)
+    except Exception:
+        await message.answer(i18n.t(I18nKey.ERR_BACKEND))
+        return
+
+    has_sub = status.get("has_active_subscription", False)
+    sub_info = status.get("subscription")
+
+    if has_sub and sub_info:
+        text = i18n.t(
+            I18nKey.START_ACTIVE_SUB,
+            plan_name=sub_info.get("plan_name"),
+            end_at=sub_info.get("end_at"),
+            server_name=sub_info.get("server_name"),
+            server_region=sub_info.get("server_region"),
+        )
+    else:
+        text = i18n.t(I18nKey.START_NO_SUB)
+
+    await message.answer(text, parse_mode="HTML")
+
+
+async def cmd_help(message: Message, i18n):
+    await message.answer(i18n.t(I18nKey.HELP_TEXT))
+
+
+async def cmd_language(message: Message, i18n):
+    await message.answer(
+        i18n.t(I18nKey.LANG_SELECT_PROMPT),
+        reply_markup=get_language_keyboard(),
+    )
+
+
 async def main():
     bot = Bot(token=settings.bot_token)
 
     dp.update.middleware(I18nMiddleware())
 
     dp.message.register(cmd_start, CommandStart())
+    dp.message.register(cmd_myvpn, Command("myvpn"))
+    dp.message.register(cmd_status, Command("status"))
+    dp.message.register(cmd_help, Command("help"))
+    dp.message.register(cmd_language, Command("language"))
     dp.callback_query.register(on_callback)
     dp.pre_checkout_query.register(on_pre_checkout_query)
     dp.message.register(on_successful_payment, F.successful_payment)
