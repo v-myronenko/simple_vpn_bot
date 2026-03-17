@@ -7,7 +7,7 @@ router = Router()
 
 
 @router.callback_query(F.data == "instruction")
-async def instruction_menu(callback: CallbackQuery, locale: LocaleService):
+async def instruction_menu(callback: CallbackQuery, i18n):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(text="📱 Android", callback_data="inst_android"),
@@ -18,28 +18,45 @@ async def instruction_menu(callback: CallbackQuery, locale: LocaleService):
             InlineKeyboardButton(text="🖥 macOS", callback_data="inst_macos"),
         ],
     ])
-
     await callback.message.edit_text(
-        locale.t(I18nKey.INSTRUCTION_CHOOSE_DEVICE),
-        reply_markup=keyboard
+        i18n.t(I18nKey.INSTRUCTION_CHOOSE_DEVICE),
+        reply_markup=keyboard,
+        parse_mode="HTML",
     )
+    await callback.answer()
 
 
 @router.callback_query(F.data == "inst_android")
-async def inst_android(callback: CallbackQuery, locale: LocaleService):
-    await callback.message.edit_text(locale.t(I18nKey.INSTRUCTION_ANDROID))
+async def inst_android(callback: CallbackQuery, i18n):
+    await callback.message.edit_text(
+        i18n.t(I18nKey.INSTRUCTION_ANDROID),
+        parse_mode="HTML",
+    )
+    await callback.answer()
 
 
 @router.callback_query(F.data == "inst_ios")
-async def inst_ios(callback: CallbackQuery, locale: LocaleService):
-    await callback.message.edit_text(locale.t(I18nKey.INSTRUCTION_IOS))
+async def inst_ios(callback: CallbackQuery, i18n):
+    await callback.message.edit_text(
+        i18n.t(I18nKey.INSTRUCTION_IOS),
+        parse_mode="HTML",
+    )
+    await callback.answer()
 
 
 @router.callback_query(F.data == "inst_windows")
-async def inst_windows(callback: CallbackQuery, locale: LocaleService):
-    await callback.message.edit_text(locale.t(I18nKey.INSTRUCTION_WINDOWS))
+async def inst_windows(callback: CallbackQuery, i18n):
+    await callback.message.edit_text(
+        i18n.t(I18nKey.INSTRUCTION_WINDOWS),
+        parse_mode="HTML",
+    )
+    await callback.answer()
 
 
 @router.callback_query(F.data == "inst_macos")
-async def inst_macos(callback: CallbackQuery, locale: LocaleService):
-    await callback.message.edit_text(locale.t(I18nKey.INSTRUCTION_MACOS))
+async def inst_macos(callback: CallbackQuery, i18n):
+    await callback.message.edit_text(
+        i18n.t(I18nKey.INSTRUCTION_MACOS),
+        parse_mode="HTML",
+    )
+    await callback.answer()
