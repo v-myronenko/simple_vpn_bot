@@ -6,8 +6,26 @@ on:
       - master
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile bot/bot.py
+          python -m py_compile bot/handlers/instruction.py
+          python -m py_compile bot/services/locale_service.py
+          python -m py_compile bot/middlewares/i18n.py
+          echo "Syntax OK"
+
   deploy:
     runs-on: ubuntu-latest
+    needs: lint
 
     steps:
       - name: Deploy via SSH
