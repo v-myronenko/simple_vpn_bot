@@ -1,7 +1,9 @@
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
+from services.locale_service import LocaleService, get_user_lang_override, set_user_lang_override
+from backend_client import BackendClient
 
-from services.locale_service import LocaleService, get_user_lang_override
+_backend = BackendClient()
 
 
 class I18nMiddleware(BaseMiddleware):
@@ -10,10 +12,19 @@ class I18nMiddleware(BaseMiddleware):
         lang = None
 
         if user:
-            # 1. Пробуємо взяти мову з наших override'ів
+            # 1. RAM-кеш
             lang = get_user_lang_override(user.id)
 
-            # 2. Якщо override немає — падаємо на мову Telegram
+            # 2. БД (один раз, потім кешується в RAM)
+            if not lang:
+                try:
+                    lang = await _backend.get_user_language(user.id)
+                    if lang:
+                        set_user_lang_override(user.id, lang)  # кешуємо
+                except Exception:
+                    pass
+
+            # 3. Мова Telegram як фолбек
             if not lang and getattr(user, "language_code", None):
                 lang = user.language_code.split("-")[0]
 

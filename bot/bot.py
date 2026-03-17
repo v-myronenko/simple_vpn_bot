@@ -230,10 +230,18 @@ async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
         )
         await callback.answer()
 
+
     elif data.startswith("set_lang:"):
         _, lang_code = data.split(":", 1)
         lang_code = lang_code.strip()
         set_user_lang_override(tg_id, lang_code)
+
+        # ✅ зберігаємо в БД
+        try:
+            await backend_client.set_user_language(tg_id, lang_code)
+        except Exception:
+            logger.exception("Failed to save language to backend")
+
         new_i18n = LocaleService(lang_code)
         await callback.message.answer(new_i18n.t(I18nKey.LANG_UPDATED))
         await callback.answer()
