@@ -11,6 +11,19 @@ def set_user_lang_override(telegram_id: int, lang: str) -> None:
 def get_user_lang_override(telegram_id: int) -> str | None:
     return _user_lang_overrides.get(telegram_id)
 
+def format_date(date_str: str | None) -> str:
+    """
+    '2026-04-15T18:30:15.462809' → '15 Apr 2026 18:30 UTC'
+    Повертає оригінал якщо не вдалось розпарсити.
+    """
+    if not date_str:
+        return ""
+    try:
+        from datetime import datetime
+        dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+        return dt.strftime("%-d %b %Y %H:%M UTC")
+    except Exception:
+        return date_str
 
 class LocaleService:
     def __init__(self, lang: str | None):

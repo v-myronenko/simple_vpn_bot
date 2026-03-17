@@ -2,7 +2,7 @@
 from middlewares.i18n import I18nMiddleware
 from i18n.keys import I18nKey
 from keyboards import get_main_menu_keyboard, get_language_keyboard
-from services.locale_service import LocaleService, set_user_lang_override
+from services.locale_service import LocaleService, set_user_lang_override, format_date
 from aiogram.exceptions import TelegramForbiddenError
 
 import asyncio
@@ -60,7 +60,7 @@ async def cmd_start(message: Message, i18n):
         text = i18n.t(
             I18nKey.START_ACTIVE_SUB,
             plan_name=sub_info.get("plan_name"),
-            end_at=sub_info.get("end_at"),
+            end_at=format_date(sub_info.get("end_at")),
             server_name=sub_info.get("server_name"),
             server_region=sub_info.get("server_region"),
         )
@@ -135,7 +135,7 @@ async def on_successful_payment(message: Message, i18n):
 
     if end_at:
         await message.answer(
-            i18n.t(I18nKey.PAYMENT_SUCCESS_WITH_END, end_at=end_at),
+            i18n.t(I18nKey.PAYMENT_SUCCESS_WITH_END, end_at=format_date(end_at)),
             parse_mode="HTML",
         )
     else:
@@ -203,9 +203,7 @@ async def on_callback(callback: CallbackQuery, bot: Bot, i18n):
         ]
 
         if is_trial and trial_end_at:
-            lines.append("")
-            lines.append(i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=trial_end_at))
-
+            lines.append(i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=format_date(trial_end_at)))
         text = "\n".join(lines)
 
         if qr_b64:
@@ -265,8 +263,7 @@ async def cmd_myvpn(message: Message, i18n):
 
     lines = [i18n.t(I18nKey.VPN_SETTINGS_TITLE), "", f"<code>{vless_url}</code>"]
     if is_trial and trial_end_at:
-        lines.append("")
-        lines.append(i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=trial_end_at))
+        lines.append(i18n.t(I18nKey.VPN_TRIAL_INFO, trial_end_at=format_date(trial_end_at)))
     text = "\n".join(lines)
 
     if qr_b64:
@@ -292,7 +289,7 @@ async def cmd_status(message: Message, i18n):
         text = i18n.t(
             I18nKey.START_ACTIVE_SUB,
             plan_name=sub_info.get("plan_name"),
-            end_at=sub_info.get("end_at"),
+            end_at=format_date(sub_info.get("end_at")),
             server_name=sub_info.get("server_name"),
             server_region=sub_info.get("server_region"),
         )
