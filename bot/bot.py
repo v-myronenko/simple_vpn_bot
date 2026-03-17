@@ -315,7 +315,13 @@ async def main():
     dp.message.register(cmd_status, Command("status"))
     dp.message.register(cmd_help, Command("help"))
     dp.message.register(cmd_language, Command("language"))
-    dp.callback_query.register(on_callback)
+    dp.callback_query.register(
+        on_callback,
+        F.data.in_({
+            "buy_subscription", "renew_subscription", "show_access",
+            "help", "language"
+        }) | F.data.startswith("set_lang:")
+    )
     dp.pre_checkout_query.register(on_pre_checkout_query)
     dp.message.register(on_successful_payment, F.successful_payment)
 
