@@ -25,6 +25,24 @@ def get_user_language(
     user = user_service.get_or_create_user(telegram_id=telegram_id)
     return {"language": user.language}
 
+@router.put("/{telegram_id}/language")
+def set_user_language(
+    telegram_id: int,
+    body: UserLanguageUpdate,
+    db: Session = Depends(get_db),
+):
+    """
+    Зберігає мову користувача.
+    """
+    if body.language not in SUPPORTED_LANGUAGES:
+        raise HTTPException(status_code=400, detail="Unsupported language")
+
+    user_service = UserService(db)
+    user = user_service.get_or_create_user(telegram_id=telegram_id)
+    user.language = body.language
+    db.commit()
+    return {"language": user.language}
+
 @router.get("/{telegram_id}/subscription/status", response_model=SubscriptionStatusResponse)
 def get_subscription_status(
     telegram_id: int,
