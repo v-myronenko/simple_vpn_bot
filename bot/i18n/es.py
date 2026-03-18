@@ -132,7 +132,7 @@ TRANSLATIONS = {
 
     I18nKey.HELP_TEXT: (
         "❓ <b>¿Necesitas ayuda?</b>\n\n"
-        "Escribe al admin en Telegram: @svpn_support\n\n"
+        "Escribe al admin en Telegram: @svpnfun\n\n"
         "También pulsa «📖 Cómo conectar VPN» — instrucciones paso a paso\n"
         "para Android, iPhone, Windows y Mac (app Hiddify)."
     ),
